@@ -1,0 +1,53 @@
+Document 13 — Data Layer & Backend API Design
+
+Document ID: DATA-001
+Version: 1.0.0
+Status: Approved
+
+1. Purpose
+This document defines the Firestore collection structures, document schemas, and backend REST API endpoints.
+
+2. Firestore Database Schemas
+All data is stored in root collections or subcollections. Relationships are established using document references.
+
+- /users/{userId}
+  - email: string
+  - role: 'user' | 'operator' | 'admin'
+  - createdAt: timestamp
+
+- /profiles/{userId}
+  - displayName: string
+  - avatarUrl: string
+  - membershipLevel: 'basic' | 'pro' | 'enterprise'
+  - updatedAt: timestamp
+
+- /wallets/{userId}
+  - balance: number (Aros currency units)
+  - lastTransactionId: string
+  - updatedAt: timestamp
+
+- /transactions/{transactionId}
+  - userId: string
+  - amount: number (positive for credit, negative for debit)
+  - type: 'charge' | 'reward' | 'membership_upgrade' | 'refund'
+  - description: string
+  - timestamp: timestamp
+
+- /cms/{announcementId}
+  - title: string
+  - content: string
+  - category: 'info' | 'promotion' | 'maintenance'
+  - isPublished: boolean
+  - publishedAt: timestamp
+  - authorId: string
+
+3. API Endpoint Standards
+All backend route handlers in Next.js return standard JSON:
+- Success: `{ success: true, data: ... }`
+- Error: `{ success: false, error: { code: string, message: string } }`
+
+Endpoints:
+- POST /api/auth/register - Create new user, profile, and initial wallet balance.
+- POST /api/wallet/transfer - Debit or credit Aros tokens (admin only or verified debit transactions).
+- POST /api/membership/upgrade - Process membership level changes, debiting the wallet.
+- GET/POST/PUT/DELETE /api/cms/announcements - Operations for dynamic announcements.

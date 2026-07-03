@@ -1,0 +1,29 @@
+Document 14 — Security Architecture & Operations/DevOps
+
+Document ID: SEC-001
+Version: 1.0.0
+Status: Approved
+
+1. Purpose
+This document defines ecosystem security rules, authentication standards, and DevOps configuration protocols.
+
+2. Security Architecture
+All requests are validated under a Zero Trust methodology.
+- Firestore Security Rules:
+  - Read: Authenticated users can read their own profiles, wallets, and transaction logs. Anyone can read published CMS content.
+  - Write: Only content managers or admins can write to CMS announcements. Only system triggers (or server actions with authenticated admin claims) can modify wallet balances.
+- Role-Based Access Control (RBAC):
+  - 'user': Default level. Can access dashboards, execute transfers/upgrades, read announcements.
+  - 'operator': Can manage CMS announcements and edit public content templates.
+  - 'admin': Full access to all user profiles, admin actions, transaction lists, and financial overrides.
+
+3. DevOps & Environment
+- Environment Variables:
+  - `NEXT_PUBLIC_FIREBASE_API_KEY`: API key for client-side Firebase operations.
+  - `FIREBASE_PROJECT_ID`: Target Firebase project.
+  - `AROH_ENV`: Set to 'production', 'development', or 'mock'. If 'mock', the system bypasses external Firebase API calls and runs using local emulated state.
+- CI/CD & Deployments:
+  - Checked on pull request using GitHub actions.
+  - Deployed automatically to Vercel upon merges to main branch.
+- Health Monitoring:
+  - Root route exposes `/api/health` status endpoints.

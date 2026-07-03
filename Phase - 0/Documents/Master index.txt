@@ -19,7 +19,7 @@ User Journeys
 Feature Matrix
 Product Boundaries
 Future Vision (Phase 3)
-Volume III — System Architecture
+Volume III — System Architecture (See vol 2/Doc 11.txt)
 High-Level Architecture
 Ecosystem Overview
 Product Interaction Model
@@ -30,7 +30,7 @@ Data Flow
 Event-Driven Architecture
 Plugin Architecture
 Integration Strategy
-Volume IV — Repository Standards
+Volume IV — Repository Standards (See vol 2/Doc 11.txt)
 Repository Structure
 Folder Structure
 File Organization
@@ -42,7 +42,7 @@ Git Workflow
 Branching Strategy
 Commit Convention
 Release Management
-Volume V — UI/UX System
+Volume V — UI/UX System (See vol 2/Doc 12.txt)
 Aroh Design System (ADS)
 Design Tokens
 Color System
@@ -57,7 +57,7 @@ Animation Principles
 Component Standards
 Accessibility (WCAG)
 UX Writing Standards
-Volume VI — Components
+Volume VI — Components (See vol 2/Doc 12.txt)
 Component Inventory
 Layout Components
 Navigation Components
@@ -69,7 +69,7 @@ Product Components
 CMS Components
 Admin Components
 Shared Components
-Volume VII — Data Layer
+Volume VII — Data Layer (See vol 2/Doc 13.txt)
 Database Design
 Entity Relationship Diagram (ERD)
 Firestore Collections
@@ -79,7 +79,7 @@ Storage Structure
 Data Validation
 Transactions
 Migration Strategy
-Volume VIII — Backend
+Volume VIII — Backend (See vol 2/Doc 13.txt)
 API Standards
 REST Guidelines
 Error Handling
@@ -94,7 +94,7 @@ Notification Service
 Search Service
 CMS Service
 Asset Service
-Volume IX — Security
+Volume IX — Security (See vol 2/Doc 14.txt)
 Security Architecture
 Threat Model
 Authentication Security
@@ -108,7 +108,7 @@ Aros Security
 Secrets Management
 Dependency Security
 Security Checklist
-Volume X — Quality Engineering
+Volume X — Quality Engineering (See vol 2/Doc 15.txt)
 Testing Strategy
 Unit Testing
 Integration Testing
@@ -119,7 +119,7 @@ Security Testing
 Performance Testing
 QA Checklist
 Acceptance Criteria
-Volume XI — Operations
+Volume XI — Operations (See vol 2/Doc 14.txt)
 Deployment Strategy
 DevOps Workflow
 CI/CD Pipeline
@@ -137,7 +137,7 @@ CMS Content Model
 Content Lifecycle
 Scheduling Rules
 Localization Strategy
-Volume XIII — Developer Guide
+Volume XIII — Developer Guide (See vol 2/Doc 15.txt)
 Local Development Setup
 Development Workflow
 Code Review Guidelines

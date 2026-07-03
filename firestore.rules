@@ -1,0 +1,50 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper check: Is the user authenticated?
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Helper check: Does the user own the document?
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Helper check: Has user got platform admin/operator claim?
+    function hasRole(roles) {
+      return isAuthenticated() && request.auth.token.role in roles;
+    }
+
+    // User details and profile configurations
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow write: if isOwner(userId);
+    }
+
+    match /profiles/{userId} {
+      allow read: if isAuthenticated();
+      allow write: if isOwner(userId);
+    }
+
+    // Aros wallet configurations: Read allowed by owner, writes restricted to cloud functions
+    match /wallets/{userId} {
+      allow read: if isOwner(userId);
+      allow write: if false; 
+    }
+
+    // Transactions ledger: Read allowed by owner, updates and deletes strictly forbidden
+    match /transactions/{transactionId} {
+      allow read: if isAuthenticated() && resource.data.userId == request.auth.uid;
+      allow create: if false; 
+      allow update, delete: if false;
+    }
+
+    // CMS Announcements: Anyone can read, only Admins/Operators can write
+    match /cms/{announcementId} {
+      allow read: if true;
+      allow write: if hasRole(['admin', 'operator']);
+    }
+  }
+}
