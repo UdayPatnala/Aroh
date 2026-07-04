@@ -28,16 +28,15 @@ service cloud.firestore {
       allow write: if isOwner(userId);
     }
 
-    // Aros wallet configurations: Read allowed by owner, writes restricted to cloud functions
+    // Aros wallet configurations: Read/write allowed by owner
     match /wallets/{userId} {
-      allow read: if isOwner(userId);
-      allow write: if false; 
+      allow read, write: if isOwner(userId);
     }
 
-    // Transactions ledger: Read allowed by owner, updates and deletes strictly forbidden
+    // Transactions ledger: Read/create allowed by owner, updates and deletes strictly forbidden
     match /transactions/{transactionId} {
       allow read: if isAuthenticated() && resource.data.userId == request.auth.uid;
-      allow create: if false; 
+      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
       allow update, delete: if false;
     }
 
