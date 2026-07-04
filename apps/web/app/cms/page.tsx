@@ -99,13 +99,16 @@ export default function CmsPage() {
         
         {/* Navigation bar */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-white/10 pb-6">
-          <div>
-            <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-amber-400 via-amber-200 to-amber-500 bg-clip-text text-transparent">
-              CMS Content Manager
-            </h1>
-            <p className="text-zinc-400 text-sm mt-1">
-              Create, edit, and publish dynamic announcements for the AROH homepage hub.
-            </p>
+          <div className="flex items-center gap-4">
+            <img src="/aroh-logo.png" alt="AROH Logo" className="h-10 w-10 object-contain rounded-lg border border-white/10 shadow-md" />
+            <div>
+              <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-amber-400 via-amber-200 to-amber-500 bg-clip-text text-transparent">
+                CMS Content Manager
+              </h1>
+              <p className="text-zinc-400 text-sm mt-1">
+                Create, edit, and publish dynamic announcements for the AROH homepage hub.
+              </p>
+            </div>
           </div>
           <Button variant="secondary" onClick={() => router.push("/")} className="px-5">
             Back to Home

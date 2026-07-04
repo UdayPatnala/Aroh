@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { usePlatformStore } from "@aroh/asdk";
+import { usePlatformStore, mockWalletService } from "@aroh/asdk";
 import { Button } from "@aroh/ads";
 
 export default function AdminPage() {
@@ -19,7 +19,6 @@ export default function AdminPage() {
       const all = await usePlatformStore.getState().rewardUser("dummy", 0, ""); // trigger load, but wait, there is a mockWalletService.getAllTransactions export
       const txs = await usePlatformStore.getState().fetchUserTransactions(); // wait, state doesn't store global list unless we fetch. Let's call services directly or write a handler.
       // In mock service, we can fetch all transactions
-      const { mockWalletService } = require("@aroh/asdk");
       const list = await mockWalletService.getAllTransactions();
       setGlobalTxs(list);
     } catch {
@@ -81,13 +80,16 @@ export default function AdminPage() {
         
         {/* Navigation */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-white/10 pb-6">
-          <div>
-            <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-amber-400 via-amber-200 to-amber-500 bg-clip-text text-transparent">
-              Platform Admin Console
-            </h1>
-            <p className="text-zinc-400 text-sm mt-1">
-              Global governance controls, wallet adjustments, and transaction ledger audits.
-            </p>
+          <div className="flex items-center gap-4">
+            <img src="/aroh-logo.png" alt="AROH Logo" className="h-10 w-10 object-contain rounded-lg border border-white/10 shadow-md" />
+            <div>
+              <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-amber-400 via-amber-200 to-amber-500 bg-clip-text text-transparent">
+                Platform Admin Console
+              </h1>
+              <p className="text-zinc-400 text-sm mt-1">
+                Global governance controls, wallet adjustments, and transaction ledger audits.
+              </p>
+            </div>
           </div>
           <Button variant="secondary" onClick={() => router.push("/")} className="px-5">
             Back to Home

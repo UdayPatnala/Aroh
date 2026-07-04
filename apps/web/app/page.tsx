@@ -72,8 +72,10 @@ export default function HomePage() {
               }
             }}
           >
-            <span className="font-extrabold tracking-widest text-lg bg-gradient-to-r from-amber-400 via-yellow-100 to-amber-500 bg-clip-text text-transparent">
-              AROH PLATFORM
+            <img src="/aroh-logo.png" alt="AROH Logo" className="h-8 w-8 object-contain rounded-md border border-white/10" />
+            <img src="/aroh-text.png" alt="AROH Wordmark" className="h-5 object-contain hidden sm:block" />
+            <span className="font-extrabold tracking-widest text-sm bg-gradient-to-r from-amber-400 via-yellow-100 to-amber-500 bg-clip-text text-transparent sm:hidden">
+              AROH
             </span>
           </motion.div>
 
@@ -174,6 +176,28 @@ export default function HomePage() {
             >
               Create Profile
             </Button>
+          </div>
+        </motion.div>
+
+        {/* Intro Video Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="max-w-4xl mx-auto rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-zinc-900/50 backdrop-blur-md p-2 relative group"
+        >
+          <div className="absolute inset-0 bg-gradient-to-tr from-amber-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none rounded-2xl" />
+          <div className="relative aspect-video rounded-xl overflow-hidden bg-black">
+            <video
+              src="/aroh-intro.mp4"
+              controls
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="w-full h-full object-cover"
+              aria-label="Official AROH Introduction Video"
+            />
           </div>
         </motion.div>
 

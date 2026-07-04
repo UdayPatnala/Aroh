@@ -29,6 +29,8 @@ export interface PlatformState {
   fetchAllAnnouncements: () => Promise<void>;
   upsertAnnouncement: (announcement: Partial<Announcement> & { title: string; content: string; category: AnnouncementCategory }) => Promise<void>;
   deleteAnnouncement: (id: string) => Promise<void>;
+  sendEmailVerification: () => Promise<void>;
+  sendPasswordReset: (email: string) => Promise<void>;
   clearError: () => void;
 }
 
@@ -196,6 +198,28 @@ export const usePlatformStore = create<PlatformState>((set, get) => ({
       await get().fetchAllAnnouncements();
     } catch (err: any) {
       set({ error: err.message || "Failed to delete announcement", isLoading: false });
+      throw err;
+    }
+  },
+
+  sendEmailVerification: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      await mockAuthService.sendEmailVerification();
+      set({ isLoading: false });
+    } catch (err: any) {
+      set({ error: err.message || "Failed to send verification email", isLoading: false });
+      throw err;
+    }
+  },
+
+  sendPasswordReset: async (email: string) => {
+    set({ isLoading: true, error: null });
+    try {
+      await mockAuthService.sendPasswordReset(email);
+      set({ isLoading: false });
+    } catch (err: any) {
+      set({ error: err.message || "Failed to send password reset email", isLoading: false });
       throw err;
     }
   }

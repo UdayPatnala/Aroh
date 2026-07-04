@@ -1,4 +1,52 @@
+import { initializeApp, getApps, getApp } from "firebase/app";
+import { 
+  getAuth, 
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword,
+  sendEmailVerification as firebaseSendEmailVerification,
+  sendPasswordResetEmail as firebaseSendPasswordResetEmail
+} from "firebase/auth";
+import { 
+  getFirestore, 
+  doc, 
+  getDoc, 
+  setDoc, 
+  collection, 
+  getDocs, 
+  query, 
+  where, 
+  orderBy, 
+  runTransaction,
+  deleteDoc
+} from "firebase/firestore";
 import type { User, Profile, Wallet, Transaction, Announcement, UserRole, MembershipLevel, AnnouncementCategory } from "../schemas/index.ts";
+
+const firebaseConfig = {
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+};
+
+// Check if we should run in mock mode
+const isMock = !firebaseConfig.apiKey || process.env.NEXT_PUBLIC_AROH_ENV === "mock" || process.env.AROH_ENV === "mock";
+
+// Initialize Firebase App if not mock
+let app: any;
+let auth: any;
+let db: any;
+
+if (!isMock) {
+  try {
+    app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
+    auth = getAuth(app);
+    db = getFirestore(app);
+  } catch (err) {
+    console.error("Failed to initialize Firebase SDK, falling back to mock mode:", err);
+  }
+}
 
 // In memory and localStorage mock database state
 const MOCK_STORAGE_KEYS = {
@@ -56,11 +104,10 @@ export const initializeMockDb = () => {
 
   const users = getStored<Record<string, User & { password?: string }>>(MOCK_STORAGE_KEYS.USERS, {});
   if (Object.keys(users).length === 0) {
-    // Seed Users
     const seededUsers = {
-      "admin-id": { id: "admin-id", email: "admin@aroh.co", role: "admin" as const, createdAt: new Date().toISOString(), password: "admin" },
-      "operator-id": { id: "operator-id", email: "operator@aroh.co", role: "operator" as const, createdAt: new Date().toISOString(), password: "operator" },
-      "user-id": { id: "user-id", email: "user@aroh.co", role: "user" as const, createdAt: new Date().toISOString(), password: "user" }
+      "admin-id": { id: "admin-id", email: "admin@aroh.co", role: "admin" as const, emailVerified: true, createdAt: new Date().toISOString(), password: "admin" },
+      "operator-id": { id: "operator-id", email: "operator@aroh.co", role: "operator" as const, emailVerified: true, createdAt: new Date().toISOString(), password: "operator" },
+      "user-id": { id: "user-id", email: "user@aroh.co", role: "user" as const, emailVerified: true, createdAt: new Date().toISOString(), password: "user" }
     };
     setStored(MOCK_STORAGE_KEYS.USERS, seededUsers);
 
@@ -93,9 +140,44 @@ export const initializeMockDb = () => {
   }
 };
 
-// Database queries (acting asynchronously to match Firebase Web SDK calls)
+// Database queries
 export const mockAuthService = {
   login: async (email: string, password?: string): Promise<{ user: User; profile: Profile; wallet: Wallet }> => {
+    if (!isMock && auth && db) {
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password || "");
+        const firebaseUser = userCredential.user;
+        
+        // Fetch custom role and profile from Firestore
+        const profileRef = doc(db, "profiles", firebaseUser.uid);
+        const walletRef = doc(db, "wallets", firebaseUser.uid);
+        const userRef = doc(db, "users", firebaseUser.uid);
+        
+        const [profileSnap, walletSnap, userSnap] = await Promise.all([
+          getDoc(profileRef),
+          getDoc(walletRef),
+          getDoc(userRef)
+        ]);
+
+        if (!profileSnap.exists() || !walletSnap.exists() || !userSnap.exists()) {
+          throw new Error("User record incomplete in database.");
+        }
+
+        const profileData = profileSnap.data() as Profile;
+        const walletData = walletSnap.data() as Wallet;
+        const userData = userSnap.data() as User;
+
+        return {
+          user: userData,
+          profile: profileData,
+          wallet: walletData
+        };
+      } catch (err: any) {
+        throw new Error(err.message || "Invalid credentials");
+      }
+    }
+
+    // Mock implementation
     initializeMockDb();
     const users = getStored<Record<string, User & { password?: string }>>(MOCK_STORAGE_KEYS.USERS, {});
     const profiles = getStored<Record<string, Profile>>(MOCK_STORAGE_KEYS.PROFILES, {});
@@ -114,6 +196,55 @@ export const mockAuthService = {
   },
 
   register: async (email: string, displayName: string, password?: string): Promise<{ user: User; profile: Profile; wallet: Wallet }> => {
+    if (!isMock && auth && db) {
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password || "password");
+        const firebaseUser = userCredential.user;
+        const userId = firebaseUser.uid;
+
+        const newUser: User = {
+          id: userId,
+          email,
+          role: "user",
+          createdAt: new Date().toISOString()
+        };
+
+        const newProfile: Profile = {
+          userId,
+          displayName,
+          avatarUrl: "",
+          membershipLevel: "basic",
+          updatedAt: new Date().toISOString()
+        };
+
+        const newWallet: Wallet = {
+          userId,
+          balance: 500, // starting credit
+          updatedAt: new Date().toISOString()
+        };
+
+        const welcomeTx: Transaction = {
+          id: "t-" + Math.random().toString(36).substr(2, 9),
+          userId,
+          amount: 500,
+          type: "reward",
+          description: "Welcome credit reward",
+          timestamp: new Date().toISOString()
+        };
+
+        // Write batch details to Firestore
+        await setDoc(doc(db, "users", userId), newUser);
+        await setDoc(doc(db, "profiles", userId), newProfile);
+        await setDoc(doc(db, "wallets", userId), newWallet);
+        await setDoc(doc(db, "transactions", welcomeTx.id), welcomeTx);
+
+        return { user: newUser, profile: newProfile, wallet: newWallet };
+      } catch (err: any) {
+        throw new Error(err.message || "Registration failed");
+      }
+    }
+
+    // Mock implementation
     initializeMockDb();
     const users = getStored<Record<string, User & { password?: string }>>(MOCK_STORAGE_KEYS.USERS, {});
     const profiles = getStored<Record<string, Profile>>(MOCK_STORAGE_KEYS.PROFILES, {});
@@ -129,6 +260,7 @@ export const mockAuthService = {
       id: userId,
       email,
       role: "user",
+      emailVerified: false,
       createdAt: new Date().toISOString(),
       password: password || "password"
     };
@@ -167,12 +299,104 @@ export const mockAuthService = {
     setStored(MOCK_STORAGE_KEYS.WALLETS, wallets);
     setStored(MOCK_STORAGE_KEYS.TRANSACTIONS, transactions);
 
-    return { user: { id: userId, email, role: "user", createdAt: newUser.createdAt }, profile: newProfile, wallet: newWallet };
+    return { user: { id: userId, email, role: "user" as const, emailVerified: false, createdAt: newUser.createdAt }, profile: newProfile, wallet: newWallet };
+  },
+
+  sendEmailVerification: async (): Promise<void> => {
+    if (!isMock && auth && auth.currentUser) {
+      try {
+        await firebaseSendEmailVerification(auth.currentUser);
+        return;
+      } catch (err: any) {
+        throw new Error(err.message || "Failed to send email verification");
+      }
+    }
+    console.log("[MOCK] Verification email sent to current user");
+  },
+
+  sendPasswordReset: async (email: string): Promise<void> => {
+    if (!isMock && auth) {
+      try {
+        await firebaseSendPasswordResetEmail(auth, email);
+        return;
+      } catch (err: any) {
+        throw new Error(err.message || "Failed to send password reset email");
+      }
+    }
+    initializeMockDb();
+    const users = getStored<Record<string, User & { password?: string }>>(MOCK_STORAGE_KEYS.USERS, {});
+    const exists = Object.values(users).some((u) => u.email === email);
+    if (!exists) {
+      throw new Error("Email not found");
+    }
+    console.log("[MOCK] Password reset link sent to:", email);
   }
 };
 
 export const mockWalletService = {
   upgradeMembership: async (userId: string, targetLevel: MembershipLevel, cost: number): Promise<{ profile: Profile; wallet: Wallet; transaction: Transaction }> => {
+    if (!isMock && db) {
+      try {
+        const walletRef = doc(db, "wallets", userId);
+        const profileRef = doc(db, "profiles", userId);
+        const txId = "t-" + Math.random().toString(36).substr(2, 9);
+        const txRef = doc(db, "transactions", txId);
+
+        const result = await runTransaction(db, async (transaction) => {
+          const walletSnap = await transaction.get(walletRef);
+          if (!walletSnap.exists()) {
+            throw new Error("Wallet record not found.");
+          }
+
+          const walletData = walletSnap.data() as Wallet;
+          if (walletData.balance < cost) {
+            throw new Error("Insufficient Aros balance");
+          }
+
+          const newBalance = walletData.balance - cost;
+          const timestamp = new Date().toISOString();
+
+          const updatedWallet: Wallet = {
+            ...walletData,
+            balance: newBalance,
+            updatedAt: timestamp
+          };
+
+          const profileSnap = await transaction.get(profileRef);
+          if (!profileSnap.exists()) {
+            throw new Error("Profile record not found.");
+          }
+
+          const profileData = profileSnap.data() as Profile;
+          const updatedProfile: Profile = {
+            ...profileData,
+            membershipLevel: targetLevel,
+            updatedAt: timestamp
+          };
+
+          const newTx: Transaction = {
+            id: txId,
+            userId,
+            amount: -cost,
+            type: "membership_upgrade",
+            description: `Membership upgrade to ${targetLevel.toUpperCase()}`,
+            timestamp
+          };
+
+          transaction.update(walletRef, { balance: newBalance, updatedAt: timestamp });
+          transaction.update(profileRef, { membershipLevel: targetLevel, updatedAt: timestamp });
+          transaction.set(txRef, newTx);
+
+          return { profile: updatedProfile, wallet: updatedWallet, transaction: newTx };
+        });
+
+        return result;
+      } catch (err: any) {
+        throw new Error(err.message || "Failed to upgrade membership");
+      }
+    }
+
+    // Mock implementation
     initializeMockDb();
     const profiles = getStored<Record<string, Profile>>(MOCK_STORAGE_KEYS.PROFILES, {});
     const wallets = getStored<Record<string, Wallet>>(MOCK_STORAGE_KEYS.WALLETS, {});
@@ -209,6 +433,50 @@ export const mockWalletService = {
   },
 
   creditWallet: async (userId: string, amount: number, description: string): Promise<{ wallet: Wallet; transaction: Transaction }> => {
+    if (!isMock && db) {
+      try {
+        const walletRef = doc(db, "wallets", userId);
+        const txId = "t-" + Math.random().toString(36).substr(2, 9);
+        const txRef = doc(db, "transactions", txId);
+
+        const result = await runTransaction(db, async (transaction) => {
+          const walletSnap = await transaction.get(walletRef);
+          if (!walletSnap.exists()) {
+            throw new Error("Wallet record not found.");
+          }
+
+          const walletData = walletSnap.data() as Wallet;
+          const newBalance = walletData.balance + amount;
+          const timestamp = new Date().toISOString();
+
+          const updatedWallet: Wallet = {
+            ...walletData,
+            balance: newBalance,
+            updatedAt: timestamp
+          };
+
+          const newTx: Transaction = {
+            id: txId,
+            userId,
+            amount,
+            type: "reward",
+            description,
+            timestamp
+          };
+
+          transaction.update(walletRef, { balance: newBalance, updatedAt: timestamp });
+          transaction.set(txRef, newTx);
+
+          return { wallet: updatedWallet, transaction: newTx };
+        });
+
+        return result;
+      } catch (err: any) {
+        throw new Error(err.message || "Failed to adjust balance");
+      }
+    }
+
+    // Mock implementation
     initializeMockDb();
     const wallets = getStored<Record<string, Wallet>>(MOCK_STORAGE_KEYS.WALLETS, {});
     const transactions = getStored<Transaction[]>(MOCK_STORAGE_KEYS.TRANSACTIONS, []);
@@ -236,12 +504,44 @@ export const mockWalletService = {
   },
 
   getTransactions: async (userId: string): Promise<Transaction[]> => {
+    if (!isMock && db) {
+      try {
+        const txsRef = collection(db, "transactions");
+        const q = query(txsRef, where("userId", "==", userId), orderBy("timestamp", "desc"));
+        const snap = await getDocs(q);
+        const list: Transaction[] = [];
+        snap.forEach((d) => {
+          list.push(d.data() as Transaction);
+        });
+        return list;
+      } catch (err: any) {
+        console.error("Failed to query user transactions:", err);
+      }
+    }
+
+    // Mock implementation
     initializeMockDb();
     const transactions = getStored<Transaction[]>(MOCK_STORAGE_KEYS.TRANSACTIONS, []);
     return transactions.filter((t) => t.userId === userId).reverse();
   },
 
   getAllTransactions: async (): Promise<Transaction[]> => {
+    if (!isMock && db) {
+      try {
+        const txsRef = collection(db, "transactions");
+        const q = query(txsRef, orderBy("timestamp", "desc"));
+        const snap = await getDocs(q);
+        const list: Transaction[] = [];
+        snap.forEach((d) => {
+          list.push(d.data() as Transaction);
+        });
+        return list;
+      } catch (err: any) {
+        console.error("Failed to query global transactions:", err);
+      }
+    }
+
+    // Mock implementation
     initializeMockDb();
     const transactions = getStored<Transaction[]>(MOCK_STORAGE_KEYS.TRANSACTIONS, []);
     return [...transactions].reverse();
@@ -250,17 +550,72 @@ export const mockWalletService = {
 
 export const mockCmsService = {
   getAnnouncements: async (): Promise<Announcement[]> => {
+    if (!isMock && db) {
+      try {
+        const cmsRef = collection(db, "cms");
+        const q = query(cmsRef, where("isPublished", "==", true), orderBy("publishedAt", "desc"));
+        const snap = await getDocs(q);
+        const list: Announcement[] = [];
+        snap.forEach((d) => {
+          list.push(d.data() as Announcement);
+        });
+        return list;
+      } catch (err: any) {
+        console.error("Failed to fetch announcements:", err);
+      }
+    }
+
+    // Mock implementation
     initializeMockDb();
     const cms = getStored<Announcement[]>(MOCK_STORAGE_KEYS.CMS, defaultAnnouncements);
     return cms.filter((a) => a.isPublished);
   },
 
   getAllAnnouncements: async (): Promise<Announcement[]> => {
+    if (!isMock && db) {
+      try {
+        const cmsRef = collection(db, "cms");
+        const q = query(cmsRef, orderBy("publishedAt", "desc"));
+        const snap = await getDocs(q);
+        const list: Announcement[] = [];
+        snap.forEach((d) => {
+          list.push(d.data() as Announcement);
+        });
+        return list;
+      } catch (err: any) {
+        console.error("Failed to fetch all announcements:", err);
+      }
+    }
+
+    // Mock implementation
     initializeMockDb();
     return getStored<Announcement[]>(MOCK_STORAGE_KEYS.CMS, defaultAnnouncements);
   },
 
   upsertAnnouncement: async (announcement: Partial<Announcement> & { title: string; content: string; category: AnnouncementCategory; authorId: string }): Promise<Announcement> => {
+    if (!isMock && db) {
+      try {
+        const id = announcement.id || "a-" + Math.random().toString(36).substr(2, 9);
+        const docRef = doc(db, "cms", id);
+        
+        const newAnn: Announcement = {
+          id,
+          title: announcement.title,
+          content: announcement.content,
+          category: announcement.category,
+          isPublished: announcement.isPublished ?? true,
+          publishedAt: announcement.publishedAt || new Date().toISOString(),
+          authorId: announcement.authorId
+        };
+
+        await setDoc(docRef, newAnn);
+        return newAnn;
+      } catch (err: any) {
+        throw new Error(err.message || "Failed to upsert announcement");
+      }
+    }
+
+    // Mock implementation
     initializeMockDb();
     const cms = getStored<Announcement[]>(MOCK_STORAGE_KEYS.CMS, defaultAnnouncements);
 
@@ -297,6 +652,16 @@ export const mockCmsService = {
   },
 
   deleteAnnouncement: async (id: string): Promise<boolean> => {
+    if (!isMock && db) {
+      try {
+        await deleteDoc(doc(db, "cms", id));
+        return true;
+      } catch (err: any) {
+        throw new Error(err.message || "Failed to delete announcement");
+      }
+    }
+
+    // Mock implementation
     initializeMockDb();
     const cms = getStored<Announcement[]>(MOCK_STORAGE_KEYS.CMS, defaultAnnouncements);
     const filtered = cms.filter((a) => a.id !== id);

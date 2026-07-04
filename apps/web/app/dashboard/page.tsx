@@ -31,8 +31,19 @@ const tiers: { level: MembershipLevel; name: string; price: number; description:
 
 export default function DashboardPage() {
   const router = useRouter();
-  const { user, profile, wallet, transactions, isAuthenticated, isLoading, upgradeMembership, fetchUserTransactions } =
+  const { user, profile, wallet, transactions, isAuthenticated, isLoading, upgradeMembership, fetchUserTransactions, sendEmailVerification } =
     usePlatformStore();
+
+  const [verificationSent, setVerificationSent] = React.useState(false);
+
+  const handleSendVerification = async () => {
+    try {
+      await sendEmailVerification();
+      setVerificationSent(true);
+    } catch (err: any) {
+      alert(err.message || "Failed to send verification email");
+    }
+  };
 
   React.useEffect(() => {
     if (!isAuthenticated) {
@@ -65,13 +76,16 @@ export default function DashboardPage() {
         
         {/* Header navigation bar */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-white/10 pb-6">
-          <div>
-            <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-amber-400 via-amber-200 to-amber-500 bg-clip-text text-transparent">
-              Platform Dashboard
-            </h1>
-            <p className="text-zinc-400 text-sm mt-1">
-              Welcome back, <strong className="text-white">{profile.displayName}</strong>. Manage your Aros economy account.
-            </p>
+          <div className="flex items-center gap-4">
+            <img src="/aroh-logo.png" alt="AROH Logo" className="h-10 w-10 object-contain rounded-lg border border-white/10 shadow-md" />
+            <div>
+              <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-amber-400 via-amber-200 to-amber-500 bg-clip-text text-transparent">
+                Platform Dashboard
+              </h1>
+              <p className="text-zinc-400 text-sm mt-1">
+                Welcome back, <strong className="text-white">{profile.displayName}</strong>. Manage your Aros economy account.
+              </p>
+            </div>
           </div>
           <div className="flex gap-3">
             <Button variant="secondary" onClick={() => router.push("/")} className="px-5">
@@ -82,6 +96,29 @@ export default function DashboardPage() {
             </Button>
           </div>
         </div>
+
+        {/* Email Verification Alert Banner */}
+        {user && user.emailVerified === false && (
+          <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div className="flex gap-3 items-start">
+              <span className="w-2 h-2 bg-amber-500 rounded-full animate-ping mt-1.5 shrink-0" />
+              <div>
+                <h2 className="text-sm font-bold text-amber-400">Verify your email address</h2>
+                <p className="text-xs text-zinc-400 mt-1">
+                  Please verify your email address to unlock full access to administrative capabilities and ledger transfers.
+                </p>
+              </div>
+            </div>
+            <Button
+              variant="glass"
+              onClick={handleSendVerification}
+              disabled={verificationSent}
+              className="text-xs font-semibold text-amber-500 border-amber-500/20 hover:bg-amber-500/10 focus-visible:ring-2 focus-visible:ring-amber-500 shrink-0 w-full sm:w-auto"
+            >
+              {verificationSent ? "Verification Link Sent" : "Send Verification Email"}
+            </Button>
+          </div>
+        )}
 
         {/* Overview cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
