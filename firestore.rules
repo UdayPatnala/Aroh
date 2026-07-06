@@ -20,7 +20,8 @@ service cloud.firestore {
     // User details and profile configurations
     match /users/{userId} {
       allow read: if isAuthenticated();
-      allow write: if isOwner(userId);
+      allow create: if isOwner(userId);
+      allow update, delete: if false; // Role and other immutable user fields cannot be modified client-side
     }
 
     match /profiles/{userId} {
@@ -28,16 +29,16 @@ service cloud.firestore {
       allow write: if isOwner(userId);
     }
 
-    // Aros wallet configurations: Read/write allowed by owner
+    // Aros wallet configurations: Read allowed by owner, write forbidden client-side
     match /wallets/{userId} {
-      allow read, write: if isOwner(userId);
+      allow read: if isOwner(userId);
+      allow write: if false;
     }
 
-    // Transactions ledger: Read/create allowed by owner, updates and deletes strictly forbidden
+    // Transactions ledger: Read allowed by owner or by administrators, write strictly forbidden client-side
     match /transactions/{transactionId} {
-      allow read: if isAuthenticated() && resource.data.userId == request.auth.uid;
-      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
-      allow update, delete: if false;
+      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || hasRole(['admin']));
+      allow write: if false;
     }
 
     // CMS Announcements: Anyone can read, only Admins/Operators can write

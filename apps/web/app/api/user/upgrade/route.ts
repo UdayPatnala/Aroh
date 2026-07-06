@@ -2,10 +2,9 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { mockWalletService, verifyMockToken, isMockEnv } from "@aroh/asdk";
 
-const RewardInputSchema = z.object({
-  userId: z.string().min(1, "User ID is required"),
-  amount: z.number().positive("Amount must be greater than zero"),
-  description: z.string().min(3, "Description must be at least 3 characters")
+const UpgradeInputSchema = z.object({
+  level: z.enum(["basic", "pro", "enterprise"]),
+  cost: z.number().nonnegative()
 });
 
 export async function POST(request: Request) {
@@ -20,7 +19,7 @@ export async function POST(request: Request) {
     }
 
     const token = authHeader.replace("Bearer ", "");
-    let role: string | null = null;
+    let userId: string | null = null;
 
     if (isMockEnv) {
       // Development/mock: use the lightweight mock token verifier
@@ -31,14 +30,14 @@ export async function POST(request: Request) {
           { status: 401 }
         );
       }
-      role = decoded.role;
+      userId = decoded.userId;
     } else {
       // Production: cryptographically verify the Firebase ID token signature
       try {
         const { adminAuth } = await import("../firebase-admin");
         const decodedToken = await adminAuth.verifyIdToken(token);
-        // Custom claims set by Firebase Admin (e.g., via setCustomUserClaims)
-        role = (decodedToken as any).role ?? decodedToken.email ?? "user";
+        // Firebase ID token subject = the user's UID
+        userId = decodedToken.uid;
       } catch {
         return NextResponse.json(
           { success: false, error: { code: "UNAUTHORIZED", message: "Invalid or expired Firebase ID token" } },
@@ -47,60 +46,69 @@ export async function POST(request: Request) {
       }
     }
 
-    // 2. RBAC: only admins can issue reward adjustments
-    if (role !== "admin") {
+    if (!userId) {
       return NextResponse.json(
-        { success: false, error: { code: "FORBIDDEN", message: "Only administrators can issue reward adjustments" } },
-        { status: 403 }
+        { success: false, error: { code: "UNAUTHORIZED", message: "Could not determine user identity" } },
+        { status: 401 }
       );
     }
 
-    // 3. Validate request payload with Zod
+    // 2. Validate request body
     const body = await request.json();
-    const result = RewardInputSchema.safeParse(body);
+    const result = UpgradeInputSchema.safeParse(body);
     if (!result.success) {
       return NextResponse.json(
-        { success: false, error: { code: "BAD_REQUEST", message: "Invalid payload input rules", details: result.error.format() } },
+        { success: false, error: { code: "BAD_REQUEST", message: "Invalid inputs", details: result.error.format() } },
         { status: 400 }
       );
     }
 
-    const { userId: targetUserId, amount, description } = result.data;
+    const { level, cost } = result.data;
 
     if (isMockEnv) {
-      // 4a. Mock mode: use offline mock wallet service
-      const data = await mockWalletService.creditWallet(targetUserId, amount, description);
+      // 3a. Mock mode: use offline mock wallet service
+      const data = await mockWalletService.upgradeMembership(userId, level, cost);
       return NextResponse.json({
         success: true,
-        data: { wallet: data.wallet, transaction: data.transaction }
+        data: { profile: data.profile, wallet: data.wallet, transaction: data.transaction }
       });
     } else {
-      // 4b. Production mode: use Firebase Admin SDK (bypasses Firestore security rules)
+      // 3b. Production mode: use Firebase Admin SDK (bypasses Firestore security rules)
       const { adminDb } = await import("../firebase-admin");
-      const admin = await import("firebase-admin");
 
-      const walletRef = adminDb.collection("wallets").doc(targetUserId);
+      const walletRef = adminDb.collection("wallets").doc(userId);
+      const profileRef = adminDb.collection("profiles").doc(userId);
       const txId = "t-" + Math.random().toString(36).substr(2, 9);
       const txRef = adminDb.collection("transactions").doc(txId);
 
       const result = await adminDb.runTransaction(async (transaction) => {
-        const walletSnap = await transaction.get(walletRef);
+        const [walletSnap, profileSnap] = await Promise.all([
+          transaction.get(walletRef),
+          transaction.get(profileRef)
+        ]);
+
         if (!walletSnap.exists) throw new Error("Wallet not found");
+        if (!profileSnap.exists) throw new Error("Profile not found");
 
         const walletData = walletSnap.data()!;
-        const newBalance = walletData.balance + amount;
+        if (walletData.balance < cost) throw new Error("Insufficient Aros balance");
+
+        const newBalance = walletData.balance - cost;
         const timestamp = new Date().toISOString();
 
         const updatedWallet = { ...walletData, balance: newBalance, updatedAt: timestamp };
+        const updatedProfile = { ...profileSnap.data()!, membershipLevel: level, updatedAt: timestamp };
         const newTx = {
-          id: txId, userId: targetUserId, amount, type: "reward",
-          description, timestamp
+          id: txId, userId, amount: -cost, type: "membership_upgrade",
+          description: `Membership upgrade to ${level.toUpperCase()}`,
+          timestamp
         };
 
         transaction.update(walletRef, { balance: newBalance, updatedAt: timestamp });
+        transaction.update(profileRef, { membershipLevel: level, updatedAt: timestamp });
         transaction.set(txRef, newTx);
 
-        return { wallet: updatedWallet, transaction: newTx };
+        return { profile: updatedProfile, wallet: updatedWallet, transaction: newTx };
       });
 
       return NextResponse.json({ success: true, data: result });
