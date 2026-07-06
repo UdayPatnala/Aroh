@@ -35,7 +35,7 @@ export async function POST(request: Request) {
     } else {
       // Production: cryptographically verify the Firebase ID token signature
       try {
-        const { adminAuth } = await import("../firebase-admin");
+        const { adminAuth } = await import("../../firebase-admin");
         const decodedToken = await adminAuth.verifyIdToken(token);
         // Custom claims set by Firebase Admin (e.g., via setCustomUserClaims)
         role = (decodedToken as any).role ?? decodedToken.email ?? "user";
@@ -76,8 +76,7 @@ export async function POST(request: Request) {
       });
     } else {
       // 4b. Production mode: use Firebase Admin SDK (bypasses Firestore security rules)
-      const { adminDb } = await import("../firebase-admin");
-      const admin = await import("firebase-admin");
+      const { adminDb } = await import("../../firebase-admin");
 
       const walletRef = adminDb.collection("wallets").doc(targetUserId);
       const txId = "t-" + Math.random().toString(36).substr(2, 9);

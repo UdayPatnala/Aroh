@@ -34,7 +34,7 @@ export async function POST(request: Request) {
     } else {
       // Production: cryptographically verify the Firebase ID token signature
       try {
-        const { adminAuth } = await import("../firebase-admin");
+        const { adminAuth } = await import("../../firebase-admin");
         const decodedToken = await adminAuth.verifyIdToken(token);
         // Firebase ID token subject = the user's UID
         userId = decodedToken.uid;
@@ -74,7 +74,7 @@ export async function POST(request: Request) {
       });
     } else {
       // 3b. Production mode: use Firebase Admin SDK (bypasses Firestore security rules)
-      const { adminDb } = await import("../firebase-admin");
+      const { adminDb } = await import("../../firebase-admin");
 
       const walletRef = adminDb.collection("wallets").doc(userId);
       const profileRef = adminDb.collection("profiles").doc(userId);
