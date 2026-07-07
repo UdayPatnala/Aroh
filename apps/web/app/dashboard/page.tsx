@@ -167,6 +167,48 @@ export default function DashboardPage() {
     addNotification("Application registration deleted", "info");
   };
 
+  const getTierStyles = (level: MembershipLevel) => {
+    switch (level) {
+      case "enterprise":
+        return {
+          bg: "bg-gradient-to-br from-[#0a0614] via-[#0f0724] to-[#05040d]",
+          border: "border-fuchsia-500/20",
+          accentBorder: "border-fuchsia-500",
+          cardBg: "bg-white/3 backdrop-blur-xl border border-fuchsia-500/20 shadow-2xl shadow-fuchsia-500/5",
+          accentText: "text-fuchsia-400",
+          accentBg: "bg-fuchsia-500/10",
+          gradientText: "bg-gradient-to-r from-fuchsia-400 via-pink-200 to-indigo-400",
+          themeLabel: "Enterprise Level",
+          badgeStyle: "bg-fuchsia-500/20 text-fuchsia-300 border border-fuchsia-500/30"
+        };
+      case "pro":
+        return {
+          bg: "bg-gradient-to-br from-[#0c0a05] via-[#1c1505] to-[#08080a]",
+          border: "border-amber-500/20",
+          accentBorder: "border-amber-500",
+          cardBg: "bg-white/3 backdrop-blur-xl border border-amber-500/20 shadow-2xl shadow-amber-500/5",
+          accentText: "text-amber-400",
+          accentBg: "bg-amber-500/10",
+          gradientText: "bg-gradient-to-r from-amber-400 via-amber-200 to-amber-500",
+          themeLabel: "Pro Level",
+          badgeStyle: "bg-amber-500/20 text-amber-300 border border-amber-500/30"
+        };
+      case "basic":
+      default:
+        return {
+          bg: "bg-[#070709]",
+          border: "border-white/5",
+          accentBorder: "border-zinc-500",
+          cardBg: "bg-white/2 border border-white/5",
+          accentText: "text-zinc-400",
+          accentBg: "bg-zinc-800/40",
+          gradientText: "bg-gradient-to-r from-zinc-300 to-zinc-500",
+          themeLabel: "Basic Level",
+          badgeStyle: "bg-zinc-800 text-zinc-300 border border-white/10"
+        };
+    }
+  };
+
   if (!isAuthenticated || !profile || !wallet) {
     return (
       <div className="min-h-screen bg-[#0a0a0c] flex justify-center items-center text-white">
@@ -175,8 +217,10 @@ export default function DashboardPage() {
     );
   }
 
+  const theme = getTierStyles(profile.membershipLevel);
+
   return (
-    <div className="min-h-screen bg-[#0a0a0c] text-white py-12 px-6 lg:px-12">
+    <div className={`min-h-screen ${theme.bg} text-white py-12 px-6 lg:px-12 transition-all duration-500`}>
       <div className="max-w-6xl mx-auto space-y-8">
         
         {/* Header navigation bar */}
@@ -184,8 +228,11 @@ export default function DashboardPage() {
           <div className="flex items-center gap-4">
             <img src="/aroh-logo.png" alt="AROH Logo" className="h-10 w-10 object-contain rounded-lg border border-white/10 shadow-md" />
             <div>
-              <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-amber-400 via-amber-200 to-amber-500 bg-clip-text text-transparent">
+              <h1 className={`text-3xl font-extrabold tracking-tight bg-gradient-to-r ${theme.gradientText} bg-clip-text text-transparent flex flex-wrap items-center gap-2.5`}>
                 Platform Dashboard
+                <span className={`text-[10px] px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider ${theme.badgeStyle} align-middle`}>
+                  {theme.themeLabel}
+                </span>
               </h1>
               <p className="text-zinc-400 text-sm mt-1">
                 Welcome back, <strong className="text-white">{profile.displayName}</strong>. Manage your Aros economy account.
@@ -209,7 +256,7 @@ export default function DashboardPage() {
             onClick={() => setActiveTab("overview")}
             className={`px-4 py-2 border-b-2 text-sm font-semibold transition-all cursor-pointer ${
               activeTab === "overview"
-                ? "border-amber-500 text-amber-500"
+                ? `${theme.accentBorder} ${theme.accentText}`
                 : "border-transparent text-zinc-400 hover:text-white"
             }`}
           >
@@ -219,7 +266,7 @@ export default function DashboardPage() {
             onClick={() => setActiveTab("settings")}
             className={`px-4 py-2 border-b-2 text-sm font-semibold transition-all cursor-pointer ${
               activeTab === "settings"
-                ? "border-amber-500 text-amber-500"
+                ? `${theme.accentBorder} ${theme.accentText}`
                 : "border-transparent text-zinc-400 hover:text-white"
             }`}
           >
@@ -229,7 +276,7 @@ export default function DashboardPage() {
             onClick={() => setActiveTab("developer")}
             className={`px-4 py-2 border-b-2 text-sm font-semibold transition-all cursor-pointer ${
               activeTab === "developer"
-                ? "border-amber-500 text-amber-500"
+                ? `${theme.accentBorder} ${theme.accentText}`
                 : "border-transparent text-zinc-400 hover:text-white"
             }`}
           >
@@ -265,17 +312,17 @@ export default function DashboardPage() {
 
             {/* Overview cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-white/5 backdrop-blur-md border border-white/10 p-6 rounded-xl flex flex-col justify-between">
+              <div className={`${theme.cardBg} p-6 rounded-xl flex flex-col justify-between transition-all duration-500`}>
                 <span className="text-xs uppercase tracking-wider text-zinc-400 font-semibold mb-2 block">Account Identity</span>
                 <span className="text-lg font-bold truncate text-white">{user?.email}</span>
                 <span className="text-xs text-zinc-400 mt-4 block">Role: {user?.role.toUpperCase()}</span>
               </div>
 
-              <div className="bg-white/5 backdrop-blur-md border border-white/10 p-6 rounded-xl flex flex-col justify-between relative overflow-hidden">
-                <div className="absolute right-0 top-0 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl pointer-events-none" />
+              <div className={`${theme.cardBg} p-6 rounded-xl flex flex-col justify-between relative overflow-hidden transition-all duration-500`}>
+                <div className={`absolute right-0 top-0 w-24 h-24 ${theme.accentBg} rounded-full blur-2xl pointer-events-none`} />
                 <span className="text-xs uppercase tracking-wider text-zinc-400 font-semibold mb-2 block">Aros Balance</span>
                 <div className="flex flex-col">
-                  <span className="text-4xl font-extrabold text-amber-400 tracking-tight">{wallet.balance} Aros</span>
+                  <span className={`text-4xl font-extrabold ${theme.accentText} tracking-tight`}>{wallet.balance} Aros</span>
                   <span className="text-xs text-zinc-400 mt-1">Instant ledger clearance active</span>
                 </div>
                 <div className="mt-4 border-t border-white/5 pt-3 space-y-2">
@@ -294,9 +341,9 @@ export default function DashboardPage() {
                 </div>
               </div>
 
-              <div className="bg-white/5 backdrop-blur-md border border-white/10 p-6 rounded-xl flex flex-col justify-between">
+              <div className={`${theme.cardBg} p-6 rounded-xl flex flex-col justify-between transition-all duration-500`}>
                 <span className="text-xs uppercase tracking-wider text-zinc-400 font-semibold mb-2 block">Membership Level</span>
-                <span className="text-2xl font-extrabold uppercase text-white tracking-wide">{profile.membershipLevel}</span>
+                <span className={`text-2xl font-extrabold uppercase ${theme.accentText} tracking-wide`}>{profile.membershipLevel}</span>
                 <span className="text-xs text-zinc-400 mt-4 block">Updated: {new Date(profile.updatedAt).toLocaleDateString()}</span>
               </div>
             </div>
