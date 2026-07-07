@@ -4,6 +4,15 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import { usePlatformStore, Announcement, AnnouncementCategory } from "@aroh/asdk";
 import { Button } from "@aroh/ads";
+import NotificationCenter from "../components/notification-center";
+
+const formatForDateTimeLocal = (dateString?: string) => {
+  const date = dateString ? new Date(dateString) : new Date();
+  if (isNaN(date.getTime())) return "";
+  const offset = date.getTimezoneOffset();
+  const localDate = new Date(date.getTime() - offset * 60 * 1000);
+  return localDate.toISOString().slice(0, 16);
+};
 
 export default function CmsPage() {
   const router = useRouter();
@@ -16,6 +25,13 @@ export default function CmsPage() {
   const [category, setCategory] = React.useState<AnnouncementCategory>("info");
   const [isPublished, setIsPublished] = React.useState(true);
   const [isEditing, setIsEditing] = React.useState(false);
+  const [publishedAt, setPublishedAt] = React.useState("");
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+    setPublishedAt(formatForDateTimeLocal());
+  }, []);
 
   React.useEffect(() => {
     if (!isAuthenticated) {
@@ -32,12 +48,14 @@ export default function CmsPage() {
     if (!title || !content) return;
 
     try {
+      const pubDateIso = publishedAt ? new Date(publishedAt).toISOString() : new Date().toISOString();
       await upsertAnnouncement({
         id,
         title,
         content,
         category,
-        isPublished
+        isPublished,
+        publishedAt: pubDateIso
       });
       // Reset form
       setId(undefined);
@@ -45,6 +63,7 @@ export default function CmsPage() {
       setContent("");
       setCategory("info");
       setIsPublished(true);
+      setPublishedAt(formatForDateTimeLocal());
       setIsEditing(false);
     } catch (err: any) {
       alert(err.message || "Failed to save announcement");
@@ -57,6 +76,7 @@ export default function CmsPage() {
     setContent(ann.content);
     setCategory(ann.category);
     setIsPublished(ann.isPublished);
+    setPublishedAt(formatForDateTimeLocal(ann.publishedAt));
     setIsEditing(true);
   };
 
@@ -110,9 +130,12 @@ export default function CmsPage() {
               </p>
             </div>
           </div>
-          <Button variant="secondary" onClick={() => router.push("/")} className="px-5">
-            Back to Home
-          </Button>
+          <div className="flex gap-3 items-center">
+            <NotificationCenter />
+            <Button variant="secondary" onClick={() => router.push("/")} className="px-5">
+              Back to Home
+            </Button>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -124,10 +147,11 @@ export default function CmsPage() {
 
             <form onSubmit={handleSave} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
+                <label htmlFor="title" className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
                   Title
                 </label>
                 <input
+                  id="title"
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
@@ -138,10 +162,11 @@ export default function CmsPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
+                <label htmlFor="content" className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
                   Content
                 </label>
                 <textarea
+                  id="content"
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
                   placeholder="Enter details of announcement..."
@@ -153,10 +178,11 @@ export default function CmsPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
+                  <label htmlFor="category" className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
                     Category
                   </label>
                   <select
+                    id="category"
                     value={category}
                     onChange={(e) => setCategory(e.target.value as AnnouncementCategory)}
                     className="w-full px-4 py-2.5 rounded-lg bg-zinc-900 border border-white/10 text-white focus:outline-none focus:border-amber-500 text-sm"
@@ -168,10 +194,11 @@ export default function CmsPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
+                  <label htmlFor="status" className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
                     Status
                   </label>
                   <select
+                    id="status"
                     value={isPublished ? "publish" : "draft"}
                     onChange={(e) => setIsPublished(e.target.value === "publish")}
                     className="w-full px-4 py-2.5 rounded-lg bg-zinc-900 border border-white/10 text-white focus:outline-none focus:border-amber-500 text-sm"
@@ -180,6 +207,20 @@ export default function CmsPage() {
                     <option value="draft">Draft</option>
                   </select>
                 </div>
+              </div>
+
+              <div>
+                <label htmlFor="publishedAt" className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
+                  Publication Date & Time
+                </label>
+                <input
+                  id="publishedAt"
+                  type="datetime-local"
+                  value={publishedAt}
+                  onChange={(e) => setPublishedAt(e.target.value)}
+                  className="w-full px-4 py-2.5 rounded-lg bg-zinc-900 border border-white/10 text-white focus:outline-none focus:border-amber-500 transition-colors text-sm"
+                  required
+                />
               </div>
 
               <div className="flex gap-3 pt-4">
@@ -195,6 +236,7 @@ export default function CmsPage() {
                       setContent("");
                       setCategory("info");
                       setIsPublished(true);
+                      setPublishedAt(formatForDateTimeLocal());
                       setIsEditing(false);
                     }}
                     className="py-2.5 text-xs font-semibold"
@@ -211,7 +253,7 @@ export default function CmsPage() {
             <h2 className="text-xl font-bold tracking-tight text-white">Ecosystem Announcement Feed</h2>
 
             {allAnnouncements.length === 0 ? (
-              <div className="bg-white/5 border border-white/10 rounded-xl p-8 text-center text-zinc-500 text-sm">
+              <div className="bg-white/5 border border-white/10 rounded-xl p-8 text-center text-zinc-400 text-sm">
                 No announcements detected.
               </div>
             ) : (
@@ -237,14 +279,20 @@ export default function CmsPage() {
                         <span
                           className={`px-2 py-0.5 rounded text-[9px] uppercase font-bold tracking-wider ${
                             ann.isPublished
-                              ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/10"
+                              ? mounted && new Date(ann.publishedAt) > new Date()
+                                ? "bg-amber-500/10 text-amber-400 border border-amber-500/10"
+                                : "bg-emerald-500/10 text-emerald-400 border border-emerald-500/10"
                               : "bg-zinc-700/30 text-zinc-400 border border-zinc-700/20"
                           }`}
                         >
-                          {ann.isPublished ? "Live" : "Draft"}
+                          {ann.isPublished 
+                            ? mounted && new Date(ann.publishedAt) > new Date()
+                              ? "Scheduled"
+                              : "Live" 
+                            : "Draft"}
                         </span>
-                        <span className="text-[10px] text-zinc-500">
-                          {new Date(ann.publishedAt).toLocaleDateString()}
+                        <span className="text-[10px] text-zinc-400">
+                          {mounted ? new Date(ann.publishedAt).toLocaleString() : ""}
                         </span>
                       </div>
                       <h3 className="text-lg font-bold text-white leading-tight">{ann.title}</h3>

@@ -1,0 +1,39 @@
+diff --git a/apps/web/app/admin/page.tsx b/apps/web/app/admin/page.tsx
+index a1b2c3d..e4f5g6h 100644
+--- a/apps/web/app/admin/page.tsx
++++ b/apps/web/app/admin/page.tsx
+@@ -5,4 +5,27 @@ import { usePlatformStore, mockWalletService } from "@aroh/asdk";
+ import { Button } from "@aroh/ads";
+ import NotificationCenter from "../components/notification-center";
++import dynamic from "next/dynamic";
++
++const AdminCharts = dynamic(() => import("../components/admin-charts"), {
++  ssr: false,
++  loading: () => (
++    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
++      {[1, 2, 3].map((key) => (
++        <div 
++          key={key} 
++          className="bg-white/5 border border-white/10 rounded-xl p-6 h-[360px] flex flex-col justify-between"
++        >
++          <div className="space-y-2">
++            <div className="h-6 w-32 bg-white/10 rounded animate-pulse" />
++            <div className="h-4 w-48 bg-white/5 rounded animate-pulse" />
++          </div>
++          <div className="h-[230px] w-full bg-white/5 rounded flex items-center justify-center animate-pulse">
++            <span className="text-zinc-500 text-xs">Loading metrics dashboard...</span>
++          </div>
++        </div>
++      ))}
++    </div>
++  ),
++});
+ 
+ export default function AdminPage() {
+@@ -98,2 +121,5 @@ export default function AdminPage() {
+         </div>
+ 
++        {/* Live Metrics Dashboard */}
++        <AdminCharts />
++
+         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

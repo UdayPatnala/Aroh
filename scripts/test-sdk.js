@@ -16,7 +16,7 @@ if (typeof window === "undefined") {
 console.log("=== Running AROH SDK QA Automation Tests ===");
 
 // 2. Import SDK Services
-const { mockAuthService, mockWalletService } = require("../packages/asdk/src/services/firebase.ts");
+const { mockAuthService, mockWalletService, mockCmsService } = require("../packages/asdk/src/services/firebase.ts");
 
 async function runTests() {
   let passed = 0;
@@ -75,6 +75,64 @@ async function runTests() {
       assert(err.message === "Insufficient Aros balance", "Throw error on insufficient balance upgrade");
     }
     assert(threwError === true, "Insufficient balance transaction rejected as expected");
+
+    // Test 5: Scheduled CMS Alerts
+    console.log("\n--- Testing Scheduled CMS Alerts ---");
+    
+    // Create a past announcement
+    const pastTime = new Date(Date.now() - 3600 * 1000).toISOString(); // 1 hour ago
+    const pastAnn = await mockCmsService.upsertAnnouncement({
+      title: "Past Alert",
+      content: "This announcement was published in the past.",
+      category: "info",
+      isPublished: true,
+      publishedAt: pastTime,
+      authorId: "admin-id"
+    });
+    
+    // Create a future announcement
+    const futureTime = new Date(Date.now() + 3600 * 1000).toISOString(); // 1 hour in future
+    const futureAnn = await mockCmsService.upsertAnnouncement({
+      title: "Future Alert",
+      content: "This announcement is scheduled for the future.",
+      category: "promotion",
+      isPublished: true,
+      publishedAt: futureTime,
+      authorId: "admin-id"
+    });
+    
+    // Create a draft announcement (not published)
+    const draftAnn = await mockCmsService.upsertAnnouncement({
+      title: "Draft Alert",
+      content: "This is a draft announcement.",
+      category: "info",
+      isPublished: false,
+      publishedAt: pastTime,
+      authorId: "admin-id"
+    });
+
+    const publicAnnouncements = await mockCmsService.getAnnouncements();
+    const hasPast = publicAnnouncements.some((a) => a.id === pastAnn.id);
+    const hasFuture = publicAnnouncements.some((a) => a.id === futureAnn.id);
+    const hasDraft = publicAnnouncements.some((a) => a.id === draftAnn.id);
+    
+    assert(hasPast === true, "Past announcement is visible in public feed");
+    assert(hasFuture === false, "Future/Scheduled announcement is hidden from public feed");
+    assert(hasDraft === false, "Draft announcement is hidden from public feed");
+    
+    const allAnnouncements = await mockCmsService.getAllAnnouncements();
+    const hasPastInAll = allAnnouncements.some((a) => a.id === pastAnn.id);
+    const hasFutureInAll = allAnnouncements.some((a) => a.id === futureAnn.id);
+    const hasDraftInAll = allAnnouncements.some((a) => a.id === draftAnn.id);
+    
+    assert(hasPastInAll === true, "Past announcement is visible in admin feed");
+    assert(hasFutureInAll === true, "Future/Scheduled announcement is visible in admin feed");
+    assert(hasDraftInAll === true, "Draft announcement is visible in admin feed");
+
+    // Clean up created announcements
+    await mockCmsService.deleteAnnouncement(pastAnn.id);
+    await mockCmsService.deleteAnnouncement(futureAnn.id);
+    await mockCmsService.deleteAnnouncement(draftAnn.id);
 
     console.log(`\n=== QA Test Run Finished ===`);
     console.log(`Passed: ${passed} | Failed: ${failed}`);

@@ -1,0 +1,31 @@
+diff --git a/apps/web/app/admin/page.tsx b/apps/web/app/admin/page.tsx
+index 32d2f78..4b97da0 100644
+--- a/apps/web/app/admin/page.tsx
++++ b/apps/web/app/admin/page.tsx
+@@ -2,6 +2,7 @@
+ 
+ import * as React from "react";
+ import { useRouter } from "next/navigation";
++import dynamic from "next/dynamic";
+ import { usePlatformStore, mockWalletService } from "@aroh/asdk";
+ import { Button } from "@aroh/ads";
+ import NotificationCenter from "../components/notification-center";
+ 
++// Dynamically import AdminCharts with ssr: false to prevent hydration errors
++const AdminCharts = dynamic(() => import("../components/admin-charts"), {
++  ssr: false,
++});
++
+ export default function AdminPage() {
+   const router = useRouter();
+   const { user, isAuthenticated, rewardUser } = usePlatformStore();
+@@ -95,6 +101,9 @@ export default function AdminPage() {
+           </div>
+         </div>
+ 
++        {/* Simulated Live Metrics Dashboard */}
++        <AdminCharts />
++
+         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+           {/* Issue Credit Form */}
+           <div className="lg:col-span-1 bg-white/5 backdrop-blur-md border border-white/10 p-6 rounded-xl h-fit space-y-6">

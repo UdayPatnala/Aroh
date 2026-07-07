@@ -2,7 +2,7 @@
  
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { usePlatformStore } from "@aroh/asdk";
+import { usePlatformStore, isMockEnv } from "@aroh/asdk";
 import { Button } from "@aroh/ads";
 import { motion, AnimatePresence } from "framer-motion";
  
@@ -108,10 +108,11 @@ export default function LoginPage() {
                 transition={{ duration: 0.2 }}
                 key="name-field"
               >
-                <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
+                <label htmlFor="displayName" className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
                   Display Name
                 </label>
                 <input
+                  id="displayName"
                   type="text"
                   value={displayName}
                   onChange={(e) => setDisplayName(e.target.value)}
@@ -124,10 +125,11 @@ export default function LoginPage() {
           </AnimatePresence>
  
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
+            <label htmlFor="email" className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
               Email Address
             </label>
             <input
+              id="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -139,10 +141,11 @@ export default function LoginPage() {
  
           {!isForgotPassword && (
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
+              <label htmlFor="password" className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
                 Password
               </label>
               <input
+                id="password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -203,20 +206,20 @@ export default function LoginPage() {
         </div>
  
         {/* Demo credentials hint */}
-        {!isRegister && !isForgotPassword && (
-          <div className="mt-6 p-4 rounded-lg bg-white/2 border border-white/5 text-[11px] text-zinc-500 space-y-1">
-            <span className="font-semibold text-zinc-400 block mb-1">Demo Accounts:</span>
+        {isMockEnv && !isRegister && !isForgotPassword && (
+          <div className="mt-6 p-4 rounded-lg bg-white/2 border border-white/5 text-[11px] text-zinc-400 space-y-1">
+            <span className="font-semibold text-zinc-300 block mb-1">Demo Accounts:</span>
             <div className="flex justify-between">
-              <span>Admin: <strong className="text-zinc-400">admin@aroh.co</strong></span>
-              <span>Pass: <strong className="text-zinc-400">admin</strong></span>
+              <span>Admin: <strong className="text-zinc-300">admin@aroh.co</strong></span>
+              <span>Pass: <strong className="text-zinc-300">admin</strong></span>
             </div>
             <div className="flex justify-between">
-              <span>Operator: <strong className="text-zinc-400">operator@aroh.co</strong></span>
-              <span>Pass: <strong className="text-zinc-400">operator</strong></span>
+              <span>Operator: <strong className="text-zinc-300">operator@aroh.co</strong></span>
+              <span>Pass: <strong className="text-zinc-300">operator</strong></span>
             </div>
             <div className="flex justify-between">
-              <span>User: <strong className="text-zinc-400">user@aroh.co</strong></span>
-              <span>Pass: <strong className="text-zinc-400">user</strong></span>
+              <span>User: <strong className="text-zinc-300">user@aroh.co</strong></span>
+              <span>Pass: <strong className="text-zinc-300">user</strong></span>
             </div>
           </div>
         )}

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { usePlatformStore } from "@aroh/asdk";
 import { Button } from "@aroh/ads";
 import { motion } from "framer-motion";
+import NotificationCenter from "./components/notification-center";
 
 interface Product {
   id: string;
@@ -88,9 +89,10 @@ export default function HomePage() {
             {isAuthenticated ? (
               <>
                 <div className="hidden md:flex flex-col text-right">
-                  <span className="text-[10px] text-zinc-500 uppercase tracking-wider">Signed in as</span>
+                  <span className="text-[10px] text-zinc-400 uppercase tracking-wider">Signed in as</span>
                   <span className="text-xs font-bold text-white">{profile?.displayName}</span>
                 </div>
+                <NotificationCenter />
                 <div
                   onClick={() => router.push("/dashboard")}
                   className="bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg flex items-center gap-2 cursor-pointer hover:border-amber-500/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
@@ -207,7 +209,7 @@ export default function HomePage() {
             Ecosystem Announcements
           </h2>
           {announcements.length === 0 ? (
-            <p className="text-zinc-500 text-sm text-center py-4 bg-white/2 border border-white/5 rounded-xl">
+            <p className="text-zinc-400 text-sm text-center py-4 bg-white/2 border border-white/5 rounded-xl">
               No live updates available.
             </p>
           ) : (
@@ -245,7 +247,7 @@ export default function HomePage() {
                       >
                         {ann.category}
                       </span>
-                      <span className="text-[10px] text-zinc-500">
+                      <span className="text-[10px] text-zinc-400">
                         {new Date(ann.publishedAt).toLocaleDateString()}
                       </span>
                     </div>
@@ -296,7 +298,7 @@ export default function HomePage() {
               >
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-[10px] uppercase font-semibold text-zinc-500 group-hover:text-amber-400 transition-colors">
+                    <span className="text-[10px] uppercase font-semibold text-zinc-400 group-hover:text-amber-400 transition-colors">
                       {prod.badge}
                     </span>
                     <span className="text-xs text-amber-500 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -314,7 +316,7 @@ export default function HomePage() {
 
       {/* Footer */}
       <footer className="border-t border-white/10 px-6 py-8 relative z-10 text-center">
-        <p className="text-xs text-zinc-600">
+        <p className="text-xs text-zinc-400">
           © {new Date().getFullYear()} AROH Ecosystem. All rights reserved.
         </p>
       </footer>

@@ -19,7 +19,7 @@ import {
   runTransaction,
   deleteDoc
 } from "firebase/firestore";
-import type { User, Profile, Wallet, Transaction, Announcement, UserRole, MembershipLevel, AnnouncementCategory } from "../schemas/index.ts";
+import type { User, Profile, Wallet, Transaction, Announcement, UserRole, MembershipLevel, AnnouncementCategory } from "../schemas/index";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -32,6 +32,7 @@ const firebaseConfig = {
 
 // Check if we should run in mock mode
 const isMock = !firebaseConfig.apiKey || process.env.NEXT_PUBLIC_AROH_ENV === "mock" || process.env.AROH_ENV === "mock";
+export const isMockEnv = isMock;
 
 // Initialize Firebase App if not mock
 let app: any;
@@ -330,6 +331,40 @@ export const mockAuthService = {
       throw new Error("Email not found");
     }
     console.log("[MOCK] Password reset link sent to:", email);
+  },
+
+  updateProfile: async (userId: string, displayName: string, avatarUrl: string): Promise<Profile> => {
+    if (!isMock && db) {
+      try {
+        const profileRef = doc(db, "profiles", userId);
+        const updatedAt = new Date().toISOString();
+        const profileSnap = await getDoc(profileRef);
+        if (!profileSnap.exists()) throw new Error("Profile not found");
+        const profileData = profileSnap.data() as Profile;
+        const updatedProfile: Profile = {
+          ...profileData,
+          displayName,
+          avatarUrl,
+          updatedAt
+        };
+        await setDoc(profileRef, updatedProfile);
+        return updatedProfile;
+      } catch (err: any) {
+        throw new Error(err.message || "Failed to update profile");
+      }
+    }
+
+    initializeMockDb();
+    const profiles = getStored<Record<string, Profile>>(MOCK_STORAGE_KEYS.PROFILES, {});
+    const profile = profiles[userId];
+    if (!profile) throw new Error("Profile not found");
+    
+    profile.displayName = displayName;
+    profile.avatarUrl = avatarUrl;
+    profile.updatedAt = new Date().toISOString();
+    
+    setStored(MOCK_STORAGE_KEYS.PROFILES, profiles);
+    return profile;
   }
 };
 
@@ -553,13 +588,20 @@ export const mockCmsService = {
     if (!isMock && db) {
       try {
         const cmsRef = collection(db, "cms");
-        const q = query(cmsRef, where("isPublished", "==", true), orderBy("publishedAt", "desc"));
+        const now = new Date();
+        const nowStr = now.toISOString();
+        const q = query(
+          cmsRef,
+          where("isPublished", "==", true),
+          where("publishedAt", "<=", nowStr),
+          orderBy("publishedAt", "desc")
+        );
         const snap = await getDocs(q);
         const list: Announcement[] = [];
         snap.forEach((d) => {
           list.push(d.data() as Announcement);
         });
-        return list;
+        return list.filter((a) => new Date(a.publishedAt) <= now);
       } catch (err: any) {
         console.error("Failed to fetch announcements:", err);
       }
@@ -568,7 +610,10 @@ export const mockCmsService = {
     // Mock implementation
     initializeMockDb();
     const cms = getStored<Announcement[]>(MOCK_STORAGE_KEYS.CMS, defaultAnnouncements);
-    return cms.filter((a) => a.isPublished);
+    const now = new Date();
+    return cms
+      .filter((a) => a.isPublished && new Date(a.publishedAt) <= now)
+      .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
   },
 
   getAllAnnouncements: async (): Promise<Announcement[]> => {
@@ -628,7 +673,7 @@ export const mockCmsService = {
           content: announcement.content,
           category: announcement.category,
           isPublished: announcement.isPublished ?? true,
-          publishedAt: new Date().toISOString()
+          publishedAt: announcement.publishedAt || cms[idx].publishedAt || new Date().toISOString()
         };
         cms[idx] = updated;
         setStored(MOCK_STORAGE_KEYS.CMS, cms);
@@ -643,7 +688,7 @@ export const mockCmsService = {
       content: announcement.content,
       category: announcement.category,
       isPublished: announcement.isPublished ?? true,
-      publishedAt: new Date().toISOString(),
+      publishedAt: announcement.publishedAt || new Date().toISOString(),
       authorId: announcement.authorId
     };
     cms.push(newAnn);
@@ -668,4 +713,19 @@ export const mockCmsService = {
     setStored(MOCK_STORAGE_KEYS.CMS, filtered);
     return true;
   }
+};
+
+export const getAuthToken = async (): Promise<string | null> => {
+  if (isMock) {
+    return null;
+  }
+  try {
+    const firebaseAuth = getAuth();
+    if (firebaseAuth.currentUser) {
+      return await firebaseAuth.currentUser.getIdToken(true);
+    }
+  } catch (err) {
+    console.error("Failed to get Firebase ID token:", err);
+  }
+  return null;
 };
