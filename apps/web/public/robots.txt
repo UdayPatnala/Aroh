@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Allow: /explore
+Allow: /ai
+
+Disallow: /dashboard
+Disallow: /admin
+Disallow: /cms
+Disallow: /api/
+
+Sitemap: https://aroh-os.vercel.app/sitemap.xml
