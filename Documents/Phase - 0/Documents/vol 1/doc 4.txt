@@ -1,0 +1,39 @@
+Every engineering decision within AROH must support long-term maintainability, scalability, security, simplicity, and consistency. No decision should optimize for short-term convenience at the expense of future sustainability.
+
+The Single Source of Truth (SSOT) governs the entire ecosystem. Every piece of data, business rule, configuration, permission, content item, design token, or system state must have one authoritative source. Duplicate sources of truth are prohibited.
+
+The "Create Once, Use Everywhere" principle applies across all layers of the platform. Shared components, services, utilities, APIs, business logic, design tokens, validation schemas, and infrastructure must be created once and reused throughout the ecosystem.
+
+Duplicate logic, duplicate components, duplicate files, duplicate configurations, and duplicate business rules are not permitted. Existing solutions must always be evaluated before creating new implementations.
+
+Modularity is mandatory. Every feature must be developed as an independent module with clearly defined responsibilities, standardized interfaces, and minimal dependencies. Modules should be replaceable, extensible, and independently maintainable.
+
+Composition is preferred over duplication and excessive inheritance. New functionality should extend existing capabilities through composition, configuration, or plugins whenever possible.
+
+Configuration always takes precedence over hardcoded behavior. Feature availability, content, permissions, scheduling, integrations, branding, and system behavior should be driven by configuration whenever practical.
+
+The backend is the authoritative source for authentication, authorization, permissions, business logic, transactions, validation, and persistent data. Frontend applications are responsible only for presentation, interaction, local state management, and rendering backend-controlled information.
+
+Every business transaction must be traceable. State changes affecting users, permissions, Aros balances, CMS content, or system configuration must generate auditable records where appropriate.
+
+The ecosystem follows an event-driven architecture. Services communicate through standardized events to reduce coupling, improve scalability, and simplify future integrations.
+
+Universal services should be developed whenever functionality is shared across multiple products. Authentication, notifications, CMS, search, scheduling, asset management, analytics, membership, and user management are ecosystem services rather than product-specific implementations.
+
+Plugin-based expansion is the preferred mechanism for future growth. New products and services should integrate by registering capabilities instead of modifying existing core systems.
+
+The Three-Use Rule governs abstraction. Logic should remain simple until a pattern has demonstrated sufficient reuse to justify extraction into a shared module, unless architectural consistency clearly requires earlier abstraction.
+
+Technical debt is not intentionally accumulated. Design flaws, duplication, architectural inconsistencies, and maintainability issues should be resolved as early as practical without destabilizing completed functionality.
+
+Every implementation must satisfy security, accessibility, performance, maintainability, and documentation requirements before being considered complete.
+
+Development progresses through strict phase completion gates. Implementation cannot proceed to the next phase until all documentation, testing, security validation, accessibility verification, performance objectives, architectural reviews, and quality checks have been successfully completed.
+
+All architectural decisions are considered frozen after approval. Changes require objective technical justification demonstrating measurable improvements in scalability, maintainability, security, performance, developer experience, or long-term sustainability. Personal preference alone is not sufficient justification.
+
+Future expansion must occur through extension rather than replacement. New capabilities should integrate into the existing architecture without requiring major rewrites of established systems.
+
+Every feature, document, API, database schema, service, and component must remain synchronized with the rest of the ecosystem. Architectural consistency is treated as a permanent engineering requirement rather than a one-time validation activity.
+
+The ultimate objective of these engineering principles is to ensure that AROH remains maintainable, extensible, reliable, and production-ready throughout its entire lifecycle while enabling efficient AI-assisted development without sacrificing software quality.

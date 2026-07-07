@@ -31,7 +31,7 @@ const firebaseConfig = {
 };
 
 // Check if we should run in mock mode
-const isMock = !firebaseConfig.apiKey || process.env.NEXT_PUBLIC_AROH_ENV === "mock" || process.env.AROH_ENV === "mock";
+const isMock = !firebaseConfig.apiKey || process.env.NEXT_PUBLIC_AROH_ENV === "mock" || process.env.AROH_ENV === "mock" || (typeof window !== "undefined" && localStorage.getItem("aroh_force_mock") === "true");
 export const isMockEnv = isMock;
 
 // Initialize Firebase App if not mock

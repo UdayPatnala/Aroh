@@ -1,0 +1,25 @@
+Document 12 — UI/UX Design System & Component Inventory
+
+Document ID: UIUX-001
+Version: 1.0.0
+Status: Approved
+
+1. Purpose
+This document establishes the Aroh Design System (ADS) styling standards, color schemes, typography, layout rules, and standard reusable component patterns.
+
+2. Visual Identity & Tokens
+The design philosophy is premium, modern, and minimal.
+- Dark Mode by Default: Background uses deep obsidian shades, cards use glassmorphism with subtle borders, and highlights use gradients.
+- Typography: Outfit or Inter font family.
+  - Heading 1: Large bold, gradient text.
+  - Body: Highly readable sans-serif, slate/gray shades.
+- Color Palette:
+  - Primary Obsidian: #0a0a0c
+  - Accent Gold: #d4af37 (representing Aros currency and high value)
+  - Card Glass background: rgba(255, 255, 255, 0.03) with border: rgba(255, 255, 255, 0.08)
+
+3. Component Inventory
+- Layouts: `EcosystemLayout` containing the shared sidebar navigation, header with user profile status, Aros wallet widget, and dark mode toggle.
+- Forms: Form inputs (custom styled fields with error states using React Hook Form and Zod).
+- Cards: `ProductCard`, `AnnouncementCard` (showing dynamic CMS alerts), `TransactionRow`.
+- Dialogs: `AuthDialog` for logging in, `PurchaseDialog` for upgrading membership.

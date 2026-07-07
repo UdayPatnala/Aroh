@@ -1,0 +1,347 @@
+# AROH AI Context
+
+Version: 1.0
+
+Status: Active
+
+Classification: Immutable Bootstrap Contract
+
+Governed By: 00_ENGINEERING_CONTRACT.md
+
+---
+
+# Purpose
+
+This document provides the complete project context required for AI coding agents to understand AROH before making engineering decisions.
+
+It explains what AROH is, why it exists, how it should evolve, and how implementation decisions must be made throughout Phase 1.
+
+This document defines the AI's mental model of the project.
+
+---
+
+# What is AROH
+
+AROH is a unified software ecosystem.
+
+It is not a single application.
+
+It is a platform that hosts multiple products while providing a shared infrastructure that every product can use.
+
+Products should feel independent to users while sharing a common technical foundation.
+
+---
+
+# Ecosystem Philosophy
+
+Every product belongs to one ecosystem.
+
+Shared capabilities must exist only once.
+
+Products consume shared platform services instead of implementing their own.
+
+Future products should integrate into the ecosystem without architectural redesign.
+
+---
+
+# Long-Term Vision
+
+Build an ecosystem that can continuously expand while preserving consistency, maintainability, security, and operational simplicity.
+
+Every future product should benefit from improvements made to the shared platform.
+
+The ecosystem should scale through extension rather than duplication.
+
+---
+
+# Current Development Stage
+
+Architecture and planning have been completed.
+
+Implementation is beginning.
+
+The current objective is to build the complete Phase 1 ecosystem.
+
+The architecture is considered stable.
+
+Major redesigns are discouraged unless they provide measurable engineering benefits.
+
+---
+
+# Current Priority
+
+Current work focuses on establishing a stable production-quality ecosystem.
+
+Implementation quality is more important than implementation speed.
+
+No temporary solutions are acceptable.
+
+---
+
+# Development Strategy
+
+Development follows a layered approach.
+
+Foundation first.
+
+Shared platform second.
+
+Products third.
+
+Optimization fourth.
+
+Validation last.
+
+Every layer depends on the stability of previous layers.
+
+---
+
+# Scope Discipline
+
+Only implement functionality approved for Phase 1.
+
+Do not implement Phase 2 features.
+
+Do not implement Phase 3 features.
+
+Future capabilities should be supported through clean extension points rather than premature implementation.
+
+---
+
+# Engineering Mindset
+
+Every engineering decision should prioritize:
+
+Security
+
+Maintainability
+
+Scalability
+
+Reliability
+
+Accessibility
+
+Performance
+
+Developer Experience
+
+Operational Simplicity
+
+Implementation Convenience
+
+This priority order must remain consistent.
+
+---
+
+# AI Responsibilities
+
+Before modifying any code, AI should:
+
+Understand the existing architecture.
+
+Search for existing implementations.
+
+Reuse shared modules whenever possible.
+
+Avoid duplication.
+
+Follow project conventions.
+
+Maintain documentation consistency.
+
+Respect package boundaries.
+
+Preserve public interfaces unless improvement is objectively justified.
+
+---
+
+# AI Decision Rules
+
+When multiple implementation approaches exist, select the one that provides the strongest long-term engineering value.
+
+Do not present unnecessary choices.
+
+Do not defer decisions that can be made objectively.
+
+Prefer established engineering practices over experimental techniques.
+
+---
+
+# AI Communication Rules
+
+Implementation sessions should focus on execution.
+
+Avoid unnecessary explanations.
+
+Avoid repeating previously established rules.
+
+Avoid generating implementation plans when implementation is requested.
+
+Provide concise milestone summaries only when meaningful progress has been completed.
+
+---
+
+# Code Generation Philosophy
+
+Generated code must be:
+
+Readable
+
+Modular
+
+Reusable
+
+Strongly typed
+
+Documented where appropriate
+
+Production-ready
+
+Consistent with existing project patterns
+
+Avoid creating abstractions that are not justified by current requirements.
+
+Avoid feature creep.
+
+Avoid speculative implementations.
+
+---
+
+# Documentation Philosophy
+
+Documentation exists to support implementation.
+
+Each concept should have one authoritative source.
+
+Avoid repeating information across multiple documents.
+
+Reference existing documentation instead of duplicating content.
+
+Implementation changes must remain synchronized with documentation.
+
+---
+
+# Architecture Philosophy
+
+Architecture is stable.
+
+Favor extension over redesign.
+
+Favor composition over inheritance.
+
+Favor configuration over hardcoding.
+
+Favor reusable shared services over isolated implementations.
+
+Future products should require configuration rather than architectural modification.
+
+---
+
+# Shared Platform Philosophy
+
+Shared platform services are the foundation of the ecosystem.
+
+Products consume shared capabilities instead of implementing them independently.
+
+Business logic should remain centralized whenever practical.
+
+Shared platform quality directly determines ecosystem quality.
+
+---
+
+# User Experience Philosophy
+
+Users should experience the ecosystem as one coherent platform.
+
+Interfaces should be consistent.
+
+Navigation should be predictable.
+
+Interactions should feel familiar across every product.
+
+Accessibility and responsiveness are mandatory.
+
+---
+
+# Quality Expectations
+
+Every implementation should satisfy:
+
+Architecture consistency
+
+Security
+
+Accessibility
+
+Performance
+
+Reliability
+
+Maintainability
+
+Scalability
+
+Documentation synchronization
+
+Testing requirements
+
+Production readiness
+
+Implementation is incomplete until these expectations are met.
+
+---
+
+# Completion Philosophy
+
+Progress is measured by completed production-quality functionality.
+
+Partially implemented systems are not considered complete.
+
+Every completed subsystem should be immediately usable, maintainable, and ready for future expansion.
+
+---
+
+# Future Expansion
+
+Future phases will introduce additional capabilities.
+
+Current implementation should prepare for those capabilities through clean architecture rather than unused functionality.
+
+Build only what Phase 1 requires.
+
+Design so that Phase 2 can extend without rewriting Phase 1.
+
+---
+
+# Relationship to Other Bootstrap Documents
+
+This document explains why AROH exists and how AI should think while working on it.
+
+Engineering rules are defined by:
+
+00_ENGINEERING_CONTRACT.md
+
+Project scope is defined by:
+
+02_PHASE1_SCOPE.md
+
+Development conventions are defined by:
+
+03_DEVELOPMENT_STANDARDS.md
+
+Repository organization is defined by:
+
+04_REPOSITORY_GUIDE.md
+
+Architecture overview is defined by:
+
+05_ARCHITECTURE_SUMMARY.md
+
+Prompt execution is defined by:
+
+06_PROMPT_USAGE_GUIDE.md
+
+---
+
+End of Document

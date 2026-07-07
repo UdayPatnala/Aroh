@@ -1,0 +1,29 @@
+Document 15 — Quality Engineering & Developer Guide
+
+Document ID: DEV-001
+Version: 1.0.0
+Status: Approved
+
+1. Purpose
+This document provides guidelines for quality assurance testing, test structures, and local setup instructions.
+
+2. Quality Engineering & Testing Strategy
+Quality gates are enforced at each workspace module boundaries.
+- Unit Testing: All state selectors and pure logic functions in `packages/asdk` must be tested.
+- Integration Testing: API endpoints must be validated against request input schemas using Zod.
+- Verification Criteria:
+  - Strict type checking must pass (`tsc --noEmit`).
+  - Linter checks must run cleanly.
+  - Production build must succeed.
+
+3. Developer Guide & Onboarding
+Follow these steps to run the project locally:
+- Prerequisite: Node.js v18+ and npm installed.
+- Setup:
+  1. Clone this repository.
+  2. Install dependencies: `npm install` in the root folder.
+  3. Run the development server: `npm run dev`
+  4. The project starts in `mock` database mode if environment variables are not supplied.
+- Monorepo Dependency Reference:
+  - If packages/ads is updated, the app consumes changes instantly via workspaces symlinking.
+  - State schemas are defined in `packages/asdk/src/schemas`.

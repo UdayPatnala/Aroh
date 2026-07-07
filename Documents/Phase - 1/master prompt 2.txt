@@ -1,0 +1,46 @@
+---
+
+# Project Assets
+
+The repository contains an **Aroh/** folder that stores official project assets.
+
+Available assets include:
+
+- Official AROH Logo
+- Official AROH Wordmark / Text Logo
+- Official Intro Video
+
+These assets are considered the canonical brand assets.
+
+Whenever implementing any feature, first check whether an existing official asset satisfies the requirement before creating or replacing visual assets.
+
+Use these assets whenever appropriate, including but not limited to:
+
+- Landing Page
+- Splash / Intro
+- Hero Section
+- Navigation
+- Footer
+- Authentication Pages
+- Loading Screens
+- About Page
+- Product Pages
+- Documentation
+- Metadata
+- Social Preview Images
+- Open Graph Images
+- Favicon Generation
+- App Icons
+- Brand References
+- Promotional Sections
+- Empty States where branding improves the experience
+
+Do not recreate, redesign, replace, or modify official branding assets unless explicitly instructed.
+
+Do not generate placeholder branding if an official asset already exists.
+
+If multiple official assets are available, choose the one that best matches the current context.
+
+When implementing new features, proactively incorporate the official assets wherever they improve branding, consistency, or user experience while avoiding excessive repetition.
+
+Treat the assets in the Aroh folder as the single source of truth for project branding.

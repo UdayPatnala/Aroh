@@ -1,0 +1,31 @@
+AROH exists to solve the fragmentation commonly found across digital products by creating a unified ecosystem where multiple applications operate as one cohesive platform. Every product shares a common foundation while maintaining its own identity and purpose.
+
+The ecosystem is designed around the principle that users should authenticate once, maintain one profile, manage one digital identity, access one shared economy, and experience one consistent design language regardless of which AROH product they use.
+
+Every architectural decision must optimize for long-term sustainability rather than short-term development speed. Simplicity, maintainability, modularity, scalability, security, accessibility, and performance are considered non-negotiable engineering objectives.
+
+The platform follows a "Create Once, Use Everywhere" philosophy. Shared services, reusable components, platform infrastructure, and business logic must be centralized and reused across the ecosystem whenever possible. Duplicate implementations are prohibited unless they provide measurable architectural benefits.
+
+AROH is built using modular, event-driven architecture. Every module should have a clearly defined responsibility, minimal dependencies, and standardized interfaces to support independent development, testing, maintenance, and future expansion.
+
+The backend serves as the single source of truth for all business logic, authorization, transactions, permissions, and persistent data. Frontend applications are responsible only for presentation, user interaction, and state synchronization.
+
+Configuration must always be preferred over hardcoded implementations. Features should be enabled, customized, extended, or disabled through configuration whenever practical to maximize flexibility and reduce maintenance costs.
+
+Every system must be designed with extensibility in mind. New products, services, integrations, APIs, and platform capabilities should be added without requiring significant modification of existing architecture.
+
+Security is integrated into every layer of the ecosystem. Authentication, authorization, data validation, API protection, storage, deployment, and administrative capabilities must follow secure-by-default principles and least-privilege access.
+
+Accessibility is treated as a fundamental quality requirement. Every interface should be usable through keyboard navigation, screen readers, reduced motion preferences, responsive layouts, and sufficient visual contrast without requiring separate accessibility versions.
+
+Performance is considered a feature. Every page, API, component, animation, and background process should be optimized for fast loading, efficient rendering, minimal resource consumption, and scalable operation.
+
+Documentation is part of the product itself. No implementation should exist without corresponding documentation. All architecture, standards, APIs, schemas, workflows, and engineering decisions must remain synchronized with implementation throughout the project's lifecycle.
+
+Development progresses through strict phase gates. A phase is considered complete only when implementation, testing, documentation, security validation, accessibility verification, performance review, and architectural consistency have all been successfully completed.
+
+Artificial Intelligence is an engineering accelerator rather than a decision maker. AI-generated work must comply with the established architecture, engineering standards, security requirements, and documentation guidelines. Human-reviewed architectural consistency always takes precedence over automated generation.
+
+Technical debt should be eliminated immediately whenever practical instead of being accumulated for future resolution. Existing systems should be continuously refined without introducing unnecessary complexity or destabilizing completed functionality.
+
+The long-term objective of AROH is to establish a premium ecosystem of interconnected digital products that can continuously evolve through modular expansion while preserving architectural consistency, implementation quality, developer productivity, and an exceptional user experience.

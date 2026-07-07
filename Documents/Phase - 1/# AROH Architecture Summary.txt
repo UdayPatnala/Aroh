@@ -1,0 +1,282 @@
+# AROH Architecture Summary
+
+Version: 1.0
+
+Status: Active
+
+Classification: Immutable Bootstrap Contract
+
+Governed By:
+- 00_ENGINEERING_CONTRACT.md
+- 01_AI_CONTEXT.md
+- 02_PHASE1_SCOPE.md
+- 03_DEVELOPMENT_STANDARDS.md
+- 04_REPOSITORY_GUIDE.md
+
+---
+
+# Purpose
+
+This document provides a concise architectural overview of the AROH ecosystem.
+
+It establishes the major building blocks, their responsibilities, and their relationships.
+
+Detailed architecture documentation will be created after implementation progresses.
+
+---
+
+# Architectural Vision
+
+AROH is designed as a unified ecosystem composed of multiple products built upon a shared platform.
+
+The architecture prioritizes:
+
+- Reusability
+- Maintainability
+- Scalability
+- Security
+- Operational Simplicity
+
+The platform evolves through extension rather than duplication.
+
+---
+
+# High-Level Layers
+
+```
+Users
+    │
+    ▼
+Applications
+    │
+    ▼
+Shared Platform
+    │
+    ▼
+Infrastructure
+```
+
+Each layer depends only on the layer beneath it.
+
+Responsibilities remain clearly separated.
+
+---
+
+# Applications Layer
+
+The Applications layer contains independently deployable products.
+
+Examples include:
+
+- Main Website
+- Admin Platform
+- Future AROH Products
+
+Applications should contain presentation logic and product-specific workflows.
+
+Business rules should remain within shared platform services whenever practical.
+
+---
+
+# Shared Platform Layer
+
+The Shared Platform provides reusable capabilities for every application.
+
+Core responsibilities include:
+
+- Authentication
+- User Profiles
+- Shared SDK
+- Design System
+- Configuration
+- Notifications
+- Search
+- CMS
+- Asset Management
+- Aros Wallet
+- Shared Utilities
+- Shared Types
+
+The platform serves as the ecosystem's foundation.
+
+---
+
+# Infrastructure Layer
+
+Infrastructure provides operational services required by the platform.
+
+Examples include:
+
+- Firebase Authentication
+- Firestore
+- Cloud Storage
+- Hosting
+- CI/CD
+- Monitoring
+- Logging
+- Environment Configuration
+
+Infrastructure details remain abstracted behind platform services whenever possible.
+
+---
+
+# Data Flow
+
+Standard request flow:
+
+```
+User
+    │
+    ▼
+Application
+    │
+    ▼
+Shared Platform Service
+    │
+    ▼
+Infrastructure
+    │
+    ▼
+Shared Platform Service
+    │
+    ▼
+Application
+    │
+    ▼
+User
+```
+
+Business logic should execute within shared services rather than application code.
+
+---
+
+# Shared Design System (ADS)
+
+ADS provides:
+
+- Design Tokens
+- Typography
+- Colors
+- Icons
+- Layout
+- Motion
+- Shared Components
+- Accessibility Standards
+
+Every application consumes the same design system.
+
+Visual consistency is mandatory.
+
+---
+
+# Shared SDK (ASDK)
+
+ASDK provides:
+
+- API Client
+- Authentication Utilities
+- Shared Hooks
+- Configuration Access
+- Storage Utilities
+- Common Services
+- Feature Registration
+
+Applications communicate with the platform through ASDK rather than direct implementation.
+
+---
+
+# Configuration Strategy
+
+Configuration is centralized.
+
+Examples include:
+
+- Environment Variables
+- Feature Flags
+- Platform Settings
+- Runtime Configuration
+
+Configuration replaces hardcoded behavior wherever practical.
+
+---
+
+# Security Model
+
+Security follows a layered approach.
+
+Authentication precedes authorization.
+
+Authorization precedes business logic.
+
+Business logic precedes data access.
+
+Client-side validation complements but never replaces server-side validation.
+
+---
+
+# Scalability Strategy
+
+The ecosystem scales through:
+
+- Shared Packages
+- Modular Applications
+- Stable Interfaces
+- Clear Ownership
+- Extension Points
+
+New products should integrate without restructuring the repository.
+
+---
+
+# Phase 1 Architectural Boundary
+
+Only architecture required to support approved Phase 1 functionality shall be implemented.
+
+Future capabilities must be supported through clean extension points.
+
+Future functionality shall not be implemented prematurely.
+
+---
+
+# Architectural Integrity
+
+The following are prohibited:
+
+- Circular Dependencies
+- Duplicated Business Logic
+- Cross-Application Coupling
+- Hardcoded Platform Behavior
+- Hidden Dependencies
+- Architectural Drift
+
+---
+
+# Relationship to Other Bootstrap Documents
+
+Engineering governance is defined by:
+
+00_ENGINEERING_CONTRACT.md
+
+Project philosophy is defined by:
+
+01_AI_CONTEXT.md
+
+Phase scope is defined by:
+
+02_PHASE1_SCOPE.md
+
+Development conventions are defined by:
+
+03_DEVELOPMENT_STANDARDS.md
+
+Repository organization is defined by:
+
+04_REPOSITORY_GUIDE.md
+
+Prompt execution workflow is defined by:
+
+06_PROMPT_USAGE_GUIDE.md
+
+---
+
+End of Document

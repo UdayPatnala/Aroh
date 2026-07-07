@@ -1,0 +1,183 @@
+Document 01 — AROH Constitution
+
+Document ID: GOV-001
+Version: 1.0.0
+Status: Draft → Frozen after Phase 0 Approval
+
+1. Purpose
+
+The AROH Constitution is the highest-authority document within the AROH ecosystem.
+
+It defines the immutable principles, architectural governance, engineering philosophy, and decision hierarchy that guide every product, service, repository, document, and implementation.
+
+No document, feature, or architectural decision may contradict this constitution.
+
+2. Vision
+
+Build a premium ecosystem of interconnected digital products that empower users through simplicity, reliability, scalability, and continuous growth.
+
+Every product should feel like part of one ecosystem rather than an isolated application.
+
+3. Mission
+
+Create a modular, maintainable, secure, and scalable software ecosystem that can evolve for years while remaining manageable by a solo developer with AI-assisted development.
+
+4. Core Values
+Simplicity over complexity.
+Consistency over customization.
+Reusability over duplication.
+Scalability over shortcuts.
+Security by default.
+Performance first.
+Accessibility for everyone.
+Documentation before implementation.
+Automation wherever practical.
+Continuous improvement without unnecessary rewrites.
+5. Engineering Philosophy
+
+AROH follows these permanent principles:
+
+Single Source of Truth
+Create Once, Use Everywhere
+Zero Duplicate Logic
+Zero Duplicate Components
+Zero Duplicate Files
+Backend as the Authority
+Frontend as a Presentation Layer
+Configuration over Hardcoding
+Composition over Inheritance where practical
+Event-Driven Synchronization
+Universal Shared Services
+Modular Architecture
+Plugin-Based Expansion
+Three-Use Rule
+Zero Technical Debt
+Architecture Freeze Rule
+Phase Completion Gates
+6. Product Philosophy
+
+AROH is an ecosystem, not a single application.
+
+All products must integrate through shared infrastructure while maintaining clear product boundaries.
+
+Shared capabilities include:
+
+Authentication
+User Profiles
+Aros Economy
+Notifications
+Membership
+Design System (ADS)
+SDK (ASDK)
+Shared Services
+7. Architecture Principles
+
+The architecture must prioritize:
+
+Maintainability
+Scalability
+Security
+Performance
+Developer Experience
+Low Operational Cost
+Future Extensibility
+
+New technologies may only be adopted when they provide measurable improvements in these areas.
+
+8. Development Principles
+
+Every feature must:
+
+Be documented before implementation.
+Be tested before completion.
+Follow shared standards.
+Avoid unnecessary complexity.
+Reuse existing modules whenever possible.
+Support future ecosystem expansion.
+9. Documentation Principles
+
+Documentation is treated as part of the product.
+
+Every document must:
+
+Have a clear purpose.
+Reference related documents.
+Avoid duplicated information.
+Remain synchronized with architectural decisions.
+Be implementation-ready.
+10. Decision Hierarchy
+
+When conflicts arise, precedence is:
+
+Constitution
+Architecture Decisions (ADRs)
+Product Requirements Document (PRD)
+System Architecture
+Engineering Standards
+Implementation Guides
+Source Code
+
+Higher-level documents always override lower-level documents.
+
+11. Phase Governance
+
+Development follows strict progression:
+
+Phase 0 — Foundation
+Phase 1 — MVP Ecosystem
+Phase 2 — Connected Ecosystem
+Phase 3 — Future Vision (Documentation Only)
+
+A phase cannot begin until the previous phase satisfies all quality gates.
+
+12. Quality Standards
+
+Every deliverable must satisfy:
+
+Functional correctness
+Security validation
+Performance targets
+Accessibility compliance
+Maintainability review
+Documentation synchronization
+13. Security Principles
+
+Security is built into every layer.
+
+Every feature must be designed assuming an attacker has full knowledge of the frontend. Trust is established only through backend validation, least-privilege access, secure defaults, and defense-in-depth.
+
+14. AI Development Principles
+
+AI is an engineering accelerator, not an authority.
+
+All AI-generated artifacts must be reviewed for:
+
+Correctness
+Security
+Consistency
+Maintainability
+Architectural compliance
+
+AI must follow the frozen architecture unless an objectively superior solution is demonstrated.
+
+15. Amendment Process
+
+The Constitution is intentionally stable.
+
+Changes require:
+
+Clear technical justification.
+Impact assessment across all documentation.
+Cross-reference updates.
+Architecture review.
+Documentation synchronization before approval.
+Cross References
+
+This document governs every remaining Phase 0 document, including the PRD, System Architecture, Repository Standards, Security Architecture, Development Guide, Testing Strategy, and AI Implementation Prompts.
+
+Internal Review
+✅ Architecture Review: Passed
+✅ Security Review: Passed
+✅ Scalability Review: Passed
+✅ Maintainability Review: Passed
+✅ Documentation Consistency Review: Passed

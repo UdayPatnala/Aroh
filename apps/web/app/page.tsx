@@ -88,9 +88,18 @@ export default function HomePage() {
           >
             {isAuthenticated ? (
               <>
-                <div className="hidden md:flex flex-col text-right">
-                  <span className="text-[10px] text-zinc-400 uppercase tracking-wider">Signed in as</span>
-                  <span className="text-xs font-bold text-white">{profile?.displayName}</span>
+                <div className="flex items-center gap-3">
+                  {profile?.avatarUrl ? (
+                    <img src={profile.avatarUrl} alt="Avatar" className="h-8 w-8 rounded-full object-cover border border-white/10 shadow-sm" />
+                  ) : (
+                    <div className="h-8 w-8 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 flex items-center justify-center font-bold text-xs uppercase select-none">
+                      {profile?.displayName?.charAt(0) || "U"}
+                    </div>
+                  )}
+                  <div className="hidden md:flex flex-col text-left">
+                    <span className="text-[9px] text-zinc-400 uppercase tracking-wider">Signed in as</span>
+                    <span className="text-xs font-bold text-white leading-none">{profile?.displayName}</span>
+                  </div>
                 </div>
                 <NotificationCenter />
                 <div
@@ -192,12 +201,11 @@ export default function HomePage() {
           <div className="relative aspect-video rounded-xl overflow-hidden bg-black">
             <video
               src="/aroh-intro.mp4"
-              controls
               autoPlay
               muted
               loop
               playsInline
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover pointer-events-none"
               aria-label="Official AROH Introduction Video"
             />
           </div>

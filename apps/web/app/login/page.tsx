@@ -16,6 +16,23 @@ export default function LoginPage() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [displayName, setDisplayName] = React.useState("");
+  const [forceMock, setForceMock] = React.useState(false);
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      setForceMock(localStorage.getItem("aroh_force_mock") === "true");
+    }
+  }, []);
+
+  const handleToggleMock = (checked: boolean) => {
+    setForceMock(checked);
+    if (checked) {
+      localStorage.setItem("aroh_force_mock", "true");
+    } else {
+      localStorage.removeItem("aroh_force_mock");
+    }
+    window.location.reload();
+  };
  
   React.useEffect(() => {
     if (isAuthenticated) {
@@ -62,6 +79,19 @@ export default function LoginPage() {
         <div className="flex flex-col items-center mb-6">
           <img src="/aroh-logo.png" alt="AROH Logo" className="h-12 w-12 object-contain mb-3 rounded-lg border border-white/10 shadow-lg" />
           <img src="/aroh-text.png" alt="AROH Wordmark" className="h-5 object-contain" />
+        </div>
+
+        {/* Environment Selector Toggle */}
+        <div className="flex justify-center mb-6">
+          <label className="flex items-center gap-2 text-[10px] uppercase font-bold text-zinc-500 cursor-pointer select-none bg-white/3 border border-white/5 py-1 px-3 rounded-full hover:border-amber-500/30 transition-colors">
+            <input
+              type="checkbox"
+              checked={forceMock}
+              onChange={(e) => handleToggleMock(e.target.checked)}
+              className="w-3 h-3 accent-amber-500 rounded border-white/10 focus:ring-0 focus:ring-offset-0 bg-transparent cursor-pointer"
+            />
+            Use Mock Environment
+          </label>
         </div>
         
         <h1 className="text-2xl font-bold tracking-tight text-center bg-gradient-to-r from-amber-400 via-yellow-200 to-amber-500 bg-clip-text text-transparent mb-2">

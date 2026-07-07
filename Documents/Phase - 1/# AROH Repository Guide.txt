@@ -1,0 +1,440 @@
+# AROH Repository Guide
+
+Version: 1.0
+
+Status: Active
+
+Classification: Immutable Bootstrap Contract
+
+Governed By:
+- 00_ENGINEERING_CONTRACT.md
+- 01_AI_CONTEXT.md
+- 02_PHASE1_SCOPE.md
+- 03_DEVELOPMENT_STANDARDS.md
+
+---
+
+# Purpose
+
+This document defines the high-level organization of the AROH repository.
+
+It establishes where code belongs, how projects are organized, and how reusable functionality is shared across the ecosystem.
+
+This document intentionally avoids implementation details.
+
+Detailed package documentation will be created during implementation.
+
+---
+
+# Repository Philosophy
+
+The repository represents one ecosystem.
+
+Not one application.
+
+Every project inside the repository is expected to cooperate through shared packages, shared services, and common engineering standards.
+
+The repository should scale horizontally without structural redesign.
+
+---
+
+# Repository Principles
+
+The repository shall provide:
+
+Single Source of Truth
+
+Minimal Duplication
+
+Clear Ownership
+
+Strong Separation of Concerns
+
+Predictable Organization
+
+Shared Infrastructure
+
+Independent Product Development
+
+Future Expansion
+
+---
+
+# High-Level Structure
+
+```
+aroh/
+
+├── apps/
+├── packages/
+├── docs/
+├── assets/
+├── scripts/
+├── tooling/
+├── .github/
+├── .vscode/
+├── config/
+├── tests/
+├── .env.example
+├── package.json
+├── pnpm-workspace.yaml
+├── turbo.json
+├── README.md
+└── LICENSE
+```
+
+---
+
+# apps/
+
+Contains independently deployable applications.
+
+Examples include:
+
+- Main Website
+- Admin Platform
+- Future Product Applications
+- Internal Dashboards
+- Experimental Sandboxes (development only)
+
+Applications consume shared packages.
+
+Applications should contain minimal business logic.
+
+---
+
+# packages/
+
+Contains reusable packages shared across the ecosystem.
+
+Examples include:
+
+Shared SDK
+
+Design System
+
+Authentication
+
+Configuration
+
+Utilities
+
+Hooks
+
+Types
+
+API Client
+
+Platform Services
+
+Packages should remain framework-aware only when necessary.
+
+Reusable logic belongs here.
+
+---
+
+# docs/
+
+Contains all project documentation.
+
+Examples include:
+
+Architecture
+
+Engineering Contracts
+
+Specifications
+
+Implementation Guides
+
+Reference Documentation
+
+ADRs
+
+Developer Guides
+
+Documentation is version controlled alongside implementation.
+
+---
+
+# assets/
+
+Contains shared static assets.
+
+Examples include:
+
+Logos
+
+Icons
+
+Illustrations
+
+Fonts
+
+Images
+
+Brand Assets
+
+Media
+
+Assets should remain reusable across applications.
+
+---
+
+# scripts/
+
+Contains repository automation.
+
+Examples include:
+
+Build Scripts
+
+Development Utilities
+
+Repository Maintenance
+
+Code Generation
+
+Migration Helpers
+
+Validation Scripts
+
+Scripts must remain deterministic and safe to execute repeatedly.
+
+---
+
+# tooling/
+
+Contains development tooling configuration.
+
+Examples include:
+
+ESLint
+
+Prettier
+
+TypeScript
+
+Commit Tooling
+
+Formatting Rules
+
+Development Utilities
+
+Tooling configuration should remain centralized.
+
+---
+
+# .github/
+
+Contains repository automation.
+
+Examples include:
+
+GitHub Actions
+
+Issue Templates
+
+Pull Request Templates
+
+Labels
+
+Release Workflows
+
+Automation Configuration
+
+---
+
+# .vscode/
+
+Contains recommended workspace configuration.
+
+Examples include:
+
+Extensions
+
+Editor Settings
+
+Debug Configuration
+
+Tasks
+
+Launch Profiles
+
+Workspace recommendations should improve consistency without being mandatory.
+
+---
+
+# config/
+
+Contains centralized project configuration.
+
+Examples include:
+
+Application Configuration
+
+Environment Validation
+
+Feature Flags
+
+Shared Constants
+
+Build Configuration
+
+Platform Configuration
+
+Configuration should never contain secrets.
+
+---
+
+# tests/
+
+Contains repository-level testing.
+
+Examples include:
+
+Integration Tests
+
+End-to-End Tests
+
+Shared Test Utilities
+
+Performance Tests
+
+Accessibility Tests
+
+Security Validation
+
+Individual packages may maintain local unit tests.
+
+---
+
+# Shared Ownership Rules
+
+Reusable code belongs inside packages.
+
+Application-specific code belongs inside apps.
+
+Documentation belongs inside docs.
+
+Assets belong inside assets.
+
+Automation belongs inside scripts.
+
+Configuration belongs inside config.
+
+Testing belongs inside tests.
+
+Never violate ownership boundaries.
+
+---
+
+# Dependency Direction
+
+Dependencies should move inward.
+
+Applications depend on packages.
+
+Packages should not depend on applications.
+
+Documentation depends on implementation.
+
+Implementation must never depend on documentation.
+
+Circular dependencies are prohibited.
+
+---
+
+# Reuse Strategy
+
+Before creating any new:
+
+Component
+
+Hook
+
+Utility
+
+Service
+
+Type
+
+Configuration
+
+Schema
+
+AI contributors shall search for an existing implementation.
+
+If one exists, reuse or improve it.
+
+Duplication is prohibited.
+
+---
+
+# Repository Growth
+
+Future applications shall be added by extending the existing structure.
+
+The repository structure should remain stable as products are introduced.
+
+New functionality should fit naturally into existing directories.
+
+Structural redesign should rarely be necessary.
+
+---
+
+# Naming Philosophy
+
+Repository naming conventions are defined in:
+
+03_DEVELOPMENT_STANDARDS.md
+
+This document defines structure only.
+
+---
+
+# Documentation Philosophy
+
+Repository documentation should explain:
+
+Purpose
+
+Ownership
+
+Relationships
+
+Responsibilities
+
+Implementation details belong in dedicated specification documents.
+
+---
+
+# Relationship to Other Bootstrap Documents
+
+Engineering governance is defined by:
+
+00_ENGINEERING_CONTRACT.md
+
+Project philosophy is defined by:
+
+01_AI_CONTEXT.md
+
+Implementation scope is defined by:
+
+02_PHASE1_SCOPE.md
+
+Development conventions are defined by:
+
+03_DEVELOPMENT_STANDARDS.md
+
+High-level architecture is defined by:
+
+05_ARCHITECTURE_SUMMARY.md
+
+Prompt workflow is defined by:
+
+06_PROMPT_USAGE_GUIDE.md
+
+---
+
+End of Document
