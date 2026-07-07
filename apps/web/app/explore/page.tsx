@@ -84,6 +84,50 @@ export const registeredProducts: ProductDetails[] = [
     price: 500,
     version: "v1.0.0",
     author: "AROH AI Lab"
+  },
+  {
+    id: "nebula",
+    name: "Nebula",
+    badge: "Ecosystem Service",
+    description: "AI-powered personal media intelligence platform for story-driven galleries.",
+    longDescription: "Nebula is a personal media intelligence platform for transforming collections of photos and videos into interactive, story-driven galleries. It includes a 5-stage analysis pipeline and ambient gallery builders.",
+    requiredTier: "pro",
+    price: 200,
+    version: "v1.2.0",
+    author: "Uday Patnala"
+  },
+  {
+    id: "javapath-pro",
+    name: "JavaPath Pro",
+    badge: "Developer Service",
+    description: "Interactive coding sandbox and AI mentor platform to master Java syntax.",
+    longDescription: "An interactive full-stack learning platform designed to help junior developers master Java syntax, object-oriented concepts, and enterprise software patterns through a simulated corporate ticketing system.",
+    requiredTier: "pro",
+    price: 150,
+    version: "v1.0.0",
+    author: "Uday Patnala"
+  },
+  {
+    id: "spedex",
+    name: "SpeDex",
+    badge: "Analytics",
+    description: "Fintech speed and spending analytics dashboard for budgets and tracking.",
+    longDescription: "SpeDex is a fintech workspace for tracking how fast money moves and where it goes. It blends spending and budget speed indexes into one unified analytics product.",
+    requiredTier: "pro",
+    price: 300,
+    version: "v2.0.0",
+    author: "Uday Patnala"
+  },
+  {
+    id: "music-mirror",
+    name: "Music Mirror",
+    badge: "AI Tools",
+    description: "Facial expression mapping and mood-based music recommender player.",
+    longDescription: "Emotion Music Recommender reads facial expressions in the browser using face-api.js, maps that mood to play curated tracks inside an embedded player UI.",
+    requiredTier: "basic",
+    price: 100,
+    version: "v1.0.0",
+    author: "Uday Patnala"
   }
 ];
 

@@ -4,7 +4,7 @@ import { mockWalletService, verifyMockToken, isMockEnv } from "@aroh/asdk";
 
 const RewardInputSchema = z.object({
   userId: z.string().min(1, "User ID is required"),
-  amount: z.number().positive("Amount must be greater than zero"),
+  amount: z.number(),
   description: z.string().min(3, "Description must be at least 3 characters")
 });
 

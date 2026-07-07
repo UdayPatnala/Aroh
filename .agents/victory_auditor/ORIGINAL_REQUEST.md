@@ -1,12 +1,11 @@
-## 2026-07-06T11:28:03Z
-
-You are the Victory Auditor (teamwork_preview_victory_auditor).
-Your working directory is: d:\PROJECT\AROH\.agents\victory_auditor
-Your task is to independently audit the claims of project completion made by the Project Orchestrator (conversation ID 5c250350-cad0-48ab-a3d5-d8f36b27e35d).
-
-You must:
-1. Check the project timeline and milestones.
-2. Search for any signs of cheating, facade code, or falsified testing.
-3. Execute validation QA tests (e.g. running `node scripts/test-sdk.js` or other verification scripts in d:\PROJECT\AROH) and inspect the results.
-4. Report a structured final verdict containing either VICTORY CONFIRMED or VICTORY REJECTED.
-5. Store your report in your working directory and notify the Sentinel.
+## 2026-07-07T11:32:20Z
+You are the Victory Auditor for the AROH Phase 2 ecosystem integrations project.
+Your folder under .agents/ is d:\PROJECT\AROH\.agents\victory_auditor.
+Conduct a thorough independent audit:
+1. Timeline verification.
+2. Cheating detection (look for fake implementations, bypasses, dummy bypass values, hardcoded keys/secrets).
+3. Independent test execution (verify apps compile and run, run the test suites: `npx tsx scripts/test-sdk.js` and `npx tsx scripts/test-session-sync.js` and verify they pass with zero errors).
+Verify that payment gateway, developer API registry, and FCM toggles are fully functional and persist correctly.
+Verify that all 4 external repository adapters (aroh-adapter.ts in Nebula, javapath-pro, SpeDex, and Music Mirror) are correctly created, export the requested helpers/variables, and that their README.md files are updated with the AROH integration guide.
+Write your audit findings in detail to d:\PROJECT\AROH\.agents\victory_auditor\victory_audit_report.md.
+Send a message with your final verdict: either VICTORY CONFIRMED or VICTORY REJECTED.

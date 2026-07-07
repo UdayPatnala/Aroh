@@ -32,10 +32,10 @@ const tiers: { level: MembershipLevel; name: string; price: number; description:
 
 export default function DashboardPage() {
   const router = useRouter();
-  const { user, profile, wallet, transactions, isAuthenticated, isLoading, upgradeMembership, fetchUserTransactions, sendEmailVerification, updateProfile, updateNotificationPreferences, notificationPreferences } =
+  const { user, profile, wallet, transactions, isAuthenticated, isLoading, upgradeMembership, fetchUserTransactions, sendEmailVerification, updateProfile, updateNotificationPreferences, notificationPreferences, rewardUser, addNotification } =
     usePlatformStore();
 
-  const [activeTab, setActiveTab] = React.useState<"overview" | "settings">("overview");
+  const [activeTab, setActiveTab] = React.useState<"overview" | "settings" | "developer">("overview");
   const [verificationSent, setVerificationSent] = React.useState(false);
 
   // Settings State
@@ -44,6 +44,29 @@ export default function DashboardPage() {
   const [activeTheme, setActiveTheme] = React.useState("dark");
   const [inAppPref, setInAppPref] = React.useState(true);
   const [emailPref, setEmailPref] = React.useState(true);
+
+  // Aros purchase state
+  const [isBuying, setIsBuying] = React.useState(false);
+  const [selectedPack, setSelectedPack] = React.useState<{ amount: number; price: string } | null>(null);
+  const [isPaymentLoading, setIsPaymentLoading] = React.useState(false);
+
+  // App registry state
+  const [newAppName, setNewAppName] = React.useState("");
+  const [registeredKeys, setRegisteredKeys] = React.useState<{ name: string; clientId: string; apiKey: string }[]>([]);
+
+  // FCM state
+  const [fcmEnabled, setFcmEnabled] = React.useState(false);
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("aroh_developer_apps");
+      if (stored) {
+        setRegisteredKeys(JSON.parse(stored));
+      }
+      const storedFcm = localStorage.getItem("aroh_fcm_enabled");
+      setFcmEnabled(storedFcm === "true");
+    }
+  }, []);
 
   React.useEffect(() => {
     if (profile) {
@@ -95,7 +118,53 @@ export default function DashboardPage() {
   const handleUpdatePrefs = (e: React.FormEvent) => {
     e.preventDefault();
     updateNotificationPreferences({ inApp: inAppPref, email: emailPref });
+    localStorage.setItem("aroh_fcm_enabled", fcmEnabled.toString());
     alert("Notification preferences updated!");
+  };
+
+  const handlePurchaseInitiate = (amount: number, price: string) => {
+    setSelectedPack({ amount, price });
+    setIsBuying(true);
+  };
+
+  const handleConfirmPurchase = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!user || !selectedPack) return;
+    setIsPaymentLoading(true);
+    setTimeout(async () => {
+      try {
+        await rewardUser(user.id, selectedPack.amount, `Purchased Aros via Checkout Gateway`);
+        setIsBuying(false);
+        setSelectedPack(null);
+        alert(`Success! Credited +${selectedPack.amount} Aros to your wallet.`);
+      } catch (err: any) {
+        alert(err.message || "Failed to complete transaction");
+      } finally {
+        setIsPaymentLoading(false);
+      }
+    }, 1500);
+  };
+
+  const handleRegisterApp = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newAppName.trim()) return;
+    const newApp = {
+      name: newAppName,
+      clientId: "client_" + Math.random().toString(36).substr(2, 9),
+      apiKey: "aroh_live_" + Math.random().toString(36).substr(2, 16) + Math.random().toString(36).substr(2, 16)
+    };
+    const updated = [...registeredKeys, newApp];
+    setRegisteredKeys(updated);
+    localStorage.setItem("aroh_developer_apps", JSON.stringify(updated));
+    setNewAppName("");
+    addNotification(`Registered application "${newApp.name}"`, "success");
+  };
+
+  const handleDeleteApp = (index: number) => {
+    const updated = registeredKeys.filter((_, i) => i !== index);
+    setRegisteredKeys(updated);
+    localStorage.setItem("aroh_developer_apps", JSON.stringify(updated));
+    addNotification("Application registration deleted", "info");
   };
 
   if (!isAuthenticated || !profile || !wallet) {
@@ -156,10 +225,20 @@ export default function DashboardPage() {
           >
             Account Settings
           </button>
+          <button
+            onClick={() => setActiveTab("developer")}
+            className={`px-4 py-2 border-b-2 text-sm font-semibold transition-all cursor-pointer ${
+              activeTab === "developer"
+                ? "border-amber-500 text-amber-500"
+                : "border-transparent text-zinc-400 hover:text-white"
+            }`}
+          >
+            Developer Portal
+          </button>
         </div>
 
         {/* Tab Content Rendering */}
-        {activeTab === "overview" ? (
+        {activeTab === "overview" && (
           <div className="space-y-12">
             {/* Email Verification Alert Banner */}
             {user && user.emailVerified === false && (
@@ -195,8 +274,24 @@ export default function DashboardPage() {
               <div className="bg-white/5 backdrop-blur-md border border-white/10 p-6 rounded-xl flex flex-col justify-between relative overflow-hidden">
                 <div className="absolute right-0 top-0 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl pointer-events-none" />
                 <span className="text-xs uppercase tracking-wider text-zinc-400 font-semibold mb-2 block">Aros Balance</span>
-                <span className="text-4xl font-extrabold text-amber-400 tracking-tight">{wallet.balance} Aros</span>
-                <span className="text-xs text-zinc-400 mt-4 block">Instant ledger clearance active</span>
+                <div className="flex flex-col">
+                  <span className="text-4xl font-extrabold text-amber-400 tracking-tight">{wallet.balance} Aros</span>
+                  <span className="text-xs text-zinc-400 mt-1">Instant ledger clearance active</span>
+                </div>
+                <div className="mt-4 border-t border-white/5 pt-3 space-y-2">
+                  <span className="text-[10px] uppercase font-bold text-zinc-400 block">Purchase Tokens</span>
+                  <div className="grid grid-cols-3 gap-2">
+                    <Button variant="glass" className="py-1 px-2 text-[10px]" onClick={() => handlePurchaseInitiate(100, "$1.00")}>
+                      100 Aros
+                    </Button>
+                    <Button variant="glass" className="py-1 px-2 text-[10px]" onClick={() => handlePurchaseInitiate(500, "$5.00")}>
+                      500 Aros
+                    </Button>
+                    <Button variant="glass" className="py-1 px-2 text-[10px]" onClick={() => handlePurchaseInitiate(1000, "$10.00")}>
+                      1K Aros
+                    </Button>
+                  </div>
+                </div>
               </div>
 
               <div className="bg-white/5 backdrop-blur-md border border-white/10 p-6 rounded-xl flex flex-col justify-between">
@@ -306,8 +401,9 @@ export default function DashboardPage() {
               )}
             </div>
           </div>
-        ) : (
-          /* Settings Tab content */
+        )}
+
+        {activeTab === "settings" && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Profile configuration Form */}
             <div className="lg:col-span-2 bg-white/5 border border-white/10 p-6 rounded-xl space-y-6 h-fit">
@@ -374,6 +470,18 @@ export default function DashboardPage() {
                       Enable Email Alerts
                     </label>
                   </div>
+                  <div className="flex items-center gap-3">
+                    <input
+                      id="fcmAlerts"
+                      type="checkbox"
+                      checked={fcmEnabled}
+                      onChange={(e) => setFcmEnabled(e.target.checked)}
+                      className="w-4 h-4 accent-amber-500 focus:ring-amber-500"
+                    />
+                    <label htmlFor="fcmAlerts" className="text-xs text-zinc-300 font-semibold cursor-pointer">
+                      Enable Push Notifications (FCM)
+                    </label>
+                  </div>
                   <Button type="submit" className="w-full py-2.5 text-xs font-semibold">
                     Update Preferences
                   </Button>
@@ -405,7 +513,157 @@ export default function DashboardPage() {
             </div>
           </div>
         )}
+
+        {activeTab === "developer" && (
+          <div className="bg-white/5 border border-white/10 p-6 rounded-xl space-y-6">
+            <h2 className="text-xl font-bold tracking-tight text-white">Developer API Portal</h2>
+            {profile.membershipLevel === "basic" ? (
+              <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-6 text-center space-y-4">
+                <p className="text-sm text-zinc-400">
+                  The Developer API Portal is restricted to <strong>Pro</strong> and <strong>Enterprise</strong> members.
+                </p>
+                <Button variant="primary" onClick={() => setActiveTab("overview")}>
+                  Upgrade Membership
+                </Button>
+              </div>
+            ) : (
+              <div className="space-y-8">
+                {/* Form to Register App */}
+                <form onSubmit={handleRegisterApp} className="space-y-4 max-w-md">
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
+                      New Application Name
+                    </label>
+                    <input
+                      type="text"
+                      value={newAppName}
+                      onChange={(e) => setNewAppName(e.target.value)}
+                      className="w-full px-4 py-2.5 rounded-lg bg-zinc-900 border border-white/10 text-white text-sm"
+                      placeholder="My Awesome App"
+                      required
+                    />
+                  </div>
+                  <Button type="submit" className="px-6 py-2.5 text-xs font-semibold">
+                    Register Application
+                  </Button>
+                </form>
+
+                {/* App Registry Table */}
+                <div className="border-t border-white/5 pt-6">
+                  <h3 className="text-sm font-bold text-white mb-4">Registered Credentials</h3>
+                  {registeredKeys.length === 0 ? (
+                    <p className="text-zinc-400 text-xs">No registered applications found.</p>
+                  ) : (
+                    <div className="space-y-4">
+                      {registeredKeys.map((app, idx) => (
+                        <div key={app.clientId} className="bg-white/2 border border-white/5 rounded-lg p-4 flex justify-between items-center">
+                          <div className="space-y-1 font-mono text-xs">
+                            <div className="text-sm font-bold text-white font-sans">{app.name}</div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-zinc-500">Client ID:</span> {app.clientId}
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  navigator.clipboard.writeText(app.clientId);
+                                  alert("Client ID copied to clipboard!");
+                                }}
+                                className="px-1.5 py-0.5 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white text-[10px] font-sans transition-colors cursor-pointer"
+                              >
+                                Copy
+                              </button>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-zinc-500">API Key:</span> {app.apiKey}
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  navigator.clipboard.writeText(app.apiKey);
+                                  alert("API Key copied to clipboard!");
+                                }}
+                                className="px-1.5 py-0.5 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white text-[10px] font-sans transition-colors cursor-pointer"
+                              >
+                                Copy
+                              </button>
+                            </div>
+                          </div>
+                          <Button variant="glass" className="text-rose-500 hover:text-rose-400 text-xs" onClick={() => handleDeleteApp(idx)}>
+                            Delete
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </div>
+
+      {/* Checkout Modal */}
+      {isBuying && selectedPack && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
+          <div className="bg-zinc-900 border border-white/10 rounded-xl p-6 max-w-md w-full space-y-6">
+            <div>
+              <h3 className="text-lg font-bold text-white">Confirm Token Purchase</h3>
+              <p className="text-zinc-400 text-xs mt-1">
+                You are purchasing {selectedPack.amount} Aros tokens for {selectedPack.price}.
+              </p>
+            </div>
+            <form onSubmit={handleConfirmPurchase} className="space-y-4">
+              <div className="space-y-1">
+                <label className="block text-[10px] uppercase font-bold text-zinc-400">Cardholder Name</label>
+                <input
+                  type="text"
+                  placeholder="John Doe"
+                  className="w-full px-4 py-2 rounded-lg bg-zinc-950 border border-white/10 text-white text-xs focus:outline-none focus:border-amber-500"
+                  required
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="block text-[10px] uppercase font-bold text-zinc-400">Card Number</label>
+                <input
+                  type="text"
+                  placeholder="4111 2222 3333 4444"
+                  maxLength={19}
+                  className="w-full px-4 py-2 rounded-lg bg-zinc-950 border border-white/10 text-white text-xs focus:outline-none focus:border-amber-500"
+                  required
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-1">
+                  <label className="block text-[10px] uppercase font-bold text-zinc-400">Expiry (MM/YY)</label>
+                  <input
+                    type="text"
+                    placeholder="12/28"
+                    maxLength={5}
+                    className="w-full px-4 py-2 rounded-lg bg-zinc-950 border border-white/10 text-white text-xs focus:outline-none focus:border-amber-500"
+                    required
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="block text-[10px] uppercase font-bold text-zinc-400">CVV</label>
+                  <input
+                    type="password"
+                    placeholder="123"
+                    maxLength={4}
+                    className="w-full px-4 py-2 rounded-lg bg-zinc-950 border border-white/10 text-white text-xs focus:outline-none focus:border-amber-500"
+                    required
+                  />
+                </div>
+              </div>
+              <div className="flex gap-4 pt-2">
+                <Button type="button" variant="glass" className="flex-1 text-xs" onClick={() => { setIsBuying(false); setSelectedPack(null); }} disabled={isPaymentLoading}>
+                  Cancel
+                </Button>
+                <Button type="submit" variant="primary" className="flex-1 text-xs" disabled={isPaymentLoading}>
+                  {isPaymentLoading ? "Processing..." : "Pay Now"}
+                </Button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

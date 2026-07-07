@@ -1,18 +1,24 @@
-# Project Context — AROH Phase 2
+# Project Context — AROH Phase 2 Ecosystem Expansion & Integrations
 
 ## Overview
-Phase 2 focuses on expanding the AROH Ecosystem Platform foundation with:
-1. R1: Aros Metrics Engine Dashboard (using `recharts` for simulated live admin charts).
-2. R2: Ecosystem-Wide Search (interactive search across products, CMS announcements, and documentation on Explore Hub and Command Palette).
-3. R3: Scheduled CMS Alerts (configure publication dates for announcements, hidden on homepage until scheduled time).
-4. R4: Local SSO Session Sync (synchronize auth state using localStorage events across tabs, redirecting to /login).
+Phase 2 follow-up expands AROH with dashboard features and external project integration:
+1. **Dashboard Integrations** (`apps/web/app/dashboard/page.tsx`):
+   - **Aros Purchase Panel**: Checkout gateway modal, pack selection (100, 500, 1000 Aros), reward credit transaction.
+   - **Developer API Portal**: Tab for Pro & Enterprise users to manage Client IDs / API keys (persisted in local storage `aroh_developer_apps`).
+   - **FCM preferences toggle**: Cloud Messaging toggle inside settings.
+2. **External Project Adapters**:
+   - Create `aroh-adapter.ts` in `Nebula`, `javapath-pro`, `SpeDex` (Spedex), and `Music Mirror`.
+   - Adapters redirect to AROH SSO, check tokens, and query wallets.
+3. **Ecosystem Guides**:
+   - Update READMEs in external repos with integration guides.
+4. **Verification**:
+   - Next.js build verification and scripts execution (`test-sdk.js` and `test-session-sync.js`).
 
-## Architectural Foundations
-- **Web App**: Next.js App Router project in `apps/web`.
-- **Packages**: Shared packages under `packages/` (e.g., `@aroh/asdk` for SDK services, `@aroh/ads` for advertisement components).
-- **Database**: Firebase Firestore is used for backend services, with rules defined in `firestore.rules`.
-- **Dependencies**: React 19, Next.js 16, recharts 2.12.0, zustand 5.0.0, zod, firebase-admin.
-
-## Constraints & Requirements
-- Strictly follow DISPATCH-ONLY rules: Orchestrator plans and coordinates, delegates code modifications and verification to specialist agents.
-- Ensure strict TypeScript compliance, unused import cleanups, and App Router relative import depth checks.
+## Architectural Context
+- **Sibling Folders**:
+  - `d:\PROJECT\Nebula`
+  - `d:\PROJECT\javapath-pro`
+  - `d:\PROJECT\Spedex`
+  - `d:\PROJECT\Music Mirror`
+- **Primary Repo**:
+  - `d:\PROJECT\AROH`

@@ -1,15 +1,16 @@
-# AROH Phase 2 Implementation Plan
+# AROH Phase 2 Ecosystem Expansion & Integrations Plan
 
 ## Strategy
 1. **Exploration**: Spawn a codebase Explorer agent to investigate:
-   - The current authentication setup (Zustand store or React Context in `@aroh/asdk` or `apps/web/app`).
-   - The structure of the CMS announcement collection in Firestore, how announcements are published, and where they are retrieved.
-   - The search inputs and filters in the Explore Hub and the Command Palette component.
-   - The administrative metrics panel/dashboard structure and how `recharts` is currently imported or should be integrated.
-2. **Decomposition**: Based on the Explorer's findings, refine `PROJECT.md` with concrete milestones for:
-   - **Milestone 1**: Local SSO Session Sync (R4)
-   - **Milestone 2**: Scheduled CMS Alerts (R3)
-   - **Milestone 3**: Ecosystem-Wide Search (R2)
-   - **Milestone 4**: Aros Metrics Engine Dashboard (R1)
-3. **Execution**: For each milestone, spawn a Worker to make the code changes, followed by Reviewers, Challengers, and a Forensic Auditor to ensure correctness, robustness, and integrity.
-4. **Verification**: Run tests (unit and E2E) across all features and verify complete compliance with AROH project rules (no unused imports, proper relative paths, etc.).
+   - Sibling repositories (`Nebula`, `javapath-pro`, `Spedex`, `Music Mirror`) structures, source folders, dependency maps, and how they should reference `@aroh/asdk`.
+   - The current `apps/web/app/dashboard/page.tsx` implementation details, specifically how modal state, layout, tabs, and alerts are constructed, to fit the new UI features.
+   - Verify the location and function of `scripts/test-sdk.js` and `scripts/test-session-sync.js`.
+2. **Decomposition**: Decompose work into:
+   - **Milestone 1**: Dashboard UI Integrations (Aros Purchase Panel, Developer API Portal, FCM toggle settings).
+   - **Milestone 2**: Sibling Adapters Creation (Creating `aroh-adapter.ts` in all 4 external projects referencing `@aroh/asdk`).
+   - **Milestone 3**: Ecosystem Integration documentation in external READMEs.
+   - **Milestone 4**: Final QA Validation (building the project and running all test scripts).
+3. **Execution**:
+   - Dispatch workers to perform the modifications and run builds/tests.
+   - Dispatch reviewers/challengers/auditors to verify changes.
+4. **Verification & Audit**: Run the Forensic Auditor and the automated tests.
