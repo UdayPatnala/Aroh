@@ -18,11 +18,11 @@
 ## Milestones
 | # | Name | Scope | Dependencies | Status |
 |---|------|-------|-------------|--------|
-| 1 | M1: SSO Session Sync | Sync auth state via localStorage event, redirect to /login on logout. | None | IN_PROGRESS (Conv: 3782e5fe-5e92-40c1-8122-0fcd1209a807) |
-| 2 | M2: Scheduled CMS Alerts | Configure publication date in CMS, hide future announcements on homepage. | None | IN_PROGRESS (Conv: 4fddf5b7-c785-4342-b113-2ec8d8cc3ea2) |
-| 3 | M3: Ecosystem Search | Search across CMS, products, and docs on Explore Hub & Command Palette. | M2 | PLANNED |
-| 4 | M4: Metrics Dashboard | Render 3 simulated Recharts graphs on administrative metrics panel. | None | IN_PROGRESS (Conv: 2edd90c2-3b26-40ac-b4ad-8c10f9135877) |
-| 5 | M5: E2E Integration | Run all tests (Tier 1-4) and verify all Phase 2 requirements pass. | M1, M2, M3, M4 | PLANNED |
+| 1 | M1: SSO Session Sync | Sync auth state via localStorage event, redirect to /login on logout. | None | COMPLETED |
+| 2 | M2: Scheduled CMS Alerts | Configure publication date in CMS, hide future announcements on homepage. | None | COMPLETED |
+| 3 | M3: Ecosystem Search | Search across CMS, products, and docs on Explore Hub & Command Palette. | M2 | COMPLETED |
+| 4 | M4: Metrics Dashboard | Render 3 simulated Recharts graphs on administrative metrics panel. | None | COMPLETED |
+| 5 | M5: E2E Integration | Run all tests (Tier 1-4) and verify all Phase 2 requirements pass. | M1, M2, M3, M4 | COMPLETED |
 | 6 | M6: Adversarial Hardening | Implement Tier 5 challenger checks for edge cases and security integrity. | M5 | PLANNED |
 
 ## Interface Contracts
