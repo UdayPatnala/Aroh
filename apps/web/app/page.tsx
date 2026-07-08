@@ -74,8 +74,7 @@ export default function HomePage() {
             }}
           >
             <img src="/aroh-logo.png" alt="AROH Logo" className="h-8 w-8 object-contain rounded-md border border-white/10" />
-            <img src="/aroh-text.png" alt="AROH Wordmark" className="h-5 object-contain hidden sm:block" />
-            <span className="font-extrabold tracking-widest text-sm bg-gradient-to-r from-amber-400 via-yellow-100 to-amber-500 bg-clip-text text-transparent sm:hidden">
+            <span className="font-extrabold tracking-[0.25em] text-lg bg-gradient-to-r from-amber-400 via-yellow-100 to-amber-500 bg-clip-text text-transparent">
               AROH
             </span>
           </motion.div>

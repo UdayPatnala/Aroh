@@ -172,6 +172,15 @@ export default function ProductDetailPage() {
                 >
                   {isLaunching ? "Launching App..." : "Launch Application"}
                 </Button>
+                {product.url && (
+                  <Button
+                    variant="glass"
+                    onClick={() => window.open(product.url, "_blank")}
+                    className="px-6 py-3 text-xs text-amber-400 border-amber-500/20 hover:border-amber-500/50"
+                  >
+                    Open GitHub Project ↗
+                  </Button>
+                )}
                 <span className="text-xs text-emerald-400 font-semibold flex items-center gap-2">
                   <span className="w-2 h-2 bg-emerald-400 rounded-full animate-ping" />
                   Ecosystem License Active

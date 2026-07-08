@@ -16,6 +16,7 @@ export interface ProductDetails {
   price: number;
   version: string;
   author: string;
+  url?: string;
 }
 
 export const registeredProducts: ProductDetails[] = [
@@ -94,7 +95,8 @@ export const registeredProducts: ProductDetails[] = [
     requiredTier: "pro",
     price: 200,
     version: "v1.2.0",
-    author: "Uday Patnala"
+    author: "Uday Patnala",
+    url: "https://github.com/UdayPatnala/nebula"
   },
   {
     id: "javapath-pro",
@@ -105,7 +107,8 @@ export const registeredProducts: ProductDetails[] = [
     requiredTier: "pro",
     price: 150,
     version: "v1.0.0",
-    author: "Uday Patnala"
+    author: "Uday Patnala",
+    url: "https://github.com/UdayPatnala/Java-Path"
   },
   {
     id: "spedex",
@@ -116,7 +119,8 @@ export const registeredProducts: ProductDetails[] = [
     requiredTier: "pro",
     price: 300,
     version: "v2.0.0",
-    author: "Uday Patnala"
+    author: "Uday Patnala",
+    url: "https://github.com/UdayPatnala/Spedex"
   },
   {
     id: "music-mirror",
@@ -127,7 +131,8 @@ export const registeredProducts: ProductDetails[] = [
     requiredTier: "basic",
     price: 100,
     version: "v1.0.0",
-    author: "Uday Patnala"
+    author: "Uday Patnala",
+    url: "https://github.com/UdayPatnala/music-mirror"
   }
 ];
 

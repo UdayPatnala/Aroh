@@ -77,8 +77,10 @@ export default function LoginPage() {
         className="w-full max-w-md bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-2xl shadow-2xl relative z-10"
       >
         <div className="flex flex-col items-center mb-6">
-          <img src="/aroh-logo.png" alt="AROH Logo" className="h-12 w-12 object-contain mb-3 rounded-lg border border-white/10 shadow-lg" />
-          <img src="/aroh-text.png" alt="AROH Wordmark" className="h-5 object-contain" />
+          <img src="/aroh-logo.png" alt="AROH Logo" className="h-12 w-12 object-contain mb-2 rounded-lg border border-white/10 shadow-lg" />
+          <span className="font-extrabold tracking-[0.3em] text-xl bg-gradient-to-r from-amber-400 via-yellow-100 to-amber-500 bg-clip-text text-transparent">
+            AROH
+          </span>
         </div>
 
         {/* Environment Selector Toggle */}
