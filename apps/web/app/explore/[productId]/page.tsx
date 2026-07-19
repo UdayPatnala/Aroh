@@ -5,6 +5,7 @@ import { useRouter, useParams } from "next/navigation";
 import { usePlatformStore } from "@aroh/asdk";
 import { Button } from "@aroh/ads";
 import { registeredProducts } from "../page";
+import InteractiveWorkspace from "./interactive-workspace";
 
 export default function ProductDetailPage() {
   const router = useRouter();
@@ -13,6 +14,7 @@ export default function ProductDetailPage() {
   
   const [logs, setLogs] = React.useState<string[]>([]);
   const [isLaunching, setIsLaunching] = React.useState(false);
+  const [isLaunched, setIsLaunched] = React.useState(false);
 
   const productId = params.productId as string;
   const product = registeredProducts.find((p) => p.id === productId);
@@ -53,6 +55,7 @@ export default function ProductDetailPage() {
     setTimeout(() => {
       setLogs((prev) => [...prev, `[SUCCESS] ${product.name} initialized. Workspace ready.`]);
       setIsLaunching(false);
+      setIsLaunched(true);
     }, 1800);
   };
 
@@ -160,6 +163,26 @@ export default function ProductDetailPage() {
                   Refill Balance
                 </Button>
               </div>
+            </div>
+          ) : isLaunched ? (
+            <div className="space-y-6">
+              <div className="flex justify-between items-center bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-4 text-emerald-400">
+                <span className="text-xs font-semibold flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-ping" />
+                  Active Workspace Session: {product.name}
+                </span>
+                <Button
+                  variant="glass"
+                  className="text-xs text-zinc-400 hover:text-white py-1 px-3 border-white/10 hover:border-white/20"
+                  onClick={() => {
+                    setIsLaunched(false);
+                    setLogs([]);
+                  }}
+                >
+                  Terminate Session
+                </Button>
+              </div>
+              <InteractiveWorkspace productId={product.id} />
             </div>
           ) : (
             <div className="space-y-6">

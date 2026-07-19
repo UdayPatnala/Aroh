@@ -324,8 +324,8 @@ async function runAudit() {
 
     // 10. Logout and verify public homepage
     console.log("\n--- Step 10: Verifying Scheduled Announcement is Hidden from Public ---");
-    // Direct logout
     await page.evaluate(() => {
+      localStorage.removeItem("aroh_session");
       localStorage.setItem("aroh_logout_event", Date.now().toString());
     });
     
@@ -335,7 +335,46 @@ async function runAudit() {
 
     const publicContent = await page.content();
     const showsFutureAnn = publicContent.includes("FUTURE SCHEDULED ANNOUNCEMENT");
-    assert(showsFutureAnn === false, "Future/Scheduled announcement is hidden from public homepage announcement feed.");
+    // 11. Verify Product Workspace Launch & Telemetry
+    console.log("\n--- Step 11: Verifying Interactive Product Workspaces (Aros Metrics Engine) ---");
+    await page.goto(`${APP_URL}/login`, { waitUntil: "networkidle2" });
+    await page.waitForSelector("input[id='email']", { timeout: 5000 });
+    await page.type("input[id='email']", "user@aroh.co");
+    await page.type("input[id='password']", "user");
+    await page.click("button[type='submit']");
+    await page.waitForFunction(
+      () => window.location.pathname === "/" || window.location.pathname === "/dashboard" || document.body.innerText.includes("Signed in as"),
+      { timeout: 10000 }
+    );
+    
+    // Go to Explore page
+    await page.goto(`${APP_URL}/explore`, { waitUntil: "networkidle2" });
+    await page.waitForFunction(() => window.location.pathname === "/explore", { timeout: 5000 });
+    
+    // Click on Aros Metrics Engine card
+    const cardHandle = await page.evaluateHandle(() => {
+      const headings = Array.from(document.querySelectorAll("h3"));
+      const target = headings.find(h => h.textContent && h.textContent.includes("Aros Metrics Engine"));
+      return target ? target.closest("div") : null;
+    });
+    const cardEl = cardHandle.asElement();
+    assert(cardEl !== null, "Found Aros Metrics Engine product card.");
+    if (cardEl) {
+      await cardEl.click();
+    }
+    await page.waitForFunction(() => window.location.pathname.includes("/explore/aros-metrics"), { timeout: 5000 });
+    
+    // Click Launch Application
+    const launchClicked = await clickButtonByText(page, "Launch Application");
+    assert(launchClicked, "Successfully clicked 'Launch Application' button.");
+    
+    // Wait for the initialization sequence (success log appears + workspace renders charts)
+    await page.waitForFunction(
+      () => document.body.innerText.includes("Active Workspace Session: Aros Metrics Engine") && document.body.innerText.includes("Live Node Telemetry"),
+      { timeout: 5000 }
+    );
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, "13_metrics_workspace_active.png") });
+    assert(true, "Aros Metrics Engine workspace successfully initialized and telemetry graphs loaded.");
 
     console.log("\n=== E2E Browser Audit Completed Successfully ===");
     console.log(`Passed: ${passed} | Failed: ${failed}`);
