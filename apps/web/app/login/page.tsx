@@ -85,7 +85,7 @@ export default function LoginPage() {
 
         {/* Environment Selector Toggle */}
         <div className="flex justify-center mb-6">
-          <label className="flex items-center gap-2 text-[10px] uppercase font-bold text-zinc-500 cursor-pointer select-none bg-white/3 border border-white/5 py-1 px-3 rounded-full hover:border-amber-500/30 transition-colors">
+          <label className="flex items-center gap-2 text-[10px] uppercase font-bold text-zinc-400 cursor-pointer select-none bg-white/3 border border-white/5 py-1 px-3 rounded-full hover:border-amber-500/30 transition-colors">
             <input
               type="checkbox"
               checked={forceMock}

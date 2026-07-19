@@ -21,7 +21,7 @@ const AdminCharts = dynamic(() => import("../components/admin-charts"), {
 
 export default function AdminPage() {
   const router = useRouter();
-  const { user, isAuthenticated, rewardUser } = usePlatformStore();
+  const { user, isAuthenticated, isRehydrated, rewardUser } = usePlatformStore();
 
   const [targetUserId, setTargetUserId] = React.useState("user-id");
   const [creditAmount, setCreditAmount] = React.useState("100");
@@ -38,12 +38,13 @@ export default function AdminPage() {
   }, []);
 
   React.useEffect(() => {
+    if (!isRehydrated) return;
     if (!isAuthenticated) {
       router.push("/login");
     } else if (user?.role === "admin") {
       fetchGlobal();
     }
-  }, [isAuthenticated, user, router, fetchGlobal]);
+  }, [isAuthenticated, isRehydrated, user, router, fetchGlobal]);
 
   const hasAccess = user?.role === "admin";
 
@@ -61,7 +62,7 @@ export default function AdminPage() {
     }
   };
 
-  if (!isAuthenticated) {
+  if (!isRehydrated || !isAuthenticated) {
     return (
       <div className="min-h-screen bg-[#0a0a0c] flex justify-center items-center text-white">
         <span className="w-8 h-8 border-4 border-amber-500 border-t-transparent rounded-full animate-spin" />

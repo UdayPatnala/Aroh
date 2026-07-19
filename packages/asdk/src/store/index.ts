@@ -3,6 +3,19 @@ import type { User, Profile, Wallet, Transaction, Announcement, MembershipLevel,
 import { mockAuthService, mockWalletService, mockCmsService, isMockEnv, getAuthToken } from "../services/firebase";
 import { signMockToken } from "../services/token";
 
+const saveSessionToStorage = (user: any, profile: any, wallet: any, token: any) => {
+  if (typeof window !== "undefined" && window.localStorage) {
+    window.localStorage.setItem("aroh_session", JSON.stringify({ user, profile, wallet, token }));
+  }
+};
+
+const clearSessionFromStorage = () => {
+  if (typeof window !== "undefined" && window.localStorage) {
+    window.localStorage.removeItem("aroh_session");
+  }
+};
+
+
 export interface PlatformNotification {
   id: string;
   message: string;
@@ -18,6 +31,7 @@ export interface PlatformState {
   wallet: Wallet | null;
   token: string | null;
   isAuthenticated: boolean;
+  isRehydrated: boolean;
   isLoading: boolean;
   error: string | null;
 
@@ -52,6 +66,7 @@ export interface PlatformState {
   addNotification: (message: string, type: string) => void;
   markNotificationsAsRead: () => void;
   updateNotificationPreferences: (prefs: { email: boolean; inApp: boolean }) => void;
+  rehydrateSession: () => void;
 }
 
 export const usePlatformStore = create<PlatformState>((set, get) => ({
@@ -60,6 +75,7 @@ export const usePlatformStore = create<PlatformState>((set, get) => ({
   wallet: null,
   token: null,
   isAuthenticated: false,
+  isRehydrated: false,
   isLoading: false,
   error: null,
   transactions: [],
@@ -86,8 +102,10 @@ export const usePlatformStore = create<PlatformState>((set, get) => ({
         wallet: data.wallet,
         token,
         isAuthenticated: true,
+        isRehydrated: true,
         isLoading: false
       });
+      saveSessionToStorage(data.user, data.profile, data.wallet, token);
       // Pre-fetch transactions
       await get().fetchUserTransactions();
       get().addNotification(`Successfully signed in as ${data.profile.displayName}`, "info");
@@ -113,8 +131,10 @@ export const usePlatformStore = create<PlatformState>((set, get) => ({
         wallet: data.wallet,
         token,
         isAuthenticated: true,
+        isRehydrated: true,
         isLoading: false
       });
+      saveSessionToStorage(data.user, data.profile, data.wallet, token);
       await get().fetchUserTransactions();
       get().addNotification("Welcome to the AROH Ecosystem Platform!", "success");
     } catch (err: any) {
@@ -130,12 +150,14 @@ export const usePlatformStore = create<PlatformState>((set, get) => ({
         window.localStorage.setItem("aroh_logout_event", Date.now().toString());
       }
     }
+    clearSessionFromStorage();
     set({
       user: null,
       profile: null,
       wallet: null,
       token: null,
       isAuthenticated: false,
+      isRehydrated: true,
       transactions: [],
       notifications: []
     });
@@ -170,6 +192,7 @@ export const usePlatformStore = create<PlatformState>((set, get) => ({
         wallet: data.wallet,
         isLoading: false
       });
+      saveSessionToStorage(get().user, data.profile, data.wallet, get().token);
       // Append transaction locally
       set((state) => ({
         transactions: [data.transaction, ...state.transactions]
@@ -208,6 +231,7 @@ export const usePlatformStore = create<PlatformState>((set, get) => ({
       const currentUser = get().user;
       if (currentUser && currentUser.id === userId) {
         set({ wallet: data.wallet });
+        saveSessionToStorage(currentUser, get().profile, data.wallet, get().token);
         set((state) => ({
           transactions: [data.transaction, ...state.transactions]
         }));
@@ -320,6 +344,7 @@ export const usePlatformStore = create<PlatformState>((set, get) => ({
     try {
       const updatedProfile = await mockAuthService.updateProfile(user.id, displayName, avatarUrl);
       set({ profile: updatedProfile, isLoading: false });
+      saveSessionToStorage(user, updatedProfile, get().wallet, get().token);
       get().addNotification("Profile details updated successfully", "success");
     } catch (err: any) {
       set({ error: err.message || "Failed to update profile", isLoading: false });
@@ -349,5 +374,30 @@ export const usePlatformStore = create<PlatformState>((set, get) => ({
 
   updateNotificationPreferences: (prefs) => {
     set({ notificationPreferences: prefs });
+  },
+
+  rehydrateSession: () => {
+    if (typeof window === "undefined" || !window.localStorage) {
+      set({ isRehydrated: true });
+      return;
+    }
+    const sessionStr = window.localStorage.getItem("aroh_session");
+    if (sessionStr) {
+      try {
+        const { user, profile, wallet, token } = JSON.parse(sessionStr);
+        set({
+          user,
+          profile,
+          wallet,
+          token,
+          isAuthenticated: true,
+          isRehydrated: true
+        });
+        return;
+      } catch (e) {
+        console.error("Failed to parse stored session:", e);
+      }
+    }
+    set({ isRehydrated: true });
   }
 }));

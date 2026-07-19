@@ -16,7 +16,7 @@ const formatForDateTimeLocal = (dateString?: string) => {
 
 export default function CmsPage() {
   const router = useRouter();
-  const { user, allAnnouncements, fetchAllAnnouncements, upsertAnnouncement, deleteAnnouncement, isAuthenticated } =
+  const { user, allAnnouncements, fetchAllAnnouncements, upsertAnnouncement, deleteAnnouncement, isAuthenticated, isRehydrated } =
     usePlatformStore();
 
   const [id, setId] = React.useState<string | undefined>(undefined);
@@ -34,12 +34,13 @@ export default function CmsPage() {
   }, []);
 
   React.useEffect(() => {
+    if (!isRehydrated) return;
     if (!isAuthenticated) {
       router.push("/login");
     } else {
       fetchAllAnnouncements();
     }
-  }, [isAuthenticated, router, fetchAllAnnouncements]);
+  }, [isAuthenticated, isRehydrated, router, fetchAllAnnouncements]);
 
   const hasAccess = user?.role === "admin" || user?.role === "operator";
 
@@ -89,7 +90,7 @@ export default function CmsPage() {
     }
   };
 
-  if (!isAuthenticated) {
+  if (!isRehydrated || !isAuthenticated) {
     return (
       <div className="min-h-screen bg-[#0a0a0c] flex justify-center items-center text-white">
         <span className="w-8 h-8 border-4 border-amber-500 border-t-transparent rounded-full animate-spin" />

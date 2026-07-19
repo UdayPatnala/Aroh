@@ -8,6 +8,11 @@ export default function SessionSync() {
   const router = useRouter();
   const isAuthenticated = usePlatformStore((state) => state.isAuthenticated);
   const logout = usePlatformStore((state) => state.logout);
+  const rehydrateSession = usePlatformStore((state) => state.rehydrateSession);
+
+  useEffect(() => {
+    rehydrateSession();
+  }, [rehydrateSession]);
 
   useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
@@ -27,3 +32,4 @@ export default function SessionSync() {
 
   return null;
 }
+

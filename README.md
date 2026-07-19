@@ -33,29 +33,37 @@ The platform's architecture is frozen as follows:
 
 ---
 
-## 📁 Monorepo Layout
+## 📁 Scalable Ecosystem Monorepo Layout
 
 ```
 d:/PROJECT/AROH/
 ├── apps/
-│   └── web/                   # Next.js App Router Platform
-│       ├── app/               # App Router pages and API routes
+│   └── web/                   # Central Next.js App Router Platform
+│       ├── app/               # Main website, dashboard, operator panels
 │       │   ├── api/           # Backend API route handlers
 │       │   ├── admin/         # Operator controls & transaction logs
 │       │   ├── cms/           # Dynamic homepage content manager
-│       │   ├── dashboard/     # Wallet page, membership selection
-│       │   └── login/         # Auth pages
+│       │   └── dashboard/     # Wallet page, membership selection
 │       └── tailwind.config.js # Tailwind CSS configured with packages/ads
 ├── packages/
-│   ├── ads/                   # Aroh Design System (ADS)
-│   │   ├── src/               # Shared CSS tokens, layout components
-│   │   └── package.json
-│   └── asdk/                  # Aroh Software Development Kit (ASDK)
-│       ├── src/               # Shared state, Firestore schemas, mock DB fallback
-│       └── package.json
+│   ├── ads/                   # Aroh Design System (ADS) - Shared UI Component Library
+│   ├── asdk/                  # Aroh Software Development Kit (ASDK) - Shared State & Core services
+│   └── [product]-core/        # Reusable Product Cores (Business logic, views, internal state)
+├── integrations/
+│   └── [product]/             # Product Integration Layers (ASDK wrappers, permissions, event listeners)
 ├── package.json               # Monorepo root with workspaces
 └── README.md                  # Root documentation
 ```
+
+---
+
+## 🔄 Decoupled Product Integration Strategy
+
+To prevent codebase duplication and architectural drift, AROH adopts a **Single Source of Truth** integration model:
+1. **Zero Source Code Copying:** Standalone products (e.g., Spedex, Nebula) exist as independent git repositories. They import their core logic from a unified `[product]-core` workspace package.
+2. **Product Core Independence:** Reusable business logic, views, and page routes live in the `[product]-core` package. The product core must never depend directly on `@aroh/asdk` or other ecosystem services.
+3. **Ecosystem Integration Layers:** Ecosystem integration logic (SSO login redirection, Aros Wallet debiting, notification dispatching) is implemented entirely in the `integrations/[product]` or `packages/aroh-[product]` adapters using event composition.
+4. **Event-Based Hooks:** Standalone cores expose public event hooks (e.g., `onWorkspaceCreated`, `onChallengeProgress`). The AROH ecosystem registers event listeners to reward Aros, index search keywords, or trigger notifications without modifying the product's code.
 
 ---
 
@@ -66,6 +74,6 @@ d:/PROJECT/AROH/
   - Directories, non-component files: `kebab-case`
   - Variables, functions, API routes: `camelCase`
   - Constants: `UPPER_SNAKE_CASE`
-- **TypeScript**: Always use strict typing; `any` is prohibited.
-- **Folder Structure**: Separate presentation components (under `packages/ads`) from business actions and database models (under `packages/asdk`).
+- **TypeScript**: Always use strict typing; `any` is prohibited. Unused imports/parameters must be cleaned up to pass strict compiler checks.
+- **Folder Structure**: Separate presentation components (under `packages/ads`) from business actions, adapters, and databases.
 - **Error Handling**: Use standardized response wrappers for all APIs (`{ success: boolean, data?: any, error?: { code: string, message: string } }`).

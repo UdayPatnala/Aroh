@@ -32,7 +32,7 @@ const tiers: { level: MembershipLevel; name: string; price: number; description:
 
 export default function DashboardPage() {
   const router = useRouter();
-  const { user, profile, wallet, transactions, isAuthenticated, isLoading, upgradeMembership, fetchUserTransactions, sendEmailVerification, updateProfile, updateNotificationPreferences, notificationPreferences, rewardUser, addNotification } =
+  const { user, profile, wallet, transactions, isAuthenticated, isRehydrated, isLoading, upgradeMembership, fetchUserTransactions, sendEmailVerification, updateProfile, updateNotificationPreferences, notificationPreferences, rewardUser, addNotification } =
     usePlatformStore();
 
   const [activeTab, setActiveTab] = React.useState<"overview" | "settings" | "developer">("overview");
@@ -89,12 +89,13 @@ export default function DashboardPage() {
   };
 
   React.useEffect(() => {
+    if (!isRehydrated) return;
     if (!isAuthenticated) {
       router.push("/login");
     } else {
       fetchUserTransactions();
     }
-  }, [isAuthenticated, router, fetchUserTransactions]);
+  }, [isAuthenticated, isRehydrated, router, fetchUserTransactions]);
 
   const handleUpgrade = async (level: MembershipLevel, price: number) => {
     if (!profile || profile.membershipLevel === level) return;
@@ -209,7 +210,7 @@ export default function DashboardPage() {
     }
   };
 
-  if (!isAuthenticated || !profile || !wallet) {
+  if (!isRehydrated || !isAuthenticated || !profile || !wallet) {
     return (
       <div className="min-h-screen bg-[#0a0a0c] flex justify-center items-center text-white">
         <span className="w-8 h-8 border-4 border-amber-500 border-t-transparent rounded-full animate-spin" />
@@ -607,7 +608,7 @@ export default function DashboardPage() {
                           <div className="space-y-1 font-mono text-xs">
                             <div className="text-sm font-bold text-white font-sans">{app.name}</div>
                             <div className="flex items-center gap-2">
-                              <span className="text-zinc-500">Client ID:</span> {app.clientId}
+                              <span className="text-zinc-400">Client ID:</span> {app.clientId}
                               <button
                                 type="button"
                                 onClick={() => {
@@ -620,7 +621,7 @@ export default function DashboardPage() {
                               </button>
                             </div>
                             <div className="flex items-center gap-2">
-                              <span className="text-zinc-500">API Key:</span> {app.apiKey}
+                              <span className="text-zinc-400">API Key:</span> {app.apiKey}
                               <button
                                 type="button"
                                 onClick={() => {

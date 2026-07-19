@@ -19,7 +19,7 @@ import {
   runTransaction,
   deleteDoc
 } from "firebase/firestore";
-import type { User, Profile, Wallet, Transaction, Announcement, UserRole, MembershipLevel, AnnouncementCategory } from "../schemas/index";
+import type { User, Profile, Wallet, Transaction, Announcement, MembershipLevel, AnnouncementCategory } from "../schemas/index";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
