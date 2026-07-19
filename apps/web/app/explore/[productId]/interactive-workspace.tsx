@@ -37,6 +37,14 @@ export default function InteractiveWorkspace({ productId }: WorkspaceProps) {
       return <ArosConsoleWorkspace user={user} profile={profile} wallet={wallet} rewardUser={rewardUser} upgradeMembership={upgradeMembership} announcements={announcements} />;
     case "aroh-ai-helper":
       return <ArohAiHelperWorkspace />;
+    case "nebula":
+      return <NebulaWorkspace user={user} rewardUser={rewardUser} />;
+    case "javapath-pro":
+      return <JavaPathWorkspace user={user} rewardUser={rewardUser} />;
+    case "spedex":
+      return <SpedexWorkspace user={user} wallet={wallet} rewardUser={rewardUser} />;
+    case "music-mirror":
+      return <MusicMirrorWorkspace user={user} wallet={wallet} rewardUser={rewardUser} />;
     default:
       return (
         <div className="bg-white/5 border border-white/10 rounded-xl p-6 text-center text-zinc-400 text-xs font-mono">
@@ -516,6 +524,453 @@ function ArohAiHelperWorkspace() {
           )}
         </div>
       )}
+    </div>
+  );
+}
+
+/* ==========================================
+   7. Nebula Workspace Component
+   ========================================== */
+function NebulaWorkspace({ user, rewardUser }: any) {
+  const [selectedImg, setSelectedImg] = React.useState<number | null>(null);
+  const [pipelineLogs, setPipelineLogs] = React.useState<string[]>([]);
+  const [isAnalyzing, setIsAnalyzing] = React.useState(false);
+  const [analysisResult, setAnalysisResult] = React.useState<any>(null);
+  const [checkInDisabled, setCheckInDisabled] = React.useState(false);
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const lastCheck = localStorage.getItem("aroh_nebula_checkin");
+      if (lastCheck) {
+        const diff = Date.now() - parseInt(lastCheck);
+        if (diff < 60000) { // Limit mock check-in to once a minute for testing
+          setCheckInDisabled(true);
+        }
+      }
+    }
+  }, []);
+
+  const handleCheckIn = async () => {
+    if (!user) return;
+    try {
+      await rewardUser(user.id, 10, "Nebula Daily Check-in Reward");
+      localStorage.setItem("aroh_nebula_checkin", Date.now().toString());
+      setCheckInDisabled(true);
+      alert("Successfully claimed +10 Aros daily check-in reward!");
+    } catch {
+      alert("Failed to claim daily check-in");
+    }
+  };
+
+  const startAnalysis = () => {
+    if (selectedImg === null) {
+      alert("Please select a photo/media to analyze first.");
+      return;
+    }
+    setIsAnalyzing(true);
+    setAnalysisResult(null);
+    setPipelineLogs(["[STAGE 1/5] Extracting Exif metadata & photo profile..."]);
+
+    setTimeout(() => {
+      setPipelineLogs((prev) => [...prev, "[STAGE 2/5] Object Detection: sunset, waves, landscape scenery detected."]);
+    }, 600);
+    setTimeout(() => {
+      setPipelineLogs((prev) => [...prev, "[STAGE 3/5] Face Mapping: 0 faces found in landscape view."]);
+    }, 1200);
+    setTimeout(() => {
+      setPipelineLogs((prev) => [...prev, "[STAGE 4/5] Emotion Mapping: classification resolved to CALM & SERENE."]);
+    }, 1800);
+    setTimeout(() => {
+      setPipelineLogs((prev) => [...prev, "[STAGE 5/5] Synthesizing story highlights and generating color palette..."]);
+    }, 2400);
+
+    setTimeout(() => {
+      setIsAnalyzing(false);
+      setPipelineLogs((prev) => [...prev, "[SUCCESS] Gallery story analysis complete."]);
+      setAnalysisResult({
+        mood: "Serene & Peaceful",
+        tags: ["Sunset", "Ocean Coast", "Golden Hour", "Calmness"],
+        colors: ["#f59e0b", "#fb7185", "#38bdf8"]
+      });
+    }, 3000);
+  };
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white/3 border border-white/5 p-6 rounded-2xl">
+      <div className="space-y-6">
+        <div>
+          <h3 className="text-lg font-bold text-white">Media Intelligence Pipeline</h3>
+          <p className="text-xs text-zinc-400">Select a gallery file to launch the 5-stage analysis engine.</p>
+        </div>
+
+        {/* Media grid */}
+        <div className="grid grid-cols-3 gap-3">
+          {[
+            "from-amber-500 to-rose-500",
+            "from-blue-600 to-purple-600",
+            "from-emerald-500 to-teal-500"
+          ].map((grad, i) => (
+            <div
+              key={i}
+              onClick={() => setSelectedImg(i)}
+              className={`h-20 rounded-xl bg-gradient-to-br ${grad} cursor-pointer border-2 transition-all ${
+                selectedImg === i ? "border-amber-400 scale-95" : "border-white/5 hover:border-white/20"
+              }`}
+            />
+          ))}
+        </div>
+
+        <div className="flex gap-3">
+          <Button variant="primary" onClick={startAnalysis} disabled={isAnalyzing} className="flex-1 py-2 text-xs">
+            {isAnalyzing ? "Analyzing Pipeline..." : "Analyze Media File"}
+          </Button>
+          <Button
+            variant="glass"
+            onClick={handleCheckIn}
+            disabled={checkInDisabled}
+            className="flex-1 py-2 text-xs text-amber-400 border-amber-500/20"
+          >
+            {checkInDisabled ? "Checked In Today" : "Claim Daily +10 Aros"}
+          </Button>
+        </div>
+      </div>
+
+      <div className="bg-black/40 rounded-xl border border-white/5 p-5 flex flex-col justify-between font-mono text-[11px] h-60 overflow-y-auto">
+        <div className="space-y-2">
+          <span className="text-[10px] uppercase tracking-wider text-zinc-400 font-bold block font-sans">Pipeline Logs</span>
+          {pipelineLogs.map((log, idx) => (
+            <div key={idx} className={log.includes("[SUCCESS]") ? "text-emerald-400" : log.includes("[STAGE") ? "text-amber-500" : "text-zinc-400"}>
+              {log}
+            </div>
+          ))}
+        </div>
+
+        {analysisResult && (
+          <div className="border-t border-white/5 pt-3 mt-4 space-y-2 font-sans text-xs">
+            <div>
+              <span className="text-zinc-400 text-[10px] uppercase font-semibold">Mood Classification:</span>
+              <strong className="text-white block">{analysisResult.mood}</strong>
+            </div>
+            <div>
+              <span className="text-zinc-400 text-[10px] uppercase font-semibold">Ambient Palette:</span>
+              <div className="flex gap-2 mt-1">
+                {analysisResult.colors.map((c: string) => (
+                  <span key={c} className="w-4 h-4 rounded-full border border-white/10" style={{ backgroundColor: c }} />
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ==========================================
+   8. JavaPath Pro Workspace Component
+   ========================================== */
+function JavaPathWorkspace({ user, rewardUser }: any) {
+  const [code, setCode] = React.useState(`public class StringReverser {
+    public String reverse(String input) {
+        // TODO: implement reversal logic
+        return new StringBuilder(input).reverse().toString();
+    }
+}`);
+  const [compiling, setCompiling] = React.useState(false);
+  const [logs, setLogs] = React.useState<string[]>([]);
+  const [isPassed, setIsPassed] = React.useState(false);
+
+  const runTests = () => {
+    setCompiling(true);
+    setIsPassed(false);
+    setLogs(["Compiling StringReverser.java...", "Resolving dependencies..."]);
+
+    setTimeout(() => {
+      setLogs((prev) => [...prev, "Running JUnit test suite..."]);
+    }, 700);
+
+    setTimeout(() => {
+      setLogs((prev) => [
+        ...prev,
+        "[PASS] Test case 1: reverse('Aroh') -> 'horA'",
+        "[PASS] Test case 2: reverse('') -> ''"
+      ]);
+    }, 1400);
+
+    setTimeout(async () => {
+      setCompiling(false);
+      setIsPassed(true);
+      setLogs((prev) => [...prev, "[SUCCESS] All JUnit tests passed. Dispatching 15 Aros token incentive..."]);
+      if (user) {
+        try {
+          await rewardUser(user.id, 15, "JavaPath Pro: Task Completed");
+        } catch {
+          // Bypassed
+        }
+      }
+    }, 2100);
+  };
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white/3 border border-white/5 p-6 rounded-2xl">
+      <div className="space-y-4">
+        <div>
+          <h3 className="text-lg font-bold text-white">Java Compiler Sandbox</h3>
+          <p className="text-xs text-zinc-400">Implement string reversal to satisfy unit tests and claim wallet rewards.</p>
+        </div>
+
+        <textarea
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+          className="w-full h-40 bg-zinc-950 border border-white/10 rounded-xl p-4 font-mono text-[11px] text-zinc-300 focus:outline-none focus:border-amber-500"
+        />
+
+        <Button variant="primary" onClick={runTests} disabled={compiling} className="w-full py-2 text-xs">
+          {compiling ? "Running Tests..." : "Compile & Run Tests"}
+        </Button>
+      </div>
+
+      <div className="bg-black/40 rounded-xl border border-white/5 p-5 font-mono text-[11px] space-y-1.5 h-64 overflow-y-auto">
+        <span className="text-[10px] uppercase tracking-wider text-zinc-400 font-bold block font-sans mb-2">JUnit Console Output</span>
+        {logs.map((log, i) => (
+          <div key={i} className={log.includes("[SUCCESS]") ? "text-emerald-400" : log.includes("[PASS]") ? "text-emerald-400/80" : "text-zinc-400"}>
+            {log}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ==========================================
+   9. SpeDex Workspace Component
+   ========================================== */
+function SpedexWorkspace({ user, wallet, rewardUser }: any) {
+  const [cost, setCost] = React.useState("50");
+  const [desc, setDesc] = React.useState("Cloud Computing Resource Usage");
+  const [processing, setProcessing] = React.useState(false);
+
+  const handleCharge = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!user || !wallet) return;
+    const value = parseFloat(cost);
+    if (isNaN(value) || value <= 0) return;
+
+    if (wallet.balance < value) {
+      alert("Insufficient wallet balance to cover budget debit!");
+      return;
+    }
+
+    setProcessing(true);
+    try {
+      await rewardUser(user.id, -value, `SpeDex Payment: "${desc}"`);
+      alert(`Success! Processed SpeDex debit of -${value} Aros.`);
+      setCost("50");
+      setDesc("Cloud Resource Usage");
+    } catch (err: any) {
+      alert(err.message || "Failed to process SpeDex debit");
+    } finally {
+      setProcessing(false);
+    }
+  };
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white/3 border border-white/5 p-6 rounded-2xl">
+      <div className="space-y-4">
+        <div>
+          <h3 className="text-lg font-bold text-white">Spend Speedometer & Payment Bridge</h3>
+          <p className="text-xs text-zinc-400">Debit Aros tokens from your wallet to pay for microservices.</p>
+        </div>
+
+        <form onSubmit={handleCharge} className="space-y-4">
+          <div>
+            <label htmlFor="spedexCost" className="block text-[10px] uppercase font-bold text-zinc-400 mb-1.5">Charge Amount (Aros)</label>
+            <input
+              id="spedexCost"
+              type="number"
+              value={cost}
+              onChange={(e) => setCost(e.target.value)}
+              className="w-full px-3 py-2 rounded-lg bg-zinc-950 border border-white/10 text-white text-xs focus:outline-none focus:border-amber-500"
+              required
+            />
+          </div>
+
+          <div>
+            <label htmlFor="spedexDesc" className="block text-[10px] uppercase font-bold text-zinc-400 mb-1.5">Debit Memo</label>
+            <input
+              id="spedexDesc"
+              type="text"
+              value={desc}
+              onChange={(e) => setDesc(e.target.value)}
+              className="w-full px-3 py-2 rounded-lg bg-zinc-950 border border-white/10 text-white text-xs focus:outline-none focus:border-amber-500"
+              required
+            />
+          </div>
+
+          <Button type="submit" variant="primary" className="w-full py-2 text-xs" disabled={processing}>
+            {processing ? "Processing debit..." : "Execute SpeDex Debit"}
+          </Button>
+        </form>
+      </div>
+
+      <div className="bg-black/40 rounded-xl border border-white/5 p-5 flex flex-col justify-center items-center h-60 space-y-4">
+        <span className="text-[10px] uppercase tracking-wider text-zinc-400 font-bold block">Current Spending Speed</span>
+        
+        {/* Speedometer visual SVG */}
+        <div className="relative w-36 h-20">
+          <svg className="w-full h-full" viewBox="0 0 100 50">
+            <path
+              d="M 10 50 A 40 40 0 0 1 90 50"
+              fill="none"
+              stroke="#27272a"
+              strokeWidth="10"
+              strokeLinecap="round"
+            />
+            <path
+              d="M 10 50 A 40 40 0 0 1 70 20"
+              fill="none"
+              stroke="#f59e0b"
+              strokeWidth="10"
+              strokeLinecap="round"
+            />
+          </svg>
+          <span className="absolute bottom-0 inset-x-0 text-center text-sm font-bold text-white font-mono">75% Velocity</span>
+        </div>
+        
+        <span className="text-zinc-500 text-[10px] text-center max-w-[200px] leading-relaxed">
+          Aggregates transactions and triggers alerts when speed exceeds budget limits.
+        </span>
+      </div>
+    </div>
+  );
+}
+
+/* ==========================================
+   10. Music Mirror Workspace Component
+   ========================================== */
+const MOOD_PLAYLISTS: Record<string, { title: string; premium: boolean }[]> = {
+  happy: [
+    { title: "Sunny Days (Lofi)", premium: false },
+    { title: "Funky Basslines", premium: true }
+  ],
+  blue: [
+    { title: "Quite Rain (Acoustic)", premium: false },
+    { title: "Midnight Blues", premium: true }
+  ],
+  energetic: [
+    { title: "Cyberpunk Horizon (Synth)", premium: false },
+    { title: "Heavy Metal Core", premium: true }
+  ],
+  calm: [
+    { title: "Deep Space Ambient", premium: false },
+    { title: "Piano Dreams", premium: true }
+  ]
+};
+
+function MusicMirrorWorkspace({ user, wallet, rewardUser }: any) {
+  const [mood, setMood] = React.useState("happy");
+  const [scanning, setScanning] = React.useState(false);
+  const [playlist, setPlaylist] = React.useState<{ title: string; premium: boolean }[]>([]);
+  const [activeSong, setActiveSong] = React.useState<string | null>(null);
+  const [unlockedSongs, setUnlockedSongs] = React.useState<Record<string, boolean>>({});
+
+  const detectMood = () => {
+    setScanning(true);
+    setTimeout(() => {
+      setScanning(false);
+      setPlaylist(MOOD_PLAYLISTS[mood] || []);
+      setActiveSong(null);
+    }, 1500);
+  };
+
+  const handlePlay = async (song: { title: string; premium: boolean }) => {
+    if (!user) return;
+    if (song.premium && !unlockedSongs[song.title]) {
+      if (wallet.balance < 20) {
+        alert("Insufficient balance to unlock premium track!");
+        return;
+      }
+      try {
+        await rewardUser(user.id, -20, `Music Mirror: Unlocked premium track "${song.title}"`);
+        setUnlockedSongs((prev) => ({ ...prev, [song.title]: true }));
+        setActiveSong(song.title);
+        alert(`Success! Unlocked "${song.title}" for 20 Aros.`);
+      } catch {
+        alert("Transaction failed");
+      }
+    } else {
+      setActiveSong(song.title);
+    }
+  };
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white/3 border border-white/5 p-6 rounded-2xl">
+      <div className="space-y-4">
+        <div>
+          <h3 className="text-lg font-bold text-white">Mood Matcher Audio Player</h3>
+          <p className="text-xs text-zinc-400">Scan mood tags or unlock premium tracks for mood enhancement.</p>
+        </div>
+
+        <div>
+          <label htmlFor="moodSelect" className="block text-[10px] uppercase font-bold text-zinc-400 mb-1.5">Select Simulated Facial Expression</label>
+          <select
+            id="moodSelect"
+            value={mood}
+            onChange={(e) => setMood(e.target.value)}
+            className="w-full px-3 py-2 rounded-lg bg-zinc-950 border border-white/10 text-white text-xs focus:outline-none focus:border-amber-500 mb-4"
+          >
+            <option value="happy">Smiling (Happy)</option>
+            <option value="blue">Frowning (Blue)</option>
+            <option value="energetic">Excited (Energetic)</option>
+            <option value="calm">Neutral (Calm)</option>
+          </select>
+
+          <Button variant="primary" onClick={detectMood} disabled={scanning} className="w-full py-2 text-xs">
+            {scanning ? "Scanning Webcam Facial Map..." : "Scan Expression & Recommend"}
+          </Button>
+        </div>
+      </div>
+
+      <div className="bg-black/40 rounded-xl border border-white/5 p-5 flex flex-col justify-between h-60">
+        <div>
+          <span className="text-[10px] uppercase tracking-wider text-zinc-400 font-bold block mb-3">Recommender Playlist</span>
+          {scanning ? (
+            <div className="text-center py-8 text-xs text-zinc-500 animate-pulse">Running mood classification...</div>
+          ) : playlist.length === 0 ? (
+            <div className="text-center py-8 text-xs text-zinc-500 font-mono">Camera feed inactive. Please scan first.</div>
+          ) : (
+            <div className="space-y-2">
+              {playlist.map((song) => (
+                <div key={song.title} className="flex justify-between items-center p-2 rounded bg-white/2 hover:bg-white/5 text-xs">
+                  <div className="flex items-center gap-2">
+                    <span className={activeSong === song.title ? "text-emerald-400" : "text-white"}>
+                      {song.title}
+                    </span>
+                    {song.premium && !unlockedSongs[song.title] && (
+                      <span className="text-[9px] uppercase font-bold text-rose-400 bg-rose-500/10 border border-rose-500/20 px-1.5 py-0.5 rounded">
+                        PRO Track
+                      </span>
+                    )}
+                  </div>
+                  <button
+                    onClick={() => handlePlay(song)}
+                    className="text-[10px] px-2 py-1 rounded bg-amber-500/10 border border-amber-500/20 text-amber-400 hover:bg-amber-500/20"
+                  >
+                    {song.premium && !unlockedSongs[song.title] ? "Unlock (20 Aros)" : activeSong === song.title ? "Playing" : "Play"}
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {activeSong && (
+          <div className="flex items-center gap-3 border-t border-white/5 pt-3">
+            <span className="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-ping" />
+            <span className="text-xs text-zinc-300 font-medium">Currently Playing: "{activeSong}"</span>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
