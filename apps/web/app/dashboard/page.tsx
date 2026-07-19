@@ -168,7 +168,34 @@ export default function DashboardPage() {
     addNotification("Application registration deleted", "info");
   };
 
-  const getTierStyles = (level: MembershipLevel) => {
+  const getTierStyles = (level: MembershipLevel, themeName: string) => {
+    if (themeName === "gold") {
+      return {
+        bg: "bg-gradient-to-br from-[#0c0a05] via-[#1c1505] to-[#08080a]",
+        border: "border-amber-500/20",
+        accentBorder: "border-amber-500",
+        cardBg: "bg-white/3 backdrop-blur-xl border border-amber-500/20 shadow-2xl shadow-amber-500/5",
+        accentText: "text-amber-400",
+        accentBg: "bg-amber-500/10",
+        gradientText: "bg-gradient-to-r from-amber-400 via-amber-200 to-amber-500",
+        themeLabel: `${level === "enterprise" ? "Enterprise" : level === "pro" ? "Pro" : "Basic"} (Cyber Gold)`,
+        badgeStyle: "bg-amber-500/20 text-amber-300 border border-amber-500/30"
+      };
+    }
+    if (themeName === "gray") {
+      return {
+        bg: "bg-gradient-to-br from-[#0e1013] via-[#1e2229] to-[#0c0e11]",
+        border: "border-slate-400/20",
+        accentBorder: "border-slate-400",
+        cardBg: "bg-white/3 backdrop-blur-xl border border-slate-400/20 shadow-2xl shadow-slate-400/5",
+        accentText: "text-slate-300",
+        accentBg: "bg-slate-500/10",
+        gradientText: "bg-gradient-to-r from-slate-300 via-slate-100 to-slate-400",
+        themeLabel: `${level === "enterprise" ? "Enterprise" : level === "pro" ? "Pro" : "Basic"} (Slate Gray)`,
+        badgeStyle: "bg-slate-500/20 text-slate-300 border border-slate-500/30"
+      };
+    }
+
     switch (level) {
       case "enterprise":
         return {
@@ -218,7 +245,7 @@ export default function DashboardPage() {
     );
   }
 
-  const theme = getTierStyles(profile.membershipLevel);
+  const theme = getTierStyles(profile.membershipLevel, activeTheme);
 
   return (
     <div className={`min-h-screen ${theme.bg} text-white py-12 px-6 lg:px-12 transition-all duration-500`}>
@@ -579,10 +606,11 @@ export default function DashboardPage() {
                 {/* Form to Register App */}
                 <form onSubmit={handleRegisterApp} className="space-y-4 max-w-md">
                   <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
+                    <label htmlFor="newAppNameInput" className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
                       New Application Name
                     </label>
                     <input
+                      id="newAppNameInput"
                       type="text"
                       value={newAppName}
                       onChange={(e) => setNewAppName(e.target.value)}
@@ -660,8 +688,9 @@ export default function DashboardPage() {
             </div>
             <form onSubmit={handleConfirmPurchase} className="space-y-4">
               <div className="space-y-1">
-                <label className="block text-[10px] uppercase font-bold text-zinc-400">Cardholder Name</label>
+                <label htmlFor="cardholderNameInput" className="block text-[10px] uppercase font-bold text-zinc-400">Cardholder Name</label>
                 <input
+                  id="cardholderNameInput"
                   type="text"
                   placeholder="John Doe"
                   className="w-full px-4 py-2 rounded-lg bg-zinc-950 border border-white/10 text-white text-xs focus:outline-none focus:border-amber-500"
@@ -669,8 +698,9 @@ export default function DashboardPage() {
                 />
               </div>
               <div className="space-y-1">
-                <label className="block text-[10px] uppercase font-bold text-zinc-400">Card Number</label>
+                <label htmlFor="cardNumberInput" className="block text-[10px] uppercase font-bold text-zinc-400">Card Number</label>
                 <input
+                  id="cardNumberInput"
                   type="text"
                   placeholder="4111 2222 3333 4444"
                   maxLength={19}
@@ -680,8 +710,9 @@ export default function DashboardPage() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="block text-[10px] uppercase font-bold text-zinc-400">Expiry (MM/YY)</label>
+                  <label htmlFor="cardExpiryInput" className="block text-[10px] uppercase font-bold text-zinc-400">Expiry (MM/YY)</label>
                   <input
+                    id="cardExpiryInput"
                     type="text"
                     placeholder="12/28"
                     maxLength={5}
@@ -690,8 +721,9 @@ export default function DashboardPage() {
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="block text-[10px] uppercase font-bold text-zinc-400">CVV</label>
+                  <label htmlFor="cardCvvInput" className="block text-[10px] uppercase font-bold text-zinc-400">CVV</label>
                   <input
+                    id="cardCvvInput"
                     type="password"
                     placeholder="123"
                     maxLength={4}

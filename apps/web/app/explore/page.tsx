@@ -167,6 +167,24 @@ export default function ExplorePage() {
                 Browse, search, and configure registered applications inside the AROH Platform.
               </p>
             </div>
+            {/* Global search trigger in Explorer Header */}
+            <div
+              onClick={() => window.dispatchEvent(new CustomEvent("open-command-palette"))}
+              className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:border-amber-500/50 cursor-pointer text-zinc-400 transition-colors text-xs w-64 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
+              tabIndex={0}
+              aria-label="Search alerts, products, and documentation. Press Ctrl K."
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  window.dispatchEvent(new CustomEvent("open-command-palette"));
+                }
+              }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+              <span className="truncate">Search alerts, products, docs...</span>
+              <span className="text-[9px] bg-white/5 px-1.5 py-0.5 rounded font-mono border border-white/5 ml-auto text-zinc-500 shrink-0">Ctrl K</span>
+            </div>
           </div>
           <div className="flex gap-3">
             <Button variant="secondary" onClick={() => router.push("/")} className="px-5">
