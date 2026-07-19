@@ -191,9 +191,14 @@ export default function ExplorePage() {
               Back to Home
             </Button>
             {isAuthenticated && (
-              <Button variant="glass" onClick={() => router.push("/dashboard")} className="px-5">
-                Dashboard
-              </Button>
+              <>
+                <Button variant="primary" onClick={() => router.push("/products")} className="px-5">
+                  Console Hub
+                </Button>
+                <Button variant="glass" onClick={() => router.push("/dashboard")} className="px-5">
+                  Dashboard
+                </Button>
+              </>
             )}
           </div>
         </div>

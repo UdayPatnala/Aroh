@@ -269,6 +269,9 @@ export default function DashboardPage() {
           </div>
           <div className="flex gap-3 items-center">
             <NotificationCenter />
+            <Button variant="primary" onClick={() => router.push("/products")} className="px-5">
+              Console Hub
+            </Button>
             <Button variant="secondary" onClick={() => router.push("/")} className="px-5">
               Back to Home
             </Button>

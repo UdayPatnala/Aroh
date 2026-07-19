@@ -59,6 +59,7 @@ export default function CommandPalette() {
       { id: "nav-home", name: "Go to Homepage", category: "Navigation", action: () => { router.push("/"); setIsOpen(false); } },
       { id: "nav-dash", name: "Go to Dashboard", category: "Navigation", action: () => { router.push("/dashboard"); setIsOpen(false); } },
       { id: "nav-explore", name: "Explore Product Registry", category: "Navigation", action: () => { router.push("/explore"); setIsOpen(false); } },
+      { id: "nav-products", name: "Products Console Workspace Hub", category: "Navigation", action: () => { router.push("/products"); setIsOpen(false); } },
       { id: "nav-ai", name: "Open AROH AI Hub", category: "Navigation", action: () => { router.push("/ai"); setIsOpen(false); } },
     ];
 

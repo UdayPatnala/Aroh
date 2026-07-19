@@ -133,6 +133,13 @@ export default function HomePage() {
                   <span className="text-xs font-semibold text-amber-400 font-mono">{wallet?.balance} Aros</span>
                 </div>
                 <Button
+                  variant="secondary"
+                  onClick={() => router.push("/products")}
+                  className="text-xs px-4 py-2 focus-visible:ring-2 focus-visible:ring-amber-500"
+                >
+                  Console Hub
+                </Button>
+                <Button
                   variant="glass"
                   onClick={handleNavToDashboard}
                   className="text-xs px-4 py-2 focus-visible:ring-2 focus-visible:ring-amber-500"
