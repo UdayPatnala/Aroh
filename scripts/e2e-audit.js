@@ -44,6 +44,9 @@ async function runAudit() {
   const page = await browser.newPage();
   await page.setViewport({ width: 1280, height: 800 });
 
+  page.on("console", msg => console.log("BROWSER LOG:", msg.text()));
+  page.on("pageerror", err => console.log("BROWSER ERROR:", err.toString()));
+
   let passed = 0;
   let failed = 0;
 
@@ -101,12 +104,31 @@ async function runAudit() {
     assert(homeContent.includes("Signed in as") && homeContent.includes("Standard User"), "Homepage confirms authentication and display name.");
     assert(homeContent.includes("500 Aros"), "User balance is correctly displayed as 500 Aros on home.");
 
-    // 3. Access Dashboard client-side
-    console.log("\n--- Step 3: Navigating to User Dashboard client-side ---");
-    // Click "Enter Workspace" button on the homepage to navigate client-side
+    // 3. Access Dashboard client-side via Products Console
+    console.log("\n--- Step 3: Navigating to Products Console client-side ---");
+    // Click "Enter Workspace" button on the homepage to navigate client-side to /products
     const workspaceClicked = await clickButtonByText(page, "Enter Workspace");
     assert(workspaceClicked, "Successfully clicked 'Enter Workspace' button client-side.");
     
+    // Wait for products console to load client-side
+    let productsLoaded = false;
+    for (let i = 0; i < 6; i++) {
+      const currentPath = await page.evaluate(() => window.location.pathname);
+      const textIncludes = await page.evaluate(() => document.body.innerText.includes("Products Console"));
+      const bodySnippet = await page.evaluate(() => document.body.innerText.slice(0, 100));
+      console.log(`POLL ${i}: Path = ${currentPath}, IncludesText = ${textIncludes}, Snippet = "${bodySnippet}"`);
+      if (currentPath === "/products" && textIncludes) {
+        productsLoaded = true;
+        break;
+      }
+      await new Promise(r => setTimeout(r, 1000));
+    }
+    assert(productsLoaded, "Products Console mounted successfully.");
+
+    // Click "Dashboard" in products header to access billing and overview
+    const dashboardBtnClicked = await clickButtonByText(page, "Dashboard");
+    assert(dashboardBtnClicked, "Successfully clicked 'Dashboard' button client-side from console.");
+
     // Wait for dashboard to load client-side
     await page.waitForFunction(
       () => window.location.pathname === "/dashboard" && document.body.innerText.includes("Platform Dashboard"),
@@ -191,8 +213,12 @@ async function runAudit() {
 
     // 7. Sign Out
     console.log("\n--- Step 7: Signing Out ---");
-    // Navigate to dashboard client-side to find sign-out button
+    // Navigate to products workspace console first
     await clickButtonByText(page, "Enter Workspace");
+    await page.waitForFunction(() => window.location.pathname === "/products", { timeout: 5000 });
+    
+    // Go to dashboard from products console to find sign-out button
+    await clickButtonByText(page, "Dashboard");
     await page.waitForFunction(() => window.location.pathname === "/dashboard", { timeout: 5000 });
     
     const explicitSignOut = await clickButtonByText(page, "Sign Out");

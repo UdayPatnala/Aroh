@@ -22,13 +22,23 @@ export default function SessionSync() {
           router.push("/login");
         }
       }
+      if (event.key === "aroh_session") {
+        if (event.newValue) {
+          // Sync login/profile state instantly in this tab
+          rehydrateSession();
+        } else if (isAuthenticated) {
+          // If session was cleared elsewhere, log out in this tab
+          logout(true);
+          router.push("/login");
+        }
+      }
     };
 
     window.addEventListener("storage", handleStorageChange);
     return () => {
       window.removeEventListener("storage", handleStorageChange);
     };
-  }, [isAuthenticated, logout, router]);
+  }, [isAuthenticated, logout, rehydrateSession, router]);
 
   return null;
 }

@@ -537,6 +537,7 @@ function NebulaWorkspace({ user, rewardUser }: any) {
   const [isAnalyzing, setIsAnalyzing] = React.useState(false);
   const [analysisResult, setAnalysisResult] = React.useState<any>(null);
   const [checkInDisabled, setCheckInDisabled] = React.useState(false);
+  const [showCode, setShowCode] = React.useState(false);
 
   React.useEffect(() => {
     if (typeof window !== "undefined") {
@@ -597,7 +598,7 @@ function NebulaWorkspace({ user, rewardUser }: any) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white/3 border border-white/5 p-6 rounded-2xl">
-      <div className="space-y-6">
+      <div className="space-y-6 col-span-1">
         <div>
           <h3 className="text-lg font-bold text-white">Media Intelligence Pipeline</h3>
           <p className="text-xs text-zinc-400">Select a gallery file to launch the 5-stage analysis engine.</p>
@@ -635,7 +636,7 @@ function NebulaWorkspace({ user, rewardUser }: any) {
         </div>
       </div>
 
-      <div className="bg-black/40 rounded-xl border border-white/5 p-5 flex flex-col justify-between font-mono text-[11px] h-60 overflow-y-auto">
+      <div className="bg-black/40 rounded-xl border border-white/5 p-5 flex flex-col justify-between font-mono text-[11px] h-60 overflow-y-auto col-span-1">
         <div className="space-y-2">
           <span className="text-[10px] uppercase tracking-wider text-zinc-400 font-bold block font-sans">Pipeline Logs</span>
           {pipelineLogs.map((log, idx) => (
@@ -662,6 +663,41 @@ function NebulaWorkspace({ user, rewardUser }: any) {
           </div>
         )}
       </div>
+
+      <div className="md:col-span-2 border-t border-white/5 pt-4 mt-2">
+        <button
+          onClick={() => setShowCode(!showCode)}
+          className="text-xs text-amber-400 font-semibold tracking-wide hover:underline cursor-pointer flex items-center gap-1 focus:outline-none"
+        >
+          {showCode ? "▼ Hide ASDK SSO & Integration Code" : "▶ Show ASDK SSO & Integration Code"}
+        </button>
+        {showCode && (
+          <div className="bg-black/60 rounded-xl p-4 border border-white/5 overflow-x-auto text-[10px] font-mono text-zinc-400 leading-relaxed mt-3 max-h-60 overflow-y-auto scrollbar-thin">
+            <pre>{`// D:\\PROJECT\\Nebula\\src\\aroh-adapter.ts
+import { usePlatformStore } from "@aroh/asdk";
+
+export function useArohNebulaBridge() {
+  const { user, profile, wallet, token, isAuthenticated, login, logout, rewardUser } = usePlatformStore();
+
+  const activeUser = user && profile && wallet ? {
+    id: user.id,
+    name: profile.displayName,
+    email: user.email,
+    role: profile.membershipLevel === "enterprise" || profile.membershipLevel === "pro" ? "premium_user" : "registered_user",
+    credits: wallet.balance, // Sync credit balance with Aros wallet
+  } : null;
+
+  const dailyCheckIn = async (): Promise<boolean> => {
+    if (!user) return false;
+    await rewardUser(user.id, 10, "Daily Check-in Reward");
+    return true;
+  };
+
+  return { user: activeUser, isAuthenticated, login, logout, dailyCheckIn, token };
+}`}</pre>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -679,6 +715,7 @@ function JavaPathWorkspace({ user, rewardUser }: any) {
   const [compiling, setCompiling] = React.useState(false);
   const [logs, setLogs] = React.useState<string[]>([]);
   const [isPassed, setIsPassed] = React.useState(false);
+  const [showCode, setShowCode] = React.useState(false);
 
   const runTests = () => {
     setCompiling(true);
@@ -713,7 +750,7 @@ function JavaPathWorkspace({ user, rewardUser }: any) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white/3 border border-white/5 p-6 rounded-2xl">
-      <div className="space-y-4">
+      <div className="space-y-4 col-span-1">
         <div>
           <h3 className="text-lg font-bold text-white">Java Compiler Sandbox</h3>
           <p className="text-xs text-zinc-400">Implement string reversal to satisfy unit tests and claim wallet rewards.</p>
@@ -730,13 +767,48 @@ function JavaPathWorkspace({ user, rewardUser }: any) {
         </Button>
       </div>
 
-      <div className="bg-black/40 rounded-xl border border-white/5 p-5 font-mono text-[11px] space-y-1.5 h-64 overflow-y-auto">
+      <div className="bg-black/40 rounded-xl border border-white/5 p-5 font-mono text-[11px] space-y-1.5 h-64 overflow-y-auto col-span-1">
         <span className="text-[10px] uppercase tracking-wider text-zinc-400 font-bold block font-sans mb-2">JUnit Console Output</span>
         {logs.map((log, i) => (
           <div key={i} className={log.includes("[SUCCESS]") ? "text-emerald-400" : log.includes("[PASS]") ? "text-emerald-400/80" : "text-zinc-400"}>
             {log}
           </div>
         ))}
+      </div>
+
+      <div className="md:col-span-2 border-t border-white/5 pt-4 mt-2">
+        <button
+          onClick={() => setShowCode(!showCode)}
+          className="text-xs text-amber-400 font-semibold tracking-wide hover:underline cursor-pointer flex items-center gap-1 focus:outline-none"
+        >
+          {showCode ? "▼ Hide ASDK SSO & Integration Code" : "▶ Show ASDK SSO & Integration Code"}
+        </button>
+        {showCode && (
+          <div className="bg-black/60 rounded-xl p-4 border border-white/5 overflow-x-auto text-[10px] font-mono text-zinc-400 leading-relaxed mt-3 max-h-60 overflow-y-auto scrollbar-thin">
+            <pre>{`// D:\\PROJECT\\javapath-pro\\javapath-frontend\\src\\aroh-adapter.ts
+import { usePlatformStore } from "@aroh/asdk";
+import axios from "axios";
+
+export function useArohJavaPathBridge() {
+  const { user, profile, token, isAuthenticated, login, logout, rewardUser } = usePlatformStore();
+
+  const syncAxiosToken = (jwtToken: string | null) => {
+    if (jwtToken) {
+      axios.defaults.headers.common["Authorization"] = \`Bearer \${jwtToken}\`;
+    } else {
+      delete axios.defaults.headers.common["Authorization"];
+    }
+  };
+
+  const rewardForTaskCompletion = async (taskId: string, points = 15) => {
+    if (!user) return;
+    await rewardUser(user.id, points, \`Completed JavaPath Challenge: \${taskId}\`);
+  };
+
+  return { user, token, isAuthenticated, login, logout, syncAxiosToken, rewardForTaskCompletion };
+}`}</pre>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -749,6 +821,7 @@ function SpedexWorkspace({ user, wallet, rewardUser }: any) {
   const [cost, setCost] = React.useState("50");
   const [desc, setDesc] = React.useState("Cloud Computing Resource Usage");
   const [processing, setProcessing] = React.useState(false);
+  const [showCode, setShowCode] = React.useState(false);
 
   const handleCharge = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -776,7 +849,7 @@ function SpedexWorkspace({ user, wallet, rewardUser }: any) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white/3 border border-white/5 p-6 rounded-2xl">
-      <div className="space-y-4">
+      <div className="space-y-4 col-span-1">
         <div>
           <h3 className="text-lg font-bold text-white">Spend Speedometer & Payment Bridge</h3>
           <p className="text-xs text-zinc-400">Debit Aros tokens from your wallet to pay for microservices.</p>
@@ -813,7 +886,7 @@ function SpedexWorkspace({ user, wallet, rewardUser }: any) {
         </form>
       </div>
 
-      <div className="bg-black/40 rounded-xl border border-white/5 p-5 flex flex-col justify-center items-center h-60 space-y-4">
+      <div className="bg-black/40 rounded-xl border border-white/5 p-5 flex flex-col justify-center items-center h-60 space-y-4 col-span-1">
         <span className="text-[10px] uppercase tracking-wider text-zinc-400 font-bold block">Current Spending Speed</span>
         
         {/* Speedometer visual SVG */}
@@ -840,6 +913,35 @@ function SpedexWorkspace({ user, wallet, rewardUser }: any) {
         <span className="text-zinc-500 text-[10px] text-center max-w-[200px] leading-relaxed">
           Aggregates transactions and triggers alerts when speed exceeds budget limits.
         </span>
+      </div>
+
+      <div className="md:col-span-2 border-t border-white/5 pt-4 mt-2">
+        <button
+          onClick={() => setShowCode(!showCode)}
+          className="text-xs text-amber-400 font-semibold tracking-wide hover:underline cursor-pointer flex items-center gap-1 focus:outline-none"
+        >
+          {showCode ? "▼ Hide ASDK SSO & Integration Code" : "▶ Show ASDK SSO & Integration Code"}
+        </button>
+        {showCode && (
+          <div className="bg-black/60 rounded-xl p-4 border border-white/5 overflow-x-auto text-[10px] font-mono text-zinc-400 leading-relaxed mt-3 max-h-60 overflow-y-auto scrollbar-thin">
+            <pre>{`// D:\\PROJECT\\Spedex\\dashboard_app\\src\\aroh-adapter.ts
+import { usePlatformStore } from "@aroh/asdk";
+
+export function useArohSpedexBridge() {
+  const { user, profile, wallet, token, isAuthenticated, logout, rewardUser } = usePlatformStore();
+
+  const executePayment = async (amount: number, description: string) => {
+    if (!user) throw new Error("Authentication Required");
+    if (!wallet || wallet.balance < amount) {
+      throw new Error("Insufficient Aros Balance");
+    }
+    await rewardUser(user.id, -amount, \`Spedex Debit: \${description}\`);
+  };
+
+  return { user, token, isAuthenticated, executePayment, logout };
+}`}</pre>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -873,6 +975,7 @@ function MusicMirrorWorkspace({ user, wallet, rewardUser }: any) {
   const [playlist, setPlaylist] = React.useState<{ title: string; premium: boolean }[]>([]);
   const [activeSong, setActiveSong] = React.useState<string | null>(null);
   const [unlockedSongs, setUnlockedSongs] = React.useState<Record<string, boolean>>({});
+  const [showCode, setShowCode] = React.useState(false);
 
   const detectMood = () => {
     setScanning(true);
@@ -905,7 +1008,7 @@ function MusicMirrorWorkspace({ user, wallet, rewardUser }: any) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white/3 border border-white/5 p-6 rounded-2xl">
-      <div className="space-y-4">
+      <div className="space-y-4 col-span-1">
         <div>
           <h3 className="text-lg font-bold text-white">Mood Matcher Audio Player</h3>
           <p className="text-xs text-zinc-400">Scan mood tags or unlock premium tracks for mood enhancement.</p>
@@ -931,7 +1034,7 @@ function MusicMirrorWorkspace({ user, wallet, rewardUser }: any) {
         </div>
       </div>
 
-      <div className="bg-black/40 rounded-xl border border-white/5 p-5 flex flex-col justify-between h-60">
+      <div className="bg-black/40 rounded-xl border border-white/5 p-5 flex flex-col justify-between h-60 col-span-1">
         <div>
           <span className="text-[10px] uppercase tracking-wider text-zinc-400 font-bold block mb-3">Recommender Playlist</span>
           {scanning ? (
@@ -968,6 +1071,32 @@ function MusicMirrorWorkspace({ user, wallet, rewardUser }: any) {
           <div className="flex items-center gap-3 border-t border-white/5 pt-3">
             <span className="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-ping" />
             <span className="text-xs text-zinc-300 font-medium">Currently Playing: "{activeSong}"</span>
+          </div>
+        )}
+      </div>
+
+      <div className="md:col-span-2 border-t border-white/5 pt-4 mt-2">
+        <button
+          onClick={() => setShowCode(!showCode)}
+          className="text-xs text-amber-400 font-semibold tracking-wide hover:underline cursor-pointer flex items-center gap-1 focus:outline-none"
+        >
+          {showCode ? "▼ Hide ASDK SSO & Integration Code" : "▶ Show ASDK SSO & Integration Code"}
+        </button>
+        {showCode && (
+          <div className="bg-black/60 rounded-xl p-4 border border-white/5 overflow-x-auto text-[10px] font-mono text-zinc-400 leading-relaxed mt-3 max-h-60 overflow-y-auto scrollbar-thin">
+            <pre>{`// D:\\PROJECT\\Music Mirror\\frontend\\src\\aroh-adapter.ts
+import { usePlatformStore } from "@aroh/asdk";
+
+export function useArohMusicMirrorBridge() {
+  const { user, profile, isAuthenticated, logout, rewardUser } = usePlatformStore();
+
+  const chargeForPremiumTrack = async (trackTitle: string, price = 20) => {
+    if (!user) return;
+    await rewardUser(user.id, -price, \`Unlocked Premium Song: \${trackTitle}\`);
+  };
+
+  return { isAuthenticated, chargeForPremiumTrack, logout };
+}`}</pre>
           </div>
         )}
       </div>

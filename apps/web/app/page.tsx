@@ -200,7 +200,13 @@ export default function HomePage() {
           <div className="pt-4 flex justify-center gap-4">
             <Button
               variant="primary"
-              onClick={handleNavToDashboard}
+              onClick={() => {
+                if (isAuthenticated) {
+                  router.push("/products");
+                } else {
+                  router.push("/login");
+                }
+              }}
               className="px-6 py-3 font-semibold text-sm focus-visible:ring-2 focus-visible:ring-amber-500"
             >
               Enter Workspace

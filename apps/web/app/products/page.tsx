@@ -140,6 +140,9 @@ export default function ProductsPage() {
             <Button variant="secondary" onClick={() => router.push("/")} className="px-5">
               Back to Home
             </Button>
+            <Button variant="glass" onClick={() => router.push("/dashboard")} className="px-5">
+              Dashboard
+            </Button>
           </div>
         </div>
 
