@@ -12,6 +12,8 @@ export default function HomePage() {
   const { user, profile, wallet, announcements, isAuthenticated, fetchAnnouncements } = usePlatformStore();
 
   const [introPlaying, setIntroPlaying] = React.useState(false);
+  const [soundEnabled, setSoundEnabled] = React.useState(false);
+  const videoRef = React.useRef<HTMLVideoElement>(null);
 
   React.useEffect(() => {
     fetchAnnouncements();
@@ -25,8 +27,16 @@ export default function HomePage() {
 
   const handleFinishIntro = () => {
     setIntroPlaying(false);
+    setSoundEnabled(false);
     if (typeof window !== "undefined") {
       sessionStorage.setItem("aroh_intro_played", "true");
+    }
+  };
+
+  const handleEnableSound = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = false;
+      setSoundEnabled(true);
     }
   };
 
@@ -43,15 +53,26 @@ export default function HomePage() {
             className="fixed inset-0 z-[99999] bg-black flex justify-center items-center overflow-hidden"
           >
             <video
+              ref={videoRef}
               src="/aroh-intro.mp4"
               autoPlay
               playsInline
+              muted
               onEnded={handleFinishIntro}
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30 pointer-events-none" />
 
-            <div className="absolute bottom-8 right-8 z-10">
+            <div className="absolute bottom-8 right-8 flex items-center gap-3 z-10">
+              {!soundEnabled && (
+                <button
+                  type="button"
+                  onClick={handleEnableSound}
+                  className="px-5 py-2 bg-black/60 hover:bg-black/80 border border-white/20 rounded-full text-xs font-bold uppercase tracking-wider text-white transition-all backdrop-blur-md cursor-pointer shadow-lg"
+                >
+                  🔊 Tap for Sound
+                </button>
+              )}
               <button
                 type="button"
                 onClick={handleFinishIntro}
