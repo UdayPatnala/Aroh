@@ -31,7 +31,14 @@ export default function ProductsPage() {
     }
   }, [isAuthenticated, isRehydrated, router]);
 
-  const filteredProducts = registeredProducts.filter((prod) => {
+  const isPrivilegedUser = user?.role === "admin" || user?.role === "operator";
+
+  const visibleProducts = registeredProducts.filter((prod) => {
+    if (prod.internalOnly && !isPrivilegedUser) return false;
+    return true;
+  });
+
+  const filteredProducts = visibleProducts.filter((prod) => {
     const matchesSearch =
       prod.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       prod.description.toLowerCase().includes(searchQuery.toLowerCase());

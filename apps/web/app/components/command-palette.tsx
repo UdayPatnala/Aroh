@@ -71,7 +71,9 @@ export default function CommandPalette() {
     }
 
     // Add registered products
+    const isPrivileged = isAuthenticated && (user?.role === "admin" || user?.role === "operator");
     registeredProducts.forEach((p) => {
+      if (p.internalOnly && !isPrivileged) return;
       list.push({
         id: `prod-${p.id}`,
         name: `Open ${p.name}`,

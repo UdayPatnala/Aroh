@@ -17,6 +17,7 @@ export interface ProductDetails {
   version: string;
   author: string;
   url?: string;
+  internalOnly?: boolean;
 }
 
 export const registeredProducts: ProductDetails[] = [
@@ -88,7 +89,8 @@ export const registeredProducts: ProductDetails[] = [
     requiredTier: "pro",
     price: 100,
     version: "v1.0.0",
-    author: "AROH Content Team"
+    author: "AROH Content Team",
+    internalOnly: true
   },
   {
     id: "aros-metrics",
@@ -99,7 +101,8 @@ export const registeredProducts: ProductDetails[] = [
     requiredTier: "pro",
     price: 100,
     version: "v0.9.4-beta",
-    author: "AROH Devops Group"
+    author: "AROH Devops Group",
+    internalOnly: true
   }
 ];
 
@@ -111,7 +114,14 @@ export default function ExplorePage() {
   const [searchQuery, setSearchQuery] = React.useState("");
   const [selectedCategory, setSelectedCategory] = React.useState("All");
 
-  const filteredProducts = registeredProducts.filter((prod) => {
+  const isPrivilegedUser = user?.role === "admin" || user?.role === "operator";
+
+  const visibleProducts = registeredProducts.filter((prod) => {
+    if (prod.internalOnly && !isPrivilegedUser) return false;
+    return true;
+  });
+
+  const filteredProducts = visibleProducts.filter((prod) => {
     const matchesSearch =
       prod.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       prod.description.toLowerCase().includes(searchQuery.toLowerCase());
@@ -139,7 +149,7 @@ export default function ExplorePage() {
                 Ecosystem Explorer
               </h1>
               <p className="text-slate-500 text-xs mt-0.5">
-                Discover registered applications and platform services in the AROH Ecosystem.
+                Discover applications and software products in the AROH Ecosystem.
               </p>
             </div>
           </div>
