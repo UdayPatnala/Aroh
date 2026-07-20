@@ -121,7 +121,7 @@ export default function CmsPage() {
         {/* Navigation */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-white/10 pb-6">
           <div className="flex items-center gap-4">
-            <img src="/aroh-logo.png" alt="AROH Logo" className="h-10 w-10 object-contain rounded-xl border border-cyan-500/30" />
+            <img src="/aroh-logo.png?v=2" alt="AROH Logo" className="h-10 w-10 object-contain rounded-xl border border-cyan-500/30" />
             <div>
               <h1 className="text-3xl font-extrabold tracking-tight text-gradient-logo">
                 AROH CMS Editorial Hub

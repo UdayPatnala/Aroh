@@ -12,8 +12,6 @@ export default function HomePage() {
   const { user, profile, wallet, announcements, isAuthenticated, fetchAnnouncements } = usePlatformStore();
 
   const [introPlaying, setIntroPlaying] = React.useState(false);
-  const [soundEnabled, setSoundEnabled] = React.useState(false);
-  const videoRef = React.useRef<HTMLVideoElement>(null);
 
   React.useEffect(() => {
     fetchAnnouncements();
@@ -27,16 +25,8 @@ export default function HomePage() {
 
   const handleFinishIntro = () => {
     setIntroPlaying(false);
-    setSoundEnabled(false);
     if (typeof window !== "undefined") {
       sessionStorage.setItem("aroh_intro_played", "true");
-    }
-  };
-
-  const handleEnableSound = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = false;
-      setSoundEnabled(true);
     }
   };
 
@@ -53,7 +43,6 @@ export default function HomePage() {
             className="fixed inset-0 z-[99999] bg-black flex justify-center items-center overflow-hidden"
           >
             <video
-              ref={videoRef}
               src="/aroh-intro.mp4"
               autoPlay
               playsInline
@@ -61,26 +50,6 @@ export default function HomePage() {
               onEnded={handleFinishIntro}
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30 pointer-events-none" />
-
-            <div className="absolute bottom-8 right-8 flex items-center gap-3 z-10">
-              {!soundEnabled && (
-                <button
-                  type="button"
-                  onClick={handleEnableSound}
-                  className="px-5 py-2 bg-black/60 hover:bg-black/80 border border-white/20 rounded-full text-xs font-bold uppercase tracking-wider text-white transition-all backdrop-blur-md cursor-pointer shadow-lg"
-                >
-                  🔊 Tap for Sound
-                </button>
-              )}
-              <button
-                type="button"
-                onClick={handleFinishIntro}
-                className="px-6 py-2 bg-white text-slate-950 rounded-full text-xs font-bold uppercase tracking-wider transition-all shadow-xl hover:bg-slate-100 cursor-pointer"
-              >
-                Skip Intro ↗
-              </button>
-            </div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -122,7 +91,7 @@ export default function HomePage() {
               }}
             >
               <img
-                src="/aroh-logo.png"
+                src="/aroh-logo.png?v=2"
                 alt="AROH Official Logo"
                 className="h-10 w-10 object-contain rounded-xl shadow-sm border border-black/5"
               />
@@ -223,7 +192,7 @@ export default function HomePage() {
               className="flex justify-center mb-4 relative"
             >
               <img
-                src="/aroh-logo.png"
+                src="/aroh-logo.png?v=2"
                 alt="AROH Minimalist Geometric Logo"
                 className="h-36 w-36 object-contain rounded-3xl p-1 shadow-md bg-white border border-black/5 relative z-10"
               />
@@ -322,7 +291,7 @@ export default function HomePage() {
         <footer className="border-t border-black/5 px-6 py-8 relative z-10 text-center bg-white">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-2">
-              <img src="/aroh-logo.png" alt="AROH Logo" className="h-6 w-6 object-contain" />
+              <img src="/aroh-logo.png?v=2" alt="AROH Logo" className="h-6 w-6 object-contain" />
               <span className="font-extrabold text-sm text-slate-900 tracking-widest">AROH PLATFORM</span>
             </div>
             <p className="text-xs text-slate-500">

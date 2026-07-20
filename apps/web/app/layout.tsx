@@ -13,7 +13,14 @@ const outfit = Outfit({
 
 export const metadata: Metadata = {
   title: "AROH Ecosystem Platform",
-  description: "A premium, unified digital platform containing multiple interconnected products sharing a centralized foundation."
+  description: "A premium, unified digital platform containing multiple interconnected products sharing a centralized foundation.",
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/aroh-logo.png", type: "image/png" }
+    ],
+    apple: "/aroh-logo.png"
+  }
 };
 
 export default function RootLayout({

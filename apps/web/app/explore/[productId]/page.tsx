@@ -61,7 +61,7 @@ export default function ProductDetailPage() {
         {/* Navigation */}
         <div className="flex justify-between items-center border-b border-white/10 pb-6">
           <div className="flex items-center gap-3">
-            <img src="/aroh-logo.png" alt="AROH Logo" className="h-8 w-8 object-contain rounded-lg border border-amber-500/30" />
+            <img src="/aroh-logo.png?v=2" alt="AROH Logo" className="h-8 w-8 object-contain rounded-lg border border-amber-500/30" />
             <Button variant="secondary" onClick={() => router.push("/explore")} className="px-4 text-xs">
               ← Back to Explore
             </Button>
