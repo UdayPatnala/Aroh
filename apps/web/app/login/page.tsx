@@ -17,8 +17,10 @@ export default function LoginPage() {
   const [password, setPassword] = React.useState("");
   const [displayName, setDisplayName] = React.useState("");
   const [forceMock, setForceMock] = React.useState(false);
+  const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {
+    setMounted(true);
     if (typeof window !== "undefined") {
       setForceMock(localStorage.getItem("aroh_force_mock") === "true");
     }
@@ -238,7 +240,7 @@ export default function LoginPage() {
         </div>
  
         {/* Demo credentials hint */}
-        {isMockEnv && !isRegister && !isForgotPassword && (
+        {mounted && isMockEnv && !isRegister && !isForgotPassword && (
           <div className="mt-6 p-4 rounded-lg bg-white/2 border border-white/5 text-[11px] text-zinc-400 space-y-1">
             <span className="font-semibold text-zinc-300 block mb-1">Demo Accounts:</span>
             <div className="flex justify-between">

@@ -1,0 +1,69 @@
+{
+  "$schemaVersion": "v1.0.0",
+  "identity": {
+    "id": "spedex-core",
+    "name": "Spedex Core",
+    "description": "High-throughput real-time logistics, task queue, and data pipeline engine.",
+    "upstreamUrl": "https://github.com/UdayPatnala/spedex-core",
+    "repositoryType": "monorepo_package",
+    "targetPath": "packages/spedex-core",
+    "branch": "main",
+    "upstreamVersion": "v2.1.0",
+    "commitHash": "b2c3d4e5f67890a1",
+    "ownership": "team-logistics-engine"
+  },
+  "governance": {
+    "syncPolicy": "on_upstream_release",
+    "mergeStrategy": "deterministic_overwrite",
+    "autoSyncEnabled": false,
+    "excludedPaths": [
+      "**/target/**",
+      "**/node_modules/**"
+    ],
+    "generatedPaths": [
+      "src/main/resources/generated/**"
+    ],
+    "protectedPaths": [
+      "config/aroh-bridge.properties"
+    ]
+  },
+  "compatibility": {
+    "ecosystemVersion": "v2.0.0",
+    "minimumAsdkVersion": "v2.0.0",
+    "dependencies": {
+      "zod": "^3.22.4"
+    },
+    "requiredPlatformServices": [
+      "auth",
+      "aros-wallet",
+      "cms-alerts"
+    ]
+  },
+  "metadata": {
+    "lastSyncedAt": "2026-07-20T12:05:00Z",
+    "modifiedFiles": [],
+    "generatedFiles": [],
+    "migrationHistory": [
+      {
+        "version": "v2.1.0",
+        "appliedAt": "2026-07-20T12:05:00Z",
+        "description": "Decoupled Java backend and React frontend into pure core engine package"
+      }
+    ],
+    "architecturalNotes": [
+      "Spedex Core exposes REST & event webhooks. All AROH credits/debits are executed server-side via apps/web API route bridge."
+    ],
+    "aiAnnotations": {
+      "domain": "Logistics & Realtime Data Streaming",
+      "throughputTarget": "high-concurrency"
+    },
+    "auditTrail": [
+      {
+        "timestamp": "2026-07-20T12:05:00Z",
+        "action": "MANIFEST_REGISTER",
+        "actor": "system:architect",
+        "details": "Registered managed project manifest for spedex-core"
+      }
+    ]
+  }
+}

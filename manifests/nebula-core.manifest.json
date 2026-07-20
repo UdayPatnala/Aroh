@@ -1,0 +1,79 @@
+{
+  "$schemaVersion": "v1.0.0",
+  "identity": {
+    "id": "nebula-core",
+    "name": "Nebula Core",
+    "description": "Decoupled real-time multi-agent workspace engine and prompt canvas core.",
+    "upstreamUrl": "https://github.com/UdayPatnala/nebula-core",
+    "repositoryType": "monorepo_package",
+    "targetPath": "packages/nebula-core",
+    "branch": "main",
+    "upstreamVersion": "v1.4.2",
+    "commitHash": "a1b2c3d4e5f67890",
+    "ownership": "team-ai-workspace"
+  },
+  "governance": {
+    "syncPolicy": "continuous_governed",
+    "mergeStrategy": "downstream_wins",
+    "autoSyncEnabled": false,
+    "excludedPaths": [
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/.next/**"
+    ],
+    "generatedPaths": [
+      "src/generated/**"
+    ],
+    "protectedPaths": [
+      "src/integrations/aroh-adapter.ts"
+    ]
+  },
+  "compatibility": {
+    "ecosystemVersion": "v2.0.0",
+    "minimumAsdkVersion": "v2.0.0",
+    "dependencies": {
+      "zod": "^3.22.4",
+      "zustand": "^4.5.0"
+    },
+    "requiredPlatformServices": [
+      "auth",
+      "aros-wallet",
+      "ai-orchestrator"
+    ]
+  },
+  "metadata": {
+    "lastSyncedAt": "2026-07-20T12:00:00Z",
+    "modifiedFiles": [
+      "src/integrations/aroh-adapter.ts"
+    ],
+    "generatedFiles": [],
+    "migrationHistory": [
+      {
+        "version": "v1.0.0",
+        "appliedAt": "2026-07-01T00:00:00Z",
+        "description": "Initial core decoupling from monolithic app"
+      },
+      {
+        "version": "v1.4.2",
+        "appliedAt": "2026-07-20T12:00:00Z",
+        "description": "Aligned with AROH ASDK v2.0.0 event hooks interface"
+      }
+    ],
+    "architecturalNotes": [
+      "Nebula Core is zero-dependency on @aroh/asdk. Integration layer in apps/web maps onWorkspaceCreated and onAgentRun events to Aros billing routes."
+    ],
+    "aiAnnotations": {
+      "domain": "AI Workspace Canvas",
+      "modelCompatibility": "provider-agnostic",
+      "agentSupport": "multi-agent orchestration"
+    },
+    "auditTrail": [
+      {
+        "timestamp": "2026-07-20T12:00:00Z",
+        "action": "MANIFEST_REGISTER",
+        "actor": "system:architect",
+        "details": "Registered managed project manifest for nebula-core"
+      }
+    ]
+  }
+}

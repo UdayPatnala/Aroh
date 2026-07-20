@@ -1,0 +1,68 @@
+{
+  "$schemaVersion": "v1.0.0",
+  "identity": {
+    "id": "javapath-pro-core",
+    "name": "JavaPath Pro Core",
+    "description": "Interactive JVM code analysis, curriculum engine, and path progression validator.",
+    "upstreamUrl": "https://github.com/UdayPatnala/javapath-pro-core",
+    "repositoryType": "monorepo_package",
+    "targetPath": "packages/javapath-pro-core",
+    "branch": "main",
+    "upstreamVersion": "v1.1.0",
+    "commitHash": "d4e5f67890a1b2c3",
+    "ownership": "team-developer-education"
+  },
+  "governance": {
+    "syncPolicy": "continuous_governed",
+    "mergeStrategy": "downstream_wins",
+    "autoSyncEnabled": false,
+    "excludedPaths": [
+      "**/node_modules/**"
+    ],
+    "generatedPaths": [
+      "src/ast-cache/**"
+    ],
+    "protectedPaths": [
+      "src/bridge/aroh-rewards.ts"
+    ]
+  },
+  "compatibility": {
+    "ecosystemVersion": "v2.0.0",
+    "minimumAsdkVersion": "v2.0.0",
+    "dependencies": {
+      "zod": "^3.22.4"
+    },
+    "requiredPlatformServices": [
+      "auth",
+      "aros-wallet",
+      "ai-orchestrator"
+    ]
+  },
+  "metadata": {
+    "lastSyncedAt": "2026-07-20T12:15:00Z",
+    "modifiedFiles": [],
+    "generatedFiles": [],
+    "migrationHistory": [
+      {
+        "version": "v1.1.0",
+        "appliedAt": "2026-07-20T12:15:00Z",
+        "description": "Decoupled interactive compiler runner into standalone javapath-pro-core"
+      }
+    ],
+    "architecturalNotes": [
+      "JavaPath Pro Core emits challengeCompletion events to trigger Aros reward payouts server-side."
+    ],
+    "aiAnnotations": {
+      "domain": "Developer Education & Java AST Analysis",
+      "aiTutorIntegration": "true"
+    },
+    "auditTrail": [
+      {
+        "timestamp": "2026-07-20T12:15:00Z",
+        "action": "MANIFEST_REGISTER",
+        "actor": "system:architect",
+        "details": "Registered managed project manifest for javapath-pro-core"
+      }
+    ]
+  }
+}

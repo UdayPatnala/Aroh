@@ -39,8 +39,19 @@ export default function HomePage() {
   const router = useRouter();
   const { user, profile, wallet, announcements, isAuthenticated, fetchAnnouncements } = usePlatformStore();
 
+  const [introCompleted, setIntroCompleted] = React.useState(false);
+  const [introPlaying, setIntroPlaying] = React.useState(false);
+
   React.useEffect(() => {
     fetchAnnouncements();
+    if (typeof window !== "undefined") {
+      const played = sessionStorage.getItem("aroh_intro_played");
+      if (played === "true") {
+        setIntroCompleted(true);
+      } else {
+        setIntroPlaying(true);
+      }
+    }
   }, [fetchAnnouncements]);
 
   const handleNavToDashboard = () => {
@@ -50,6 +61,34 @@ export default function HomePage() {
       router.push("/login");
     }
   };
+
+  if (introPlaying) {
+    return (
+      <div className="fixed inset-0 z-[99999] bg-[#050508] flex justify-center items-center overflow-hidden">
+        <video
+          src="/aroh-intro.mp4"
+          autoPlay
+          playsInline
+          onEnded={() => {
+            setIntroPlaying(false);
+            setIntroCompleted(true);
+            sessionStorage.setItem("aroh_intro_played", "true");
+          }}
+          className="w-full h-full object-cover"
+        />
+        <button
+          onClick={() => {
+            setIntroPlaying(false);
+            setIntroCompleted(true);
+            sessionStorage.setItem("aroh_intro_played", "true");
+          }}
+          className="absolute bottom-8 right-8 px-6 py-2.5 bg-black/60 hover:bg-black/85 border border-white/10 hover:border-amber-500/50 rounded-full text-xs font-mono font-bold uppercase tracking-wider text-white transition-all backdrop-blur-md cursor-pointer focus:outline-none"
+        >
+          Skip Intro
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#0a0a0c] text-white flex flex-col justify-between overflow-x-hidden font-sans">
@@ -188,6 +227,15 @@ export default function HomePage() {
           transition={{ duration: 0.6 }}
           className="text-center max-w-2xl mx-auto space-y-6"
         >
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="flex justify-center mb-6"
+          >
+            <img src="/aroh-logo.png" alt="AROH Logo" className="h-20 w-20 object-contain rounded-2xl border border-white/10 shadow-2xl shadow-amber-500/10" />
+          </motion.div>
+
           <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] uppercase font-bold tracking-widest text-amber-400">
             Phase 1 MVP Live
           </span>
@@ -218,27 +266,6 @@ export default function HomePage() {
             >
               Create Profile
             </Button>
-          </div>
-        </motion.div>
-
-        {/* Intro Video Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="max-w-4xl mx-auto rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-zinc-900/50 backdrop-blur-md p-2 relative group"
-        >
-          <div className="absolute inset-0 bg-gradient-to-tr from-amber-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none rounded-2xl" />
-          <div className="relative aspect-video rounded-xl overflow-hidden bg-black">
-            <video
-              src="/aroh-intro.mp4"
-              autoPlay
-              muted
-              loop
-              playsInline
-              className="w-full h-full object-cover pointer-events-none"
-              aria-label="Official AROH Introduction Video"
-            />
           </div>
         </motion.div>
 

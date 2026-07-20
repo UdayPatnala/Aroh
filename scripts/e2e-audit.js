@@ -97,6 +97,13 @@ async function runAudit() {
       { timeout: 10000 }
     );
     
+    // Check if fullscreen intro is playing and skip it
+    const skipClicked = await clickButtonByText(page, "Skip Intro");
+    if (skipClicked) {
+      console.log("[INFO] Fullscreen intro detected. Clicking 'Skip Intro'...");
+      await new Promise(r => setTimeout(r, 1000)); // wait for fade transition
+    }
+
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, "02_user_logged_in_home.png") });
 
     // Verify authentication status on home
