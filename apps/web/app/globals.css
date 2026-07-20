@@ -2,11 +2,11 @@
 @source "../../packages/ads/src/**/*.tsx";
 
 :root {
-  --background: #06070a;
+  --background: #08080a;
   --foreground: #f4f4f5;
-  --accent-cyan: #06b6d4;
   --accent-gold: #f59e0b;
-  --accent-purple: #a855f7;
+  --accent-gold-bright: #d4af37;
+  --accent-gold-glow: rgba(245, 158, 11, 0.2);
 }
 
 @theme inline {
@@ -22,26 +22,25 @@ body {
   overflow-x: hidden;
 }
 
-/* Glowing text and gradient utilities matching AROH logo */
-.text-gradient-logo {
-  background: linear-gradient(135deg, #06b6d4 0%, #f59e0b 50%, #a855f7 100%);
+/* Metallic Cyber Gold gradient matching AROH logo emblem */
+.text-gradient-gold {
+  background: linear-gradient(135deg, #fef08a 0%, #f59e0b 50%, #d4af37 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.bg-mesh-logo {
+.bg-mesh-gold {
   background-image: 
-    radial-gradient(circle at 20% 20%, rgba(6, 182, 212, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 50% 50%, rgba(245, 158, 11, 0.05) 0%, transparent 60%);
+    radial-gradient(circle at 50% 20%, rgba(245, 158, 11, 0.06) 0%, transparent 60%),
+    radial-gradient(circle at 20% 80%, rgba(212, 175, 55, 0.04) 0%, transparent 50%);
 }
 
-.border-logo-glow {
-  border-color: rgba(6, 182, 212, 0.2);
-  box-shadow: 0 0 20px -5px rgba(6, 182, 212, 0.15);
+.border-gold-glow {
+  border-color: rgba(245, 158, 11, 0.25);
+  box-shadow: 0 0 25px -5px rgba(245, 158, 11, 0.15);
 }
 
-.border-logo-glow:hover {
-  border-color: rgba(245, 158, 11, 0.4);
-  box-shadow: 0 0 25px -3px rgba(245, 158, 11, 0.25);
+.border-gold-glow:hover {
+  border-color: rgba(245, 158, 11, 0.5);
+  box-shadow: 0 0 30px -3px rgba(245, 158, 11, 0.25);
 }

@@ -107,7 +107,7 @@ const categories = ["All", "Core Service", "Ecosystem Service", "Analytics", "De
 
 export default function ExplorePage() {
   const router = useRouter();
-  const { user, profile, wallet, isAuthenticated } = usePlatformStore();
+  const { user, wallet, isAuthenticated } = usePlatformStore();
   const [searchQuery, setSearchQuery] = React.useState("");
   const [selectedCategory, setSelectedCategory] = React.useState("All");
 
@@ -128,14 +128,14 @@ export default function ExplorePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#06070a] text-white py-12 px-6 lg:px-12 bg-mesh-logo">
+    <div className="min-h-screen bg-[#08080a] text-white py-12 px-6 lg:px-12 bg-mesh-gold">
       <div className="max-w-6xl mx-auto space-y-10">
         {/* Navigation bar */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-white/10 pb-6">
           <div className="flex items-center gap-4">
-            <img src="/aroh-logo.png" alt="AROH Logo" className="h-10 w-10 object-contain rounded-xl border border-cyan-500/30" />
+            <img src="/aroh-logo.png" alt="AROH Logo" className="h-10 w-10 object-contain rounded-xl border border-amber-500/30" />
             <div>
-              <h1 className="text-3xl font-extrabold tracking-tight text-gradient-logo">
+              <h1 className="text-3xl font-extrabold tracking-tight text-gradient-gold">
                 Ecosystem Explorer
               </h1>
               <p className="text-zinc-400 text-xs mt-0.5">
@@ -148,7 +148,7 @@ export default function ExplorePage() {
               Home
             </Button>
             {isAuthenticated && (
-              <div className="bg-zinc-900 border border-amber-500/30 px-3 py-1.5 rounded-xl text-xs font-mono font-bold text-amber-400">
+              <div className="bg-zinc-900 border border-amber-500/30 px-3.5 py-1.5 rounded-xl text-xs font-mono font-bold text-amber-400">
                 {formatArosBalance(wallet?.balance, user?.role)}
               </div>
             )}
@@ -165,7 +165,7 @@ export default function ExplorePage() {
               placeholder="Search products by name or feature..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl bg-zinc-900 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:border-cyan-500 transition-colors text-xs"
+              className="w-full px-4 py-2.5 rounded-xl bg-zinc-900 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:border-amber-500 transition-colors text-xs"
             />
           </div>
 
@@ -174,9 +174,9 @@ export default function ExplorePage() {
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${
                   selectedCategory === cat
-                    ? "bg-cyan-500/10 text-cyan-400 border-cyan-500/30 font-bold"
+                    ? "bg-amber-500/10 text-amber-400 border-amber-500/30 font-bold"
                     : "bg-zinc-900/60 text-zinc-400 border-white/5 hover:border-white/10 hover:text-white"
                 }`}
               >
@@ -198,19 +198,19 @@ export default function ExplorePage() {
                 key={prod.id}
                 whileHover={{ scale: 1.02 }}
                 onClick={() => handleLaunchProduct(prod)}
-                className="bg-zinc-950/70 border border-white/10 rounded-2xl p-6 flex flex-col justify-between hover:border-cyan-500/40 hover:shadow-xl hover:shadow-cyan-500/10 transition-all cursor-pointer group"
+                className="bg-zinc-950/80 border border-white/10 rounded-2xl p-6 flex flex-col justify-between hover:border-amber-500/40 hover:shadow-xl hover:shadow-amber-500/10 transition-all cursor-pointer group"
               >
                 <div className="space-y-4">
                   <div className="flex justify-between items-start">
-                    <span className="px-2.5 py-0.5 rounded text-[8px] uppercase font-bold tracking-wider bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                    <span className="px-2.5 py-0.5 rounded text-[8px] uppercase font-bold tracking-wider bg-amber-500/10 text-amber-400 border border-amber-500/20">
                       {prod.badge}
                     </span>
-                    <span className="px-2 py-0.5 rounded text-[8px] uppercase font-bold tracking-wider bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                    <span className="px-2 py-0.5 rounded text-[8px] uppercase font-bold tracking-wider bg-white/5 text-zinc-300 border border-white/10">
                       {prod.requiredTier.toUpperCase()}
                     </span>
                   </div>
 
-                  <h3 className="text-xl font-bold text-white group-hover:text-cyan-400 transition-colors leading-tight">
+                  <h3 className="text-xl font-bold text-white group-hover:text-amber-400 transition-colors leading-tight">
                     {prod.name}
                   </h3>
                   <p className="text-zinc-400 text-xs leading-relaxed line-clamp-3">

@@ -16,7 +16,7 @@ export default function ProductDetailPage() {
 
   if (!product) {
     return (
-      <div className="min-h-screen bg-[#06070a] text-white flex flex-col justify-center items-center gap-4">
+      <div className="min-h-screen bg-[#08080a] text-white flex flex-col justify-center items-center gap-4">
         <h1 className="text-2xl font-bold">Product Not Found</h1>
         <Button variant="secondary" onClick={() => router.push("/explore")}>
           Return to Explorer
@@ -31,7 +31,8 @@ export default function ProductDetailPage() {
     profile &&
     (product.requiredTier === "basic" ||
       (product.requiredTier === "pro" && (profile.membershipLevel === "pro" || profile.membershipLevel === "enterprise")) ||
-      (product.requiredTier === "enterprise" && profile.membershipLevel === "enterprise"));
+      (product.requiredTier === "enterprise" && profile.membershipLevel === "enterprise") ||
+      user?.role === "admin");
 
   const handleLaunchProductWebpage = () => {
     if (product.url) {
@@ -55,12 +56,12 @@ export default function ProductDetailPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#06070a] text-white py-12 px-6 lg:px-12 bg-mesh-logo">
+    <div className="min-h-screen bg-[#08080a] text-white py-12 px-6 lg:px-12 bg-mesh-gold">
       <div className="max-w-4xl mx-auto space-y-10">
         {/* Navigation */}
         <div className="flex justify-between items-center border-b border-white/10 pb-6">
           <div className="flex items-center gap-3">
-            <img src="/aroh-logo.png" alt="AROH Logo" className="h-8 w-8 object-contain rounded-lg border border-cyan-500/30" />
+            <img src="/aroh-logo.png" alt="AROH Logo" className="h-8 w-8 object-contain rounded-lg border border-amber-500/30" />
             <Button variant="secondary" onClick={() => router.push("/explore")} className="px-4 text-xs">
               ← Back to Explore
             </Button>
@@ -73,10 +74,10 @@ export default function ProductDetailPage() {
         </div>
 
         {/* Product Details Header */}
-        <div className="bg-zinc-950/80 border border-cyan-500/20 rounded-3xl p-8 space-y-6 shadow-2xl border-logo-glow">
+        <div className="bg-zinc-950/90 border border-amber-500/20 rounded-3xl p-8 space-y-6 shadow-2xl border-gold-glow">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="space-y-2">
-              <span className="px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-[10px] uppercase font-bold tracking-wider text-cyan-400">
+              <span className="px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-[10px] uppercase font-bold tracking-wider text-amber-400">
                 {product.badge}
               </span>
               <h1 className="text-3xl font-extrabold tracking-tight text-white leading-none pt-2">
@@ -148,7 +149,7 @@ export default function ProductDetailPage() {
             </div>
           ) : (
             <div className="space-y-6">
-              <div className="flex justify-between items-center bg-cyan-500/10 border border-cyan-500/20 rounded-2xl p-6 text-cyan-400">
+              <div className="flex justify-between items-center bg-amber-500/10 border border-amber-500/20 rounded-2xl p-6 text-amber-400">
                 <div>
                   <h3 className="font-bold text-base text-white">Standalone Product Ready</h3>
                   <p className="text-xs text-zinc-400 mt-1">
@@ -158,7 +159,7 @@ export default function ProductDetailPage() {
                 <Button
                   variant="primary"
                   onClick={handleLaunchProductWebpage}
-                  className="px-6 py-3 font-bold text-xs shadow-lg shadow-cyan-500/20"
+                  className="px-6 py-3 font-bold text-xs shadow-lg shadow-amber-500/20"
                 >
                   Launch Product Webpage ↗
                 </Button>

@@ -64,19 +64,19 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#06070a] text-white flex flex-col justify-center items-center px-4 relative overflow-hidden font-sans bg-mesh-logo">
+    <div className="min-h-screen bg-[#08080a] text-white flex flex-col justify-center items-center px-4 relative overflow-hidden font-sans bg-mesh-gold">
       {/* Radial Glow Backdrop */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(6,182,212,0.05),transparent_60%)] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(245,158,11,0.05),transparent_60%)] pointer-events-none" />
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="w-full max-w-md bg-zinc-950/80 backdrop-blur-2xl border border-cyan-500/20 p-8 rounded-3xl shadow-2xl relative z-10 border-logo-glow"
+        className="w-full max-w-md bg-zinc-950/80 backdrop-blur-2xl border border-amber-500/20 p-8 rounded-3xl shadow-2xl relative z-10 border-gold-glow"
       >
         <div className="flex flex-col items-center mb-6">
-          <img src="/aroh-logo.png" alt="AROH Logo" className="h-16 w-16 object-contain mb-3 rounded-2xl border border-cyan-500/30 shadow-xl shadow-cyan-500/10" />
-          <span className="font-extrabold tracking-[0.3em] text-2xl text-gradient-logo">
+          <img src="/aroh-logo.png" alt="AROH Logo" className="h-16 w-16 object-contain mb-3 rounded-2xl border border-amber-500/30 shadow-xl shadow-amber-500/10" />
+          <span className="font-extrabold tracking-[0.3em] text-2xl text-gradient-gold">
             AROH
           </span>
         </div>
@@ -89,7 +89,7 @@ export default function LoginPage() {
               onClick={() => handleProfileSelect("admin")}
               className={`flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all ${
                 selectedRole === "admin"
-                  ? "bg-gradient-to-r from-cyan-500 to-amber-500 text-zinc-950 shadow-md"
+                  ? "bg-amber-500 text-zinc-950 shadow-md"
                   : "text-zinc-400 hover:text-white"
               }`}
             >
@@ -100,7 +100,7 @@ export default function LoginPage() {
               onClick={() => handleProfileSelect("operator")}
               className={`flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all ${
                 selectedRole === "operator"
-                  ? "bg-zinc-800 text-white border border-white/10"
+                  ? "bg-amber-500 text-zinc-950 shadow-md"
                   : "text-zinc-400 hover:text-white"
               }`}
             >
@@ -111,7 +111,7 @@ export default function LoginPage() {
               onClick={() => handleProfileSelect("user")}
               className={`flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all ${
                 selectedRole === "user"
-                  ? "bg-zinc-800 text-white border border-white/10"
+                  ? "bg-amber-500 text-zinc-950 shadow-md"
                   : "text-zinc-400 hover:text-white"
               }`}
             >
@@ -120,144 +120,129 @@ export default function LoginPage() {
           </div>
         )}
 
-        <h1 className="text-2xl font-bold tracking-tight text-center text-white mb-2">
-          {isForgotPassword ? "Reset Password" : isRegister ? "Create Profile" : `Sign In as ${selectedRole.toUpperCase()}`}
-        </h1>
-        <p className="text-zinc-400 text-xs text-center mb-6">
-          {isForgotPassword
-            ? "Enter your email to receive a password reset link"
-            : isRegister
-            ? "Register to access the AROH unified platform"
-            : "Enter your credentials to manage your AROH ecosystem services"}
-        </p>
+        <div className="text-center mb-6">
+          <h1 className="text-xl font-bold text-white tracking-tight">
+            {isForgotPassword
+              ? "Reset Workspace Password"
+              : isRegister
+              ? "Register Ecosystem Identity"
+              : `Sign In as ${selectedRole.toUpperCase()}`}
+          </h1>
+          <p className="text-zinc-400 text-xs mt-1">
+            {isForgotPassword
+              ? "Enter your email address to receive password recovery instructions."
+              : isRegister
+              ? "Create a new unified profile under the AROH Platform."
+              : "Enter your workspace credentials to access services."}
+          </p>
+        </div>
 
-        <AnimatePresence mode="wait">
-          {resetSent && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-4 py-3 rounded-xl text-xs mb-6 text-center"
-            >
-              Password reset link sent! Check your inbox.
-            </motion.div>
-          )}
-          {error && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              className="bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-xl text-xs mb-6 text-center"
-            >
-              {error}
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {error && (
+          <div className="mb-6 bg-red-500/10 border border-red-500/20 text-red-400 p-3 rounded-xl text-xs text-center font-medium">
+            {error}
+          </div>
+        )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <AnimatePresence mode="popLayout">
-            {isRegister && !isForgotPassword && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.2 }}
-                key="name-field"
-              >
-                <label htmlFor="displayName" className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">
+        {resetSent ? (
+          <div className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 p-4 rounded-xl text-xs text-center space-y-4">
+            <p>Password recovery email sent to <strong>{email}</strong>.</p>
+            <Button
+              variant="secondary"
+              onClick={() => setIsForgotPassword(false)}
+              className="w-full text-xs"
+            >
+              Back to Sign In
+            </Button>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {isRegister && (
+              <div>
+                <label htmlFor="authDisplayName" className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1">
                   Display Name
                 </label>
                 <input
-                  id="displayName"
+                  id="authDisplayName"
                   type="text"
+                  placeholder="e.g. Alex Mercer"
                   value={displayName}
                   onChange={(e) => setDisplayName(e.target.value)}
-                  placeholder="Aroh Engineer"
-                  className="w-full px-4 py-2.5 rounded-xl bg-zinc-900 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-all text-xs"
+                  className="w-full px-4 py-2.5 rounded-xl bg-zinc-900 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:border-amber-500 transition-colors text-xs"
                   required
                 />
-              </motion.div>
+              </div>
             )}
-          </AnimatePresence>
 
-          <div>
-            <label htmlFor="email" className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">
-              Email Address
-            </label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="admin@aroh.co"
-              className="w-full px-4 py-2.5 rounded-xl bg-zinc-900 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all text-xs"
-              required
-            />
-          </div>
-
-          {!isForgotPassword && (
             <div>
-              <label htmlFor="password" className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">
-                Password
+              <label htmlFor="authEmail" className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1">
+                Workspace Email
               </label>
               <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                className="w-full px-4 py-2.5 rounded-xl bg-zinc-900 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all text-xs"
+                id="authEmail"
+                type="email"
+                placeholder="name@aroh.co"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-2.5 rounded-xl bg-zinc-900 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:border-amber-500 transition-colors text-xs"
                 required
               />
             </div>
-          )}
 
-          {!isRegister && !isForgotPassword && (
-            <div className="text-right">
-              <button
-                type="button"
-                onClick={() => setIsForgotPassword(true)}
-                className="text-xs text-amber-400 hover:underline cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-amber-500 rounded px-1"
-              >
-                Forgot Password?
-              </button>
-            </div>
-          )}
-
-          <Button
-            type="submit"
-            disabled={isLoading}
-            variant="primary"
-            className="w-full py-3 mt-4 text-center flex justify-center items-center font-bold text-xs focus-visible:ring-2 focus-visible:ring-cyan-500"
-          >
-            {isLoading ? (
-              <span className="w-4 h-4 border-2 border-zinc-950 border-t-transparent rounded-full animate-spin" />
-            ) : isForgotPassword ? (
-              "Send Reset Link"
-            ) : isRegister ? (
-              "Sign Up Account"
-            ) : (
-              `Sign In as ${selectedRole.toUpperCase()}`
+            {!isForgotPassword && (
+              <div>
+                <div className="flex justify-between items-center mb-1">
+                  <label htmlFor="authPassword" className="block text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                    Password
+                  </label>
+                  {!isRegister && (
+                    <button
+                      type="button"
+                      onClick={() => setIsForgotPassword(true)}
+                      className="text-[10px] text-amber-400 hover:underline cursor-pointer"
+                    >
+                      Forgot password?
+                    </button>
+                  )}
+                </div>
+                <input
+                  id="authPassword"
+                  type="password"
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full px-4 py-2.5 rounded-xl bg-zinc-900 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:border-amber-500 transition-colors text-xs"
+                  required
+                />
+              </div>
             )}
-          </Button>
-        </form>
 
-        <div className="mt-6 text-center space-y-2">
-          {isForgotPassword ? (
-            <button
-              onClick={() => setIsForgotPassword(false)}
-              className="text-xs text-amber-400 hover:underline cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 rounded p-1 w-full block"
+            <Button
+              type="submit"
+              variant="primary"
+              disabled={isLoading}
+              className="w-full py-3 font-bold text-xs mt-2"
             >
-              Back to Sign In
-            </button>
-          ) : (
+              {isLoading
+                ? "Authenticating..."
+                : isForgotPassword
+                ? "Send Reset Link"
+                : isRegister
+                ? "Create Account"
+                : `Sign In to ${selectedRole.toUpperCase()} Account`}
+            </Button>
+          </form>
+        )}
+
+        <div className="mt-6 border-t border-white/5 pt-4 text-center">
+          {!isForgotPassword && (
             <button
+              type="button"
               onClick={() => setIsRegister(!isRegister)}
-              className="text-xs text-zinc-400 hover:text-white transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 rounded p-1 w-full block"
+              className="text-xs text-zinc-400 hover:text-white transition-colors cursor-pointer"
             >
               {isRegister
-                ? "Already have an account? Sign In"
-                : "Need a new account? Register Profile"}
+                ? "Already have an account? Sign in"
+                : "Don't have an account? Register identity"}
             </button>
           )}
         </div>
