@@ -12,7 +12,6 @@ export default function HomePage() {
   const { user, profile, wallet, announcements, isAuthenticated, fetchAnnouncements } = usePlatformStore();
 
   const [introPlaying, setIntroPlaying] = React.useState(false);
-  const [videoMuted, setVideoMuted] = React.useState(true);
 
   React.useEffect(() => {
     fetchAnnouncements();
@@ -47,20 +46,12 @@ export default function HomePage() {
               src="/aroh-intro.mp4"
               autoPlay
               playsInline
-              muted={videoMuted}
               onEnded={handleFinishIntro}
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30 pointer-events-none" />
 
-            <div className="absolute bottom-8 right-8 flex items-center gap-3 z-10">
-              <button
-                type="button"
-                onClick={() => setVideoMuted(!videoMuted)}
-                className="px-4 py-2 bg-black/60 hover:bg-black/80 border border-white/20 rounded-full text-xs font-mono font-bold uppercase tracking-wider text-white transition-all backdrop-blur-md cursor-pointer shadow-lg"
-              >
-                {videoMuted ? "Unmute Sound 🔊" : "Mute Sound 🔇"}
-              </button>
+            <div className="absolute bottom-8 right-8 z-10">
               <button
                 type="button"
                 onClick={handleFinishIntro}
