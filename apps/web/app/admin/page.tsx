@@ -3,7 +3,7 @@
 import * as React from "react";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
-import { usePlatformStore, mockWalletService } from "@aroh/asdk";
+import { usePlatformStore, mockWalletService, formatArosBalance } from "@aroh/asdk";
 import { Button } from "@aroh/ads";
 import NotificationCenter from "../components/notification-center";
 
@@ -12,9 +12,9 @@ const AdminCharts = dynamic(() => import("../components/admin-charts"), {
   ssr: false,
   loading: () => (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <div className="h-[350px] bg-white/5 border border-white/10 rounded-xl animate-pulse" />
-      <div className="h-[350px] bg-white/5 border border-white/10 rounded-xl animate-pulse" />
-      <div className="h-[350px] bg-white/5 border border-white/10 rounded-xl animate-pulse" />
+      <div className="h-[350px] bg-zinc-950/60 border border-cyan-500/20 rounded-2xl animate-pulse" />
+      <div className="h-[350px] bg-zinc-950/60 border border-cyan-500/20 rounded-2xl animate-pulse" />
+      <div className="h-[350px] bg-zinc-950/60 border border-cyan-500/20 rounded-2xl animate-pulse" />
     </div>
   ),
 });
@@ -24,7 +24,7 @@ export default function AdminPage() {
   const { user, isAuthenticated, isRehydrated, rewardUser } = usePlatformStore();
 
   const [targetUserId, setTargetUserId] = React.useState("user-id");
-  const [creditAmount, setCreditAmount] = React.useState("100");
+  const [creditAmount, setCreditAmount] = React.useState("500");
   const [creditDesc, setCreditDesc] = React.useState("Platform Incentive Reward");
   const [globalTxs, setGlobalTxs] = React.useState<any[]>([]);
 
@@ -64,18 +64,18 @@ export default function AdminPage() {
 
   if (!isRehydrated || !isAuthenticated) {
     return (
-      <div className="min-h-screen bg-[#0a0a0c] flex justify-center items-center text-white">
-        <span className="w-8 h-8 border-4 border-amber-500 border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen bg-[#06070a] flex justify-center items-center text-white">
+        <span className="w-8 h-8 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
   if (!hasAccess) {
     return (
-      <div className="min-h-screen bg-[#0a0a0c] flex flex-col justify-center items-center text-white p-6">
-        <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-8 rounded-xl max-w-md text-center space-y-4">
+      <div className="min-h-screen bg-[#06070a] flex flex-col justify-center items-center text-white p-6 bg-mesh-logo">
+        <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-8 rounded-3xl max-w-md text-center space-y-4 shadow-2xl">
           <h1 className="text-2xl font-bold tracking-tight">Access Denied</h1>
-          <p className="text-sm text-zinc-400">
+          <p className="text-xs text-zinc-400">
             This module contains global platform override privileges. Only official Administrators are authorized.
           </p>
           <Button variant="primary" onClick={() => router.push("/")} className="px-6 py-2.5">
@@ -87,36 +87,39 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0c] text-white py-12 px-6 lg:px-12">
+    <div className="min-h-screen bg-[#06070a] text-white py-12 px-6 lg:px-12 bg-mesh-logo">
       <div className="max-w-6xl mx-auto space-y-12">
         
         {/* Navigation */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-white/10 pb-6">
           <div className="flex items-center gap-4">
-            <img src="/aroh-logo.png" alt="AROH Logo" className="h-10 w-10 object-contain rounded-lg border border-white/10 shadow-md" />
+            <img src="/aroh-logo.png" alt="AROH Logo" className="h-10 w-10 object-contain rounded-xl border border-cyan-500/30" />
             <div>
-              <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-amber-400 via-amber-200 to-amber-500 bg-clip-text text-transparent">
+              <h1 className="text-3xl font-extrabold tracking-tight text-gradient-logo">
                 Platform Admin Console
               </h1>
-              <p className="text-zinc-400 text-sm mt-1">
-                Global governance controls, wallet adjustments, and transaction ledger audits.
+              <p className="text-zinc-400 text-xs mt-0.5">
+                Global governance controls, unlimited admin Aros ledger, and transaction audits.
               </p>
             </div>
           </div>
           <div className="flex gap-3 items-center">
             <NotificationCenter />
-            <Button variant="secondary" onClick={() => router.push("/")} className="px-5">
-              Back to Home
+            <Button variant="secondary" onClick={() => router.push("/")} className="px-4 text-xs">
+              Home
+            </Button>
+            <Button variant="glass" onClick={() => router.push("/dashboard")} className="px-4 text-xs">
+              Dashboard
             </Button>
           </div>
         </div>
 
-        {/* Live Ecosystem Metrics (Dynamically imported below Navigation and above Ledger/Forms) */}
+        {/* Live Ecosystem Metrics */}
         <AdminCharts />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Issue Credit Form */}
-          <div className="lg:col-span-1 bg-white/5 backdrop-blur-md border border-white/10 p-6 rounded-xl h-fit space-y-6">
+          <div className="lg:col-span-1 bg-zinc-950/80 border border-cyan-500/20 p-6 rounded-3xl h-fit space-y-6 border-logo-glow">
             <h2 className="text-xl font-bold tracking-tight text-white">Issue Aros Incentive</h2>
 
             <form onSubmit={handleReward} className="space-y-4">
@@ -128,7 +131,7 @@ export default function AdminPage() {
                   id="targetUserId"
                   value={targetUserId}
                   onChange={(e) => setTargetUserId(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-lg bg-zinc-900 border border-white/10 text-white focus:outline-none focus:border-amber-500 text-sm"
+                  className="w-full px-4 py-2.5 rounded-xl bg-zinc-900 border border-white/10 text-white focus:outline-none focus:border-cyan-500 text-xs"
                 >
                   <option value="user-id">Standard User (user-id)</option>
                   <option value="operator-id">CMS Operator (operator-id)</option>
@@ -146,7 +149,7 @@ export default function AdminPage() {
                   value={creditAmount}
                   onChange={(e) => setCreditAmount(e.target.value)}
                   placeholder="e.g. 500"
-                  className="w-full px-4 py-2.5 rounded-lg bg-zinc-900 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:border-amber-500 transition-colors text-sm"
+                  className="w-full px-4 py-2.5 rounded-xl bg-zinc-900 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:border-cyan-500 transition-colors text-xs"
                   required
                 />
               </div>
@@ -161,12 +164,12 @@ export default function AdminPage() {
                   value={creditDesc}
                   onChange={(e) => setCreditDesc(e.target.value)}
                   placeholder="Reason for crediting..."
-                  className="w-full px-4 py-2.5 rounded-lg bg-zinc-900 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:border-amber-500 transition-colors text-sm"
+                  className="w-full px-4 py-2.5 rounded-xl bg-zinc-900 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:border-cyan-500 transition-colors text-xs"
                   required
                 />
               </div>
 
-              <Button type="submit" className="w-full py-2.5 text-xs font-semibold mt-4">
+              <Button type="submit" variant="primary" className="w-full py-3 text-xs font-bold mt-4">
                 Credit Wallet
               </Button>
             </form>
@@ -175,21 +178,21 @@ export default function AdminPage() {
           {/* Global Audit Ledger */}
           <div className="lg:col-span-2 space-y-6">
             <div className="flex justify-between items-center">
-              <h2 className="text-xl font-bold tracking-tight text-white">Ecosystem-Wide Audit Ledger</h2>
-              <Button variant="glass" onClick={fetchGlobal} className="px-3 py-1 text-xs">
+              <h2 className="text-xl font-bold tracking-tight text-white">Ecosystem Audit Ledger</h2>
+              <Button variant="glass" onClick={fetchGlobal} className="px-4 py-1.5 text-xs">
                 Refresh Ledger
               </Button>
             </div>
 
             {globalTxs.length === 0 ? (
-              <div className="bg-white/5 border border-white/10 rounded-xl p-8 text-center text-zinc-400 text-sm">
+              <div className="bg-zinc-950/60 border border-white/10 rounded-2xl p-8 text-center text-zinc-400 text-sm">
                 No ledger transactions found in storage.
               </div>
             ) : (
-              <div className="overflow-x-auto bg-white/3 border border-white/5 rounded-xl p-6">
-                <table className="w-full text-left text-sm text-zinc-300">
+              <div className="overflow-x-auto bg-zinc-950/70 border border-white/10 rounded-2xl p-6">
+                <table className="w-full text-left text-xs text-zinc-300">
                   <thead>
-                    <tr className="border-b border-white/10 text-zinc-400 text-xs uppercase tracking-wider font-semibold">
+                    <tr className="border-b border-white/10 text-zinc-500 text-[10px] uppercase tracking-wider font-semibold">
                       <th className="pb-3">User ID</th>
                       <th className="pb-3">Type</th>
                       <th className="pb-3">Description</th>
@@ -197,29 +200,27 @@ export default function AdminPage() {
                       <th className="pb-3 text-right">Timestamp</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-white/5">
+                  <tbody className="divide-y divide-white/5 font-mono">
                     {globalTxs.map((tx) => (
                       <tr key={tx.id} className="hover:bg-white/2 transition-colors">
-                        <td className="py-4 font-mono text-xs text-zinc-400">{tx.userId}</td>
-                        <td className="py-4">
+                        <td className="py-3 font-semibold text-white">{tx.userId}</td>
+                        <td className="py-3">
                           <span
-                            className={`px-2 py-0.5 rounded text-[9px] uppercase font-bold tracking-wider ${
-                              tx.type === "reward"
+                            className={`px-2 py-0.5 rounded text-[9px] uppercase font-extrabold ${
+                              tx.amount > 0
                                 ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-                                : tx.type === "membership_upgrade"
-                                ? "bg-amber-500/10 text-amber-400 border border-amber-500/20"
-                                : "bg-red-500/10 text-red-400 border border-red-500/20"
+                                : "bg-rose-500/10 text-rose-400 border border-rose-500/20"
                             }`}
                           >
                             {tx.type}
                           </span>
                         </td>
-                        <td className="py-4 text-white font-medium">{tx.description}</td>
-                        <td className={`py-4 font-bold ${tx.amount >= 0 ? "text-emerald-400" : "text-rose-400"}`}>
-                          {tx.amount >= 0 ? `+${tx.amount}` : tx.amount} Aros
+                        <td className="py-3 text-zinc-300 font-sans">{tx.description}</td>
+                        <td className={`py-3 font-bold ${tx.amount > 0 ? "text-emerald-400" : "text-rose-400"}`}>
+                          {tx.amount > 0 ? `+${tx.amount}` : tx.amount} Aros
                         </td>
-                        <td className="py-4 text-right text-xs text-zinc-400">
-                          {new Date(tx.timestamp).toLocaleString()}
+                        <td className="py-3 text-right text-zinc-500 text-[10px]">
+                          {new Date(tx.timestamp).toLocaleTimeString()}
                         </td>
                       </tr>
                     ))}
@@ -229,7 +230,6 @@ export default function AdminPage() {
             )}
           </div>
         </div>
-
       </div>
     </div>
   );

@@ -122,7 +122,7 @@ export const initializeMockDb = () => {
 
     // Seed Wallets
     const seededWallets = {
-      "admin-id": { userId: "admin-id", balance: 5000, updatedAt: new Date().toISOString() },
+      "admin-id": { userId: "admin-id", balance: 999999999, updatedAt: new Date().toISOString() },
       "operator-id": { userId: "operator-id", balance: 1000, updatedAt: new Date().toISOString() },
       "user-id": { userId: "user-id", balance: 500, updatedAt: new Date().toISOString() }
     };
@@ -130,7 +130,7 @@ export const initializeMockDb = () => {
 
     // Seed Transactions
     const seededTransactions: Transaction[] = [
-      { id: "t1", userId: "admin-id", amount: 5000, type: "reward", description: "Platform Initial Allocation", timestamp: new Date().toISOString() },
+      { id: "t1", userId: "admin-id", amount: 999999999, type: "reward", description: "Admin Unlimited Allocation", timestamp: new Date().toISOString() },
       { id: "t2", userId: "operator-id", amount: 1000, type: "reward", description: "Operator Allocation", timestamp: new Date().toISOString() },
       { id: "t3", userId: "user-id", amount: 500, type: "reward", description: "Testing Account Reward", timestamp: new Date().toISOString() }
     ];
@@ -140,6 +140,16 @@ export const initializeMockDb = () => {
     setStored(MOCK_STORAGE_KEYS.CMS, defaultAnnouncements);
   }
 };
+
+export function formatArosBalance(balance: number | null | undefined, role?: string): string {
+  if (role === "admin" || balance === Infinity || (typeof balance === "number" && balance >= 999999)) {
+    return "∞ AROS";
+  }
+  if (balance === undefined || balance === null || isNaN(balance)) {
+    return "0 Aros";
+  }
+  return `${balance.toLocaleString()} Aros`;
+}
 
 // Database queries
 export const mockAuthService = {

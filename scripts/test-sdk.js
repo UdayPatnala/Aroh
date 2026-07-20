@@ -37,7 +37,7 @@ async function runTests() {
     console.log("\n--- Testing Authentication ---");
     const adminAuth = await mockAuthService.login("admin@aroh.co", "admin");
     assert(adminAuth.user.role === "admin", "Admin role matches 'admin'");
-    assert(adminAuth.wallet.balance === 5000, "Admin wallet balance is seeded with 5000 Aros");
+    assert(adminAuth.wallet.balance >= 999999, "Admin wallet balance is seeded with Unlimited Aros");
 
     const userAuth = await mockAuthService.login("user@aroh.co", "user");
     assert(userAuth.user.role === "user", "User role matches 'user'");

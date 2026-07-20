@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { usePlatformStore, MembershipLevel } from "@aroh/asdk";
+import { usePlatformStore, MembershipLevel, formatArosBalance } from "@aroh/asdk";
 import { Button } from "@aroh/ads";
 import NotificationCenter from "../components/notification-center";
 
@@ -353,7 +353,7 @@ export default function DashboardPage() {
                 <div className={`absolute right-0 top-0 w-24 h-24 ${theme.accentBg} rounded-full blur-2xl pointer-events-none`} />
                 <span className="text-xs uppercase tracking-wider text-zinc-400 font-semibold mb-2 block">Aros Balance</span>
                 <div className="flex flex-col">
-                  <span className={`text-4xl font-extrabold ${theme.accentText} tracking-tight`}>{wallet.balance} Aros</span>
+                  <span className={`text-4xl font-extrabold ${theme.accentText} tracking-tight`}>{formatArosBalance(wallet.balance, user?.role)}</span>
                   <span className="text-xs text-zinc-400 mt-1">Instant ledger clearance active</span>
                 </div>
                 <div className="mt-4 border-t border-white/5 pt-3 space-y-2">
