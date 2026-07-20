@@ -2,11 +2,8 @@
 @source "../../packages/ads/src/**/*.tsx";
 
 :root {
-  --background: #08080a;
-  --foreground: #f4f4f5;
-  --accent-gold: #f59e0b;
-  --accent-gold-bright: #d4af37;
-  --accent-gold-glow: rgba(245, 158, 11, 0.2);
+  --background: #fbfbfa;
+  --foreground: #0f172a;
 }
 
 @theme inline {
@@ -22,25 +19,46 @@ body {
   overflow-x: hidden;
 }
 
-/* Metallic Cyber Gold gradient matching AROH logo emblem */
-.text-gradient-gold {
-  background: linear-gradient(135deg, #fef08a 0%, #f59e0b 50%, #d4af37 100%);
+/* Sleek dark slate navy typography matching AROH logo */
+.text-gradient-aroh {
+  background: linear-gradient(135deg, #0f172a 0%, #334155 50%, #475569 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.bg-mesh-gold {
+.bg-mesh-light {
   background-image: 
-    radial-gradient(circle at 50% 20%, rgba(245, 158, 11, 0.06) 0%, transparent 60%),
-    radial-gradient(circle at 20% 80%, rgba(212, 175, 55, 0.04) 0%, transparent 50%);
+    radial-gradient(circle at 50% 10%, rgba(2, 132, 199, 0.04) 0%, transparent 60%),
+    radial-gradient(circle at 80% 80%, rgba(241, 245, 249, 0.8) 0%, transparent 50%);
 }
 
-.border-gold-glow {
-  border-color: rgba(245, 158, 11, 0.25);
-  box-shadow: 0 0 25px -5px rgba(245, 158, 11, 0.15);
+.card-clean-light {
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03);
 }
 
-.border-gold-glow:hover {
-  border-color: rgba(245, 158, 11, 0.5);
-  box-shadow: 0 0 30px -3px rgba(245, 158, 11, 0.25);
+.card-clean-light:hover {
+  border-color: rgba(2, 132, 199, 0.2);
+  box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.06);
+}
+
+/* Ambient 3D Organic Pebble / Rock element matching official AROH logo image */
+.rock-pebble-element {
+  background: radial-gradient(circle at 35% 25%, #ffffff 0%, #f4f4f0 55%, #e2e2da 100%);
+  border-radius: 45% 55% 60% 40% / 50% 45% 55% 50%;
+  box-shadow: 
+    inset -10px -10px 25px rgba(0, 0, 0, 0.05),
+    inset 8px 8px 20px rgba(255, 255, 255, 0.9),
+    0 20px 40px -10px rgba(0, 0, 0, 0.08);
+}
+
+/* Ambient 3D Sphere / Orb element matching official AROH logo image */
+.orb-sphere-element {
+  background: radial-gradient(circle at 35% 35%, #ffffff 0%, #f1f1eb 60%, #deded5 100%);
+  border-radius: 50%;
+  box-shadow: 
+    inset -8px -8px 20px rgba(0, 0, 0, 0.06),
+    inset 6px 6px 15px rgba(255, 255, 255, 0.95),
+    0 15px 35px -5px rgba(0, 0, 0, 0.07);
 }

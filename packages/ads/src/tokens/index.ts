@@ -1,33 +1,32 @@
 export const colors = {
   bg: {
-    base: "#09090b", // zinc-950
-    surface: "#18181b", // zinc-900
-    elevated: "#27272a", // zinc-800
-    glass: "rgba(24, 24, 27, 0.75)"
+    base: "#fbfbfa", // ultra-clean light cream
+    surface: "#ffffff",
+    elevated: "#f1f5f9",
+    glass: "rgba(255, 255, 255, 0.85)"
   },
   border: {
-    subtle: "rgba(255, 255, 255, 0.1)",
-    default: "rgba(255, 255, 255, 0.15)",
-    focus: "#f59e0b" // amber-500
+    subtle: "rgba(0, 0, 0, 0.06)",
+    default: "rgba(0, 0, 0, 0.1)",
+    focus: "#0284c7" // sky-600
   },
   accent: {
-    gold: "#f59e0b", // amber-500
-    goldHover: "#d97706", // amber-600
-    goldGlow: "rgba(245, 158, 11, 0.2)",
-    cyan: "#06b6d4",
-    purple: "#a855f7"
+    sky: "#0284c7",
+    skyHover: "#0369a1",
+    skyGlow: "rgba(2, 132, 199, 0.12)",
+    dark: "#0f172a"
   },
   text: {
-    primary: "#f4f4f5", // zinc-100
-    secondary: "#a1a1aa", // zinc-400
-    muted: "#71717a", // zinc-500
-    inverse: "#09090b"
+    primary: "#0f172a", // slate-900
+    secondary: "#475569", // slate-600
+    muted: "#94a3b8", // slate-400
+    inverse: "#ffffff"
   },
   status: {
-    success: "#22c55e",
-    warning: "#eab308",
-    error: "#ef4444",
-    info: "#3b82f6"
+    success: "#16a34a",
+    warning: "#d97706",
+    error: "#dc2626",
+    info: "#2563eb"
   }
 } as const;
 
@@ -43,38 +42,22 @@ export const typography = {
     lg: "1.125rem",
     xl: "1.25rem",
     "2xl": "1.5rem",
-    "3xl": "1.875rem"
-  },
-  fontWeight: {
-    normal: 400,
-    medium: 500,
-    semibold: 600,
-    bold: 700
+    "3xl": "1.875rem",
+    "4xl": "2.25rem",
+    "5xl": "3rem"
   }
 } as const;
 
-export const motion = {
-  duration: {
-    fast: "150ms",
-    normal: "250ms",
-    slow: "400ms"
-  },
-  easing: {
-    easeInOut: "cubic-bezier(0.4, 0, 0.2, 1)",
-    easeOut: "cubic-bezier(0, 0, 0.2, 1)"
-  }
+export const spacing = {
+  xs: "0.25rem",
+  sm: "0.5rem",
+  md: "1rem",
+  lg: "1.5rem",
+  xl: "2rem",
+  "2xl": "3rem"
 } as const;
 
 export const accessibility = {
-  focusRing: "focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950",
-  screenReaderOnly: "sr-only"
+  focusRing: "focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-600 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
+  touchTarget: "min-h-[44px] min-w-[44px]"
 } as const;
-
-export const designTokens = {
-  colors,
-  typography,
-  motion,
-  accessibility
-} as const;
-
-export type DesignTokens = typeof designTokens;

@@ -26,11 +26,11 @@ export default function RootLayout({
       lang="en"
       className={`${outfit.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans bg-[#0a0a0c] text-white relative overflow-x-hidden pb-24">
-        {/* Visual Mesh Grid Backdrop */}
+      <body className="min-h-full flex flex-col font-sans bg-[#fbfbfa] text-slate-900 relative overflow-x-hidden pb-24">
+        {/* Subtle Ambient Mesh Backdrop */}
         <div className="absolute inset-0 -z-50 pointer-events-none overflow-hidden">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(245,158,11,0.06)_0%,transparent_60%)]" />
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(2,132,199,0.03)_0%,transparent_60%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.015)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.015)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
         </div>
         {children}
         <CommandPalette />

@@ -128,27 +128,27 @@ export default function ExplorePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#08080a] text-white py-12 px-6 lg:px-12 bg-mesh-gold">
+    <div className="min-h-screen bg-[#fbfbfa] text-slate-900 py-12 px-6 lg:px-12 bg-mesh-light">
       <div className="max-w-6xl mx-auto space-y-10">
         {/* Navigation bar */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-white/10 pb-6">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-black/5 pb-6">
           <div className="flex items-center gap-4">
-            <img src="/aroh-logo.png" alt="AROH Logo" className="h-10 w-10 object-contain rounded-xl border border-amber-500/30" />
+            <img src="/aroh-logo.png" alt="AROH Logo" className="h-10 w-10 object-contain rounded-xl shadow-sm border border-black/5" />
             <div>
-              <h1 className="text-3xl font-extrabold tracking-tight text-gradient-gold">
+              <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">
                 Ecosystem Explorer
               </h1>
-              <p className="text-zinc-400 text-xs mt-0.5">
+              <p className="text-slate-500 text-xs mt-0.5">
                 Discover registered applications and platform services in the AROH Ecosystem.
               </p>
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <Button variant="secondary" onClick={() => router.push("/")} className="px-4 text-xs">
+            <Button variant="secondary" onClick={() => router.push("/")} className="px-4 text-xs bg-white text-slate-800 border-black/10 hover:bg-slate-50">
               Home
             </Button>
             {isAuthenticated && (
-              <div className="bg-zinc-900 border border-amber-500/30 px-3.5 py-1.5 rounded-xl text-xs font-mono font-bold text-amber-400">
+              <div className="bg-white border border-black/10 px-3.5 py-1.5 rounded-xl text-xs font-mono font-bold text-slate-800 shadow-sm">
                 {formatArosBalance(wallet?.balance, user?.role)}
               </div>
             )}
@@ -165,7 +165,7 @@ export default function ExplorePage() {
               placeholder="Search products by name or feature..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl bg-zinc-900 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:border-amber-500 transition-colors text-xs"
+              className="w-full px-4 py-2.5 rounded-xl bg-white border border-black/10 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-sky-500 transition-colors text-xs shadow-sm"
             />
           </div>
 
@@ -176,8 +176,8 @@ export default function ExplorePage() {
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${
                   selectedCategory === cat
-                    ? "bg-amber-500/10 text-amber-400 border-amber-500/30 font-bold"
-                    : "bg-zinc-900/60 text-zinc-400 border-white/5 hover:border-white/10 hover:text-white"
+                    ? "bg-slate-900 text-white border-slate-900 font-bold"
+                    : "bg-white text-slate-600 border-black/5 hover:border-slate-300 hover:text-slate-900 shadow-sm"
                 }`}
               >
                 {cat}
@@ -188,7 +188,7 @@ export default function ExplorePage() {
 
         {/* Products Grid */}
         {filteredProducts.length === 0 ? (
-          <div className="bg-zinc-950/60 border border-white/10 rounded-2xl p-12 text-center text-zinc-400 text-sm">
+          <div className="bg-white border border-black/5 rounded-2xl p-12 text-center text-slate-400 text-sm shadow-sm">
             No products match your search or category criteria.
           </div>
         ) : (
@@ -196,31 +196,31 @@ export default function ExplorePage() {
             {filteredProducts.map((prod) => (
               <motion.div
                 key={prod.id}
-                whileHover={{ scale: 1.02 }}
+                whileHover={{ scale: 1.01 }}
                 onClick={() => handleLaunchProduct(prod)}
-                className="bg-zinc-950/80 border border-white/10 rounded-2xl p-6 flex flex-col justify-between hover:border-amber-500/40 hover:shadow-xl hover:shadow-amber-500/10 transition-all cursor-pointer group"
+                className="bg-white border border-black/5 rounded-2xl p-6 flex flex-col justify-between hover:border-slate-300 hover:shadow-md transition-all cursor-pointer group shadow-sm"
               >
                 <div className="space-y-4">
                   <div className="flex justify-between items-start">
-                    <span className="px-2.5 py-0.5 rounded text-[8px] uppercase font-bold tracking-wider bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                    <span className="px-2.5 py-0.5 rounded text-[8px] uppercase font-bold tracking-wider bg-slate-100 text-slate-700 border border-slate-200">
                       {prod.badge}
                     </span>
-                    <span className="px-2 py-0.5 rounded text-[8px] uppercase font-bold tracking-wider bg-white/5 text-zinc-300 border border-white/10">
+                    <span className="px-2 py-0.5 rounded text-[8px] uppercase font-bold tracking-wider bg-slate-50 text-slate-600 border border-slate-200">
                       {prod.requiredTier.toUpperCase()}
                     </span>
                   </div>
 
-                  <h3 className="text-xl font-bold text-white group-hover:text-amber-400 transition-colors leading-tight">
+                  <h3 className="text-xl font-bold text-slate-900 group-hover:text-sky-600 transition-colors leading-tight">
                     {prod.name}
                   </h3>
-                  <p className="text-zinc-400 text-xs leading-relaxed line-clamp-3">
+                  <p className="text-slate-600 text-xs leading-relaxed line-clamp-3 font-normal">
                     {prod.description}
                   </p>
                 </div>
 
-                <div className="border-t border-white/5 pt-4 mt-6 flex justify-between items-center text-xs">
-                  <span className="text-zinc-500 font-mono text-[10px]">{prod.version}</span>
-                  <span className="text-amber-400 group-hover:translate-x-0.5 transition-transform font-bold text-xs">
+                <div className="border-t border-black/5 pt-4 mt-6 flex justify-between items-center text-xs">
+                  <span className="text-slate-400 font-mono text-[10px]">{prod.version}</span>
+                  <span className="text-slate-900 group-hover:translate-x-0.5 transition-transform font-bold text-xs">
                     {prod.url ? "Launch Webpage ↗" : "Details →"}
                   </span>
                 </div>
