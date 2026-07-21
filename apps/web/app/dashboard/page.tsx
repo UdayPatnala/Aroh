@@ -48,6 +48,7 @@ export default function DashboardPage() {
   // Aros purchase state
   const [isBuying, setIsBuying] = React.useState(false);
   const [selectedPack, setSelectedPack] = React.useState<{ amount: number; price: string } | null>(null);
+  const [showCvv, setShowCvv] = React.useState(false);
   const [isPaymentLoading, setIsPaymentLoading] = React.useState(false);
 
   // App registry state
@@ -649,14 +650,33 @@ export default function DashboardPage() {
                 </div>
                 <div className="space-y-1">
                   <label htmlFor="cardCvvInput" className="block text-[10px] uppercase font-bold text-slate-500">CVV</label>
-                  <input
-                    id="cardCvvInput"
-                    type="password"
-                    placeholder="123"
-                    maxLength={4}
-                    className="w-full px-4 py-2 rounded-xl bg-slate-50 border border-black/10 text-slate-900 text-xs focus:outline-none focus:border-slate-900 font-mono"
-                    required
-                  />
+                  <div className="relative">
+                    <input
+                      id="cardCvvInput"
+                      type={showCvv ? "text" : "password"}
+                      placeholder="123"
+                      maxLength={4}
+                      className="w-full px-4 py-2 pr-8 rounded-xl bg-slate-50 border border-black/10 text-slate-900 text-xs focus:outline-none focus:border-slate-900 font-mono"
+                      required
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowCvv(!showCvv)}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition-colors p-1 cursor-pointer focus:outline-none"
+                      aria-label={showCvv ? "Hide CVV" : "Show CVV"}
+                    >
+                      {showCvv ? (
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.88 9.88a3 3 0 104.24 4.24M1 1l22 22" />
+                        </svg>
+                      ) : (
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                      )}
+                    </button>
+                  </div>
                 </div>
               </div>
               <div className="flex gap-4 pt-2">
