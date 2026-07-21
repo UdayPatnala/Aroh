@@ -173,7 +173,7 @@ export default function HomePage() {
         </header>
 
         {/* Ultra-Clean Light Landing Page Hero with Ambient Logo Rock/Sphere Art */}
-        <main className="flex-1 max-w-4xl w-full mx-auto px-6 py-16 space-y-16 relative z-10">
+        <main className="flex-1 max-w-4xl w-full mx-auto px-6 py-16 pb-28 space-y-16 relative z-10">
           
           <motion.div
             initial={{ opacity: 0, y: 25 }}
@@ -188,7 +188,7 @@ export default function HomePage() {
               transition={{ duration: 0.5 }}
               className="flex justify-center mb-2 relative"
             >
-              <ArohLogo size={105} />
+              <ArohLogo size={96} />
             </motion.div>
 
             <div className="flex items-center justify-center gap-2 pt-2">
@@ -205,7 +205,7 @@ export default function HomePage() {
               Access software products, manage user identity, check wallet balances, and explore announcements under one unified platform.
             </p>
 
-            <div className="pt-2 flex justify-center gap-4">
+            <div className="pt-2 pb-6 flex flex-wrap justify-center gap-4">
               <Button
                 variant="primary"
                 onClick={() => router.push("/explore")}
