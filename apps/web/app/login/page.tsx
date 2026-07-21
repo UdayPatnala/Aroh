@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { usePlatformStore } from "@aroh/asdk";
 import { Button } from "@aroh/ads";
 import { motion } from "framer-motion";
+import ArohLogo from "../components/aroh-logo";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -58,7 +59,7 @@ export default function LoginPage() {
         className="w-full max-w-md bg-white border border-black/5 p-8 rounded-3xl shadow-xl relative z-10"
       >
         <div className="flex flex-col items-center mb-6">
-          <img src="/aroh-logo.png" alt="AROH Logo" className="h-14 w-14 object-contain mb-3 rounded-2xl shadow-sm border border-black/5" />
+          <ArohLogo size={52} className="mb-2" />
           <span className="font-extrabold tracking-[0.3em] text-2xl text-slate-900">
             AROH
           </span>

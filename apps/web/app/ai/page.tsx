@@ -4,6 +4,7 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@aroh/ads";
+import ArohLogo from "../components/aroh-logo";
 
 // Internal doc DB — exported for command palette search only
 export const mockDocDatabase = [
@@ -88,7 +89,7 @@ export default function AiPortalPage() {
         {/* Navigation */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-black/5 pb-6">
           <div className="flex items-center gap-4 cursor-pointer" onClick={() => router.push("/")}>
-            <img src="/aroh-logo.png" alt="AROH Logo" className="h-10 w-10 object-contain rounded-xl shadow-sm border border-black/5" />
+            <ArohLogo size={40} />
             <div>
               <h1 className="text-2xl font-extrabold tracking-tight text-slate-900">Help & Information</h1>
               <p className="text-slate-500 text-xs mt-0.5">Search platform info, FAQs, and guides</p>

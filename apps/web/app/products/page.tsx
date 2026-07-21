@@ -7,6 +7,7 @@ import { Button } from "@aroh/ads";
 import { motion } from "framer-motion";
 import { registeredProducts, ProductDetails, launchProductWebpage } from "../explore/page";
 import NotificationCenter from "../components/notification-center";
+import ArohLogo from "../components/aroh-logo";
 
 const categories = ["All", "Core Service", "Ecosystem Service", "Analytics", "Developer Service", "AI Tools"];
 
@@ -88,7 +89,7 @@ export default function ProductsPage() {
         {/* Navigation / Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-black/5 pb-6">
           <div className="flex items-center gap-4 cursor-pointer" onClick={() => router.push("/")}>
-            <img src="/aroh-logo.png" alt="AROH Logo" className="h-10 w-10 object-contain rounded-xl border border-black/5 shadow-sm" />
+            <ArohLogo size={38} />
             <div>
               <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">
                 AROH Products Console

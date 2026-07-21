@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import { usePlatformStore, mockWalletService, formatArosBalance } from "@aroh/asdk";
 import { Button } from "@aroh/ads";
 import NotificationCenter from "../components/notification-center";
+import ArohLogo from "../components/aroh-logo";
 
 // Dynamically import AdminCharts to prevent SSR conflicts (Next.js client-only mounting)
 const AdminCharts = dynamic(() => import("../components/admin-charts"), {
@@ -93,7 +94,7 @@ export default function AdminPage() {
         {/* Navigation */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-black/5 pb-6">
           <div className="flex items-center gap-4 cursor-pointer" onClick={() => router.push("/")}>
-            <img src="/aroh-logo.png" alt="AROH Logo" className="h-10 w-10 object-contain rounded-xl border border-black/5 shadow-sm" />
+            <ArohLogo size={40} />
             <div>
               <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">
                 Platform Admin Console

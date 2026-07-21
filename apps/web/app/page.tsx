@@ -6,6 +6,7 @@ import { usePlatformStore, formatArosBalance } from "@aroh/asdk";
 import { Button } from "@aroh/ads";
 import { motion, AnimatePresence } from "framer-motion";
 import NotificationCenter from "./components/notification-center";
+import ArohLogo from "./components/aroh-logo";
 
 export default function HomePage() {
   const router = useRouter();
@@ -90,11 +91,7 @@ export default function HomePage() {
                 if (e.key === "Enter" || e.key === " ") router.push("/");
               }}
             >
-              <img
-                src="/aroh-logo.png"
-                alt="AROH Official Logo"
-                className="h-9 w-9 object-contain rounded-xl shadow-sm border border-black/5"
-              />
+              <ArohLogo size={34} />
               <span className="font-extrabold tracking-[0.25em] text-xl text-slate-900 select-none">
                 AROH
               </span>
@@ -191,11 +188,7 @@ export default function HomePage() {
               transition={{ duration: 0.5 }}
               className="flex justify-center mb-2 relative"
             >
-              <img
-                src="/aroh-logo.png"
-                alt="AROH Minimalist Geometric Logo"
-                className="h-28 w-28 object-contain rounded-3xl p-1 shadow-md bg-white border border-black/5 relative z-10"
-              />
+              <ArohLogo size={105} />
             </motion.div>
 
             <div className="flex items-center justify-center gap-2 pt-2">
@@ -291,7 +284,7 @@ export default function HomePage() {
         <footer className="border-t border-black/5 px-6 py-8 relative z-10 text-center bg-white">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-2">
-              <img src="/aroh-logo.png" alt="AROH Logo" className="h-6 w-6 object-contain" />
+              <ArohLogo size={22} />
               <span className="font-extrabold text-sm text-slate-900 tracking-widest">AROH PLATFORM</span>
             </div>
             <p className="text-xs text-slate-500">
