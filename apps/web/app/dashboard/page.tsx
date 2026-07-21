@@ -91,13 +91,17 @@ export default function DashboardPage() {
   };
 
   React.useEffect(() => {
+    if (isRehydrated && !isAuthenticated) {
+      router.push("/");
+    }
+  }, [isRehydrated, isAuthenticated, router]);
+
+  React.useEffect(() => {
     if (!isRehydrated) return;
-    if (!isAuthenticated) {
-      router.push("/login");
-    } else {
+    if (isAuthenticated) {
       fetchUserTransactions();
     }
-  }, [isAuthenticated, isRehydrated, router, fetchUserTransactions]);
+  }, [isAuthenticated, isRehydrated, fetchUserTransactions]);
 
   const handleUpgrade = async (level: MembershipLevel, price: number) => {
     if (!profile || profile.membershipLevel === level) return;

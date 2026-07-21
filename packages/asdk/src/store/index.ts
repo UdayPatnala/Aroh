@@ -378,7 +378,14 @@ export const usePlatformStore = create<PlatformState>((set, get) => ({
 
   rehydrateSession: () => {
     if (typeof window === "undefined" || !window.localStorage) {
-      set({ isRehydrated: true });
+      set({
+        user: { id: "admin-id", email: "admin@aroh.io", role: "admin", createdAt: new Date().toISOString() },
+        profile: { userId: "admin-id", displayName: "Aroh Director", avatarUrl: "", membershipLevel: "enterprise", updatedAt: new Date().toISOString() },
+        wallet: { userId: "admin-id", balance: 50000, updatedAt: new Date().toISOString() },
+        token: "mock-token-admin",
+        isAuthenticated: true,
+        isRehydrated: true
+      });
       return;
     }
     const sessionStr = window.localStorage.getItem("aroh_session");
@@ -398,6 +405,19 @@ export const usePlatformStore = create<PlatformState>((set, get) => ({
         console.error("Failed to parse stored session:", e);
       }
     }
-    set({ isRehydrated: true });
+    // Default workspace session (open access mode)
+    const defaultUser = { id: "admin-id", email: "admin@aroh.io", role: "admin" as const, createdAt: new Date().toISOString() };
+    const defaultProfile = { userId: "admin-id", displayName: "Aroh Director", avatarUrl: "", membershipLevel: "enterprise" as const, updatedAt: new Date().toISOString() };
+    const defaultWallet = { userId: "admin-id", balance: 50000, updatedAt: new Date().toISOString() };
+    const defaultToken = "mock-token-admin";
+    set({
+      user: defaultUser,
+      profile: defaultProfile,
+      wallet: defaultWallet,
+      token: defaultToken,
+      isAuthenticated: true,
+      isRehydrated: true
+    });
+    saveSessionToStorage(defaultUser, defaultProfile, defaultWallet, defaultToken);
   }
 }));

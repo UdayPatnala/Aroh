@@ -41,7 +41,7 @@ export default function ProductDetailPage() {
 
   const handleBuyUpgrade = async () => {
     if (!isAuthenticated) {
-      router.push("/login");
+      router.push("/");
       return;
     }
     try {
@@ -119,16 +119,7 @@ export default function ProductDetailPage() {
         <div className="bg-white border border-black/5 rounded-3xl p-8 space-y-6 shadow-md">
           <h2 className="text-xl font-bold tracking-tight text-slate-900">Product Execution Gateway</h2>
 
-          {!isAuthenticated ? (
-            <div className="bg-slate-50 border border-black/5 rounded-2xl p-6 text-center space-y-4">
-              <p className="text-sm text-slate-600">
-                Sign in to your AROH Workspace account to authorize and launch this application.
-              </p>
-              <Button variant="primary" onClick={() => router.push("/login")} className="px-6 py-2.5 bg-slate-900 text-white hover:bg-slate-800">
-                Sign In to Workspace
-              </Button>
-            </div>
-          ) : !hasTierAccess ? (
+          {!hasTierAccess ? (
             <div className="bg-amber-50 border border-amber-200 text-amber-900 rounded-2xl p-6 space-y-4">
               <h3 className="font-bold text-sm">Tier Access Upgrade Required</h3>
               <p className="text-xs text-slate-600 leading-relaxed">

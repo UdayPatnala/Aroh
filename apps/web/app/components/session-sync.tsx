@@ -19,7 +19,7 @@ export default function SessionSync() {
       if (event.key === "aroh_logout_event" && event.newValue) {
         if (isAuthenticated) {
           logout(true);
-          router.push("/login");
+          router.push("/");
         }
       }
       if (event.key === "aroh_session") {
@@ -29,7 +29,7 @@ export default function SessionSync() {
         } else if (isAuthenticated) {
           // If session was cleared elsewhere, log out in this tab
           logout(true);
-          router.push("/login");
+          router.push("/");
         }
       }
     };

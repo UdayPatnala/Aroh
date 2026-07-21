@@ -39,9 +39,8 @@ export default function AdminPage() {
   }, []);
 
   React.useEffect(() => {
-    if (!isRehydrated) return;
-    if (!isAuthenticated) {
-      router.push("/login");
+    if (isRehydrated && !isAuthenticated) {
+      router.push("/");
     } else if (user?.role === "admin") {
       fetchGlobal();
     }

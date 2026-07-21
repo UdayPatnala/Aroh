@@ -142,11 +142,11 @@ export default function HomePage() {
                   </div>
 
                   <Button
-                    variant="primary"
-                    onClick={() => router.push("/explore")}
-                    className="text-xs px-4 py-2 font-bold bg-slate-900 text-white hover:bg-slate-800"
+                    variant="glass"
+                    onClick={() => router.push("/dashboard")}
+                    className="text-xs px-4 py-2 border-slate-200 text-slate-800 hover:bg-slate-100 font-semibold"
                   >
-                    Explore Hub
+                    Workspace Dashboard
                   </Button>
 
                   {user?.role === "admin" && (
@@ -162,10 +162,10 @@ export default function HomePage() {
               ) : (
                 <Button
                   variant="primary"
-                  onClick={() => router.push("/login")}
+                  onClick={() => router.push("/dashboard")}
                   className="text-xs px-6 py-2.5 font-bold bg-slate-900 text-white hover:bg-slate-800 shadow-sm"
                 >
-                  Sign In
+                  Dashboard
                 </Button>
               )}
             </motion.div>
@@ -215,16 +215,10 @@ export default function HomePage() {
               </Button>
               <Button
                 variant="glass"
-                onClick={() => {
-                  if (isAuthenticated) {
-                    router.push("/dashboard");
-                  } else {
-                    router.push("/login");
-                  }
-                }}
+                onClick={() => router.push("/dashboard")}
                 className="px-6 py-3.5 font-semibold text-sm border-slate-300 text-slate-800 hover:bg-slate-100"
               >
-                {isAuthenticated ? "My Account" : "Sign In to Workspace"}
+                Workspace Dashboard
               </Button>
             </div>
           </motion.div>

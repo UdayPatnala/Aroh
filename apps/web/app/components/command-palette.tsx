@@ -115,7 +115,7 @@ export default function CommandPalette() {
         id: "nav-logout",
         name: "Sign Out",
         category: "Account",
-        action: () => { logout(); router.push("/login"); setIsOpen(false); }
+        action: () => { logout(); router.push("/"); setIsOpen(false); }
       });
     }
 

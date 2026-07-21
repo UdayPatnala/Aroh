@@ -34,16 +34,15 @@ export default function CmsPage() {
     setPublishedAt(formatForDateTimeLocal());
   }, []);
 
+  const hasAccess = user?.role === "admin" || user?.role === "operator";
+
   React.useEffect(() => {
-    if (!isRehydrated) return;
-    if (!isAuthenticated) {
-      router.push("/login");
-    } else {
+    if (isRehydrated && !isAuthenticated) {
+      router.push("/");
+    } else if (hasAccess) {
       fetchAllAnnouncements();
     }
-  }, [isAuthenticated, isRehydrated, router, fetchAllAnnouncements]);
-
-  const hasAccess = user?.role === "admin" || user?.role === "operator";
+  }, [isRehydrated, isAuthenticated, hasAccess, router, fetchAllAnnouncements]);
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();

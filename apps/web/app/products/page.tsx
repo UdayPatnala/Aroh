@@ -28,9 +28,9 @@ export default function ProductsPage() {
 
   React.useEffect(() => {
     if (isRehydrated && !isAuthenticated) {
-      router.push("/login");
+      router.push("/");
     }
-  }, [isAuthenticated, isRehydrated, router]);
+  }, [isRehydrated, isAuthenticated, router]);
 
   const isPrivilegedUser = user?.role === "admin" || user?.role === "operator";
 
