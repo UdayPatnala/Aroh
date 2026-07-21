@@ -93,6 +93,7 @@ export default function AdminPage() {
         {/* Navigation */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-black/5 pb-6">
           <div className="flex items-center gap-4 cursor-pointer" onClick={() => router.push("/")}>
+            <img src="/aroh-logo.png" alt="AROH Logo" className="h-10 w-10 object-contain rounded-xl border border-black/5 shadow-sm" />
             <div>
               <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">
                 Platform Admin Console
