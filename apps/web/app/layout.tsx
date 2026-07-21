@@ -15,10 +15,7 @@ export const metadata: Metadata = {
   title: "AROH Ecosystem Platform",
   description: "A premium, unified digital platform containing multiple interconnected products sharing a centralized foundation.",
   icons: {
-    icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/aroh-logo.png", type: "image/png" }
-    ],
+    icon: [{ url: "/aroh-logo.png?v=3", type: "image/png" }],
     apple: "/aroh-logo.png"
   }
 };

@@ -4,7 +4,7 @@ import * as React from "react";
 import { useRouter, useParams } from "next/navigation";
 import { usePlatformStore } from "@aroh/asdk";
 import { Button } from "@aroh/ads";
-import { registeredProducts } from "../page";
+import { registeredProducts, launchProductWebpage } from "../page";
 
 export default function ProductDetailPage() {
   const router = useRouter();
@@ -16,7 +16,7 @@ export default function ProductDetailPage() {
 
   if (!product) {
     return (
-      <div className="min-h-screen bg-[#08080a] text-white flex flex-col justify-center items-center gap-4">
+      <div className="min-h-screen bg-[#fbfbfa] text-slate-900 flex flex-col justify-center items-center gap-4">
         <h1 className="text-2xl font-bold">Product Not Found</h1>
         <Button variant="secondary" onClick={() => router.push("/explore")}>
           Return to Explorer
@@ -35,11 +35,7 @@ export default function ProductDetailPage() {
       user?.role === "admin");
 
   const handleLaunchProductWebpage = () => {
-    if (product.url) {
-      window.open(product.url, "_blank", "noopener,noreferrer");
-    } else {
-      alert(`Launching service interface for ${product.name}.`);
-    }
+    launchProductWebpage(product, router);
   };
 
   const handleBuyUpgrade = async () => {
@@ -56,83 +52,82 @@ export default function ProductDetailPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#08080a] text-white py-12 px-6 lg:px-12 bg-mesh-gold">
+    <div className="min-h-screen bg-[#fbfbfa] text-slate-900 py-12 px-6 lg:px-12 bg-mesh-light">
       <div className="max-w-4xl mx-auto space-y-10">
         {/* Navigation */}
-        <div className="flex justify-between items-center border-b border-white/10 pb-6">
+        <div className="flex justify-between items-center border-b border-black/5 pb-6">
           <div className="flex items-center gap-3">
-            <img src="/aroh-logo.png?v=2" alt="AROH Logo" className="h-8 w-8 object-contain rounded-lg border border-amber-500/30" />
-            <Button variant="secondary" onClick={() => router.push("/explore")} className="px-4 text-xs">
+            <Button variant="secondary" onClick={() => router.push("/explore")} className="px-4 text-xs bg-white text-slate-800 border-black/10 hover:bg-slate-50">
               ← Back to Explore
             </Button>
           </div>
           {isAuthenticated && (
-            <Button variant="glass" onClick={() => router.push("/dashboard")} className="px-4 text-xs">
+            <Button variant="glass" onClick={() => router.push("/dashboard")} className="px-4 text-xs bg-slate-100 text-slate-800 border-slate-200">
               Dashboard
             </Button>
           )}
         </div>
 
         {/* Product Details Header */}
-        <div className="bg-zinc-950/90 border border-amber-500/20 rounded-3xl p-8 space-y-6 shadow-2xl border-gold-glow">
+        <div className="bg-white border border-black/5 rounded-3xl p-8 space-y-6 shadow-md">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="space-y-2">
-              <span className="px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-[10px] uppercase font-bold tracking-wider text-amber-400">
+              <span className="px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-[10px] uppercase font-extrabold tracking-wider text-slate-700">
                 {product.badge}
               </span>
-              <h1 className="text-3xl font-extrabold tracking-tight text-white leading-none pt-2">
+              <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 leading-none pt-2">
                 {product.name}
               </h1>
             </div>
             <div className="text-right">
-              <span className="text-xs text-zinc-400 block">Required Access Tier</span>
-              <span className="text-sm font-extrabold uppercase text-amber-400 block tracking-wider mt-1">
+              <span className="text-xs text-slate-400 block font-sans">Required Access Tier</span>
+              <span className="text-sm font-extrabold uppercase text-sky-600 block tracking-wider mt-1 font-mono">
                 {product.requiredTier}
               </span>
             </div>
           </div>
 
-          <p className="text-zinc-300 text-sm leading-relaxed whitespace-pre-wrap pt-2 border-t border-white/5">
+          <p className="text-slate-700 text-sm leading-relaxed whitespace-pre-wrap pt-2 border-t border-black/5 font-normal">
             {product.longDescription}
           </p>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 border-t border-white/5 pt-6 text-xs text-zinc-400">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 border-t border-black/5 pt-6 text-xs text-slate-500">
             <div>
-              <span className="text-zinc-500 block">Core Version</span>
-              <strong className="text-white block mt-1 font-mono">{product.version}</strong>
+              <span className="text-slate-400 block">Core Version</span>
+              <strong className="text-slate-900 block mt-1 font-mono">{product.version}</strong>
             </div>
             <div>
-              <span className="text-zinc-500 block">Developer / Maintainer</span>
-              <strong className="text-white block mt-1">{product.author}</strong>
+              <span className="text-slate-400 block">Developer / Maintainer</span>
+              <strong className="text-slate-900 block mt-1">{product.author}</strong>
             </div>
             <div>
-              <span className="text-zinc-500 block">License Strategy</span>
-              <strong className="text-white block mt-1">Ecosystem SaaS</strong>
+              <span className="text-slate-400 block">License Strategy</span>
+              <strong className="text-slate-900 block mt-1">Ecosystem SaaS</strong>
             </div>
             <div>
-              <span className="text-zinc-500 block">Tier Upgrade Cost</span>
-              <strong className="text-amber-400 block mt-1 font-mono">{product.price} Aros</strong>
+              <span className="text-slate-400 block">Tier Upgrade Cost</span>
+              <strong className="text-sky-600 block mt-1 font-mono">{product.price} Aros</strong>
             </div>
           </div>
         </div>
 
         {/* Launch Panel */}
-        <div className="bg-zinc-950/60 border border-white/10 rounded-3xl p-8 space-y-6">
-          <h2 className="text-xl font-bold tracking-tight text-white">Product Execution Gateway</h2>
+        <div className="bg-white border border-black/5 rounded-3xl p-8 space-y-6 shadow-md">
+          <h2 className="text-xl font-bold tracking-tight text-slate-900">Product Execution Gateway</h2>
 
           {!isAuthenticated ? (
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center space-y-4">
-              <p className="text-sm text-zinc-400">
-                Sign in to your AROH Workspace account to authorize and launch this standalone application.
+            <div className="bg-slate-50 border border-black/5 rounded-2xl p-6 text-center space-y-4">
+              <p className="text-sm text-slate-600">
+                Sign in to your AROH Workspace account to authorize and launch this application.
               </p>
-              <Button variant="primary" onClick={() => router.push("/login")} className="px-6 py-2.5">
+              <Button variant="primary" onClick={() => router.push("/login")} className="px-6 py-2.5 bg-slate-900 text-white hover:bg-slate-800">
                 Sign In to Workspace
               </Button>
             </div>
           ) : !hasTierAccess ? (
-            <div className="bg-amber-500/10 border border-amber-500/20 text-amber-400 rounded-2xl p-6 space-y-4">
+            <div className="bg-amber-50 border border-amber-200 text-amber-900 rounded-2xl p-6 space-y-4">
               <h3 className="font-bold text-sm">Tier Access Upgrade Required</h3>
-              <p className="text-xs text-zinc-400 leading-relaxed">
+              <p className="text-xs text-slate-600 leading-relaxed">
                 This service requires **Platform {product.requiredTier.toUpperCase()}** access. 
                 Upgrade immediately for **{product.price} Aros** tokens from your wallet.
               </p>
@@ -141,7 +136,7 @@ export default function ProductDetailPage() {
                   variant="primary"
                   onClick={handleBuyUpgrade}
                   disabled={isLoading || !!(wallet && wallet.balance < product.price && user?.role !== "admin")}
-                  className="px-6 py-2 text-xs"
+                  className="px-6 py-2 text-xs bg-amber-600 text-white hover:bg-amber-700"
                 >
                   Purchase Upgrade ({product.price} Aros)
                 </Button>
@@ -149,17 +144,17 @@ export default function ProductDetailPage() {
             </div>
           ) : (
             <div className="space-y-6">
-              <div className="flex justify-between items-center bg-amber-500/10 border border-amber-500/20 rounded-2xl p-6 text-amber-400">
+              <div className="flex justify-between items-center bg-slate-50 border border-black/5 rounded-2xl p-6">
                 <div>
-                  <h3 className="font-bold text-base text-white">Standalone Product Ready</h3>
-                  <p className="text-xs text-zinc-400 mt-1">
+                  <h3 className="font-bold text-base text-slate-900">Product Webpage Ready</h3>
+                  <p className="text-xs text-slate-500 mt-1">
                     Click launch to open the official webpage directly.
                   </p>
                 </div>
                 <Button
                   variant="primary"
                   onClick={handleLaunchProductWebpage}
-                  className="px-6 py-3 font-bold text-xs shadow-lg shadow-amber-500/20"
+                  className="px-6 py-3 font-bold text-xs bg-slate-900 text-white hover:bg-slate-800 shadow-md shadow-slate-900/10"
                 >
                   Launch Product Webpage ↗
                 </Button>

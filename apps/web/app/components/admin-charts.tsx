@@ -16,22 +16,22 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-// Custom Tooltip styled for AROH's premium dark aesthetics
+// Custom Tooltip styled for AROH's light theme aesthetics
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-zinc-950 border border-white/10 p-3 rounded-lg shadow-xl text-xs space-y-1">
-        <p className="font-semibold text-zinc-400 mb-1">{label}</p>
+      <div className="bg-white border border-black/10 p-3 rounded-xl shadow-lg text-xs space-y-1">
+        <p className="font-bold text-slate-900 mb-1">{label}</p>
         {payload.map((p: any) => (
-          <p key={p.name} className="flex justify-between gap-4 items-center">
-            <span className="flex items-center gap-1.5 font-medium text-zinc-300">
+          <p key={p.name} className="flex justify-between gap-4 items-center font-mono">
+            <span className="flex items-center gap-1.5 font-medium text-slate-600 font-sans">
               <span
-                className="w-1.5 h-1.5 rounded-full inline-block"
+                className="w-2 h-2 rounded-full inline-block"
                 style={{ backgroundColor: p.color || p.fill }}
               />
               {p.name}:
             </span>
-            <span className="font-bold text-white">
+            <span className="font-bold text-slate-900">
               {p.value}
               {p.name.toLowerCase().includes("cpu") || p.name.toLowerCase().includes("memory") ? "%" : ""}
             </span>
@@ -81,13 +81,11 @@ export default function AdminCharts() {
   React.useEffect(() => {
     setMounted(true);
 
-    // Live data simulation interval (every 4 seconds)
     const interval = setInterval(() => {
-      // System Metrics update (slight shifts, clamped between 5% and 95%)
       setSystemData((prev) =>
         prev.map((item) => {
-          const cpuDelta = Math.floor(Math.random() * 11) - 5; // -5 to +5
-          const memDelta = Math.floor(Math.random() * 7) - 3;  // -3 to +3
+          const cpuDelta = Math.floor(Math.random() * 11) - 5;
+          const memDelta = Math.floor(Math.random() * 7) - 3;
           return {
             ...item,
             CPU: Math.max(5, Math.min(95, item.CPU + cpuDelta)),
@@ -96,10 +94,9 @@ export default function AdminCharts() {
         })
       );
 
-      // Transaction Volumes update (simulating buy/sell/rewards activity)
       setTransactionData((prev) =>
         prev.map((item) => {
-          const txDelta = Math.floor(Math.random() * 401) - 200; // -200 to +200
+          const txDelta = Math.floor(Math.random() * 401) - 200;
           return {
             ...item,
             Aros: Math.max(100, item.Aros + txDelta),
@@ -107,11 +104,10 @@ export default function AdminCharts() {
         })
       );
 
-      // User Journeys / Path Activity update
       setUserJourneyData((prev) =>
         prev.map((item) => {
-          const viewsDelta = Math.floor(Math.random() * 41) - 20;   // -20 to +20
-          const actionsDelta = Math.floor(Math.random() * 21) - 10; // -10 to +10
+          const viewsDelta = Math.floor(Math.random() * 41) - 20;
+          const actionsDelta = Math.floor(Math.random() * 21) - 10;
           return {
             ...item,
             Views: Math.max(10, item.Views + viewsDelta),
@@ -127,9 +123,9 @@ export default function AdminCharts() {
   if (!mounted) {
     return (
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="h-[350px] bg-white/5 border border-white/10 rounded-xl animate-pulse" />
-        <div className="h-[350px] bg-white/5 border border-white/10 rounded-xl animate-pulse" />
-        <div className="h-[350px] bg-white/5 border border-white/10 rounded-xl animate-pulse" />
+        <div className="h-[350px] bg-white border border-black/5 rounded-2xl animate-pulse shadow-sm" />
+        <div className="h-[350px] bg-white border border-black/5 rounded-2xl animate-pulse shadow-sm" />
+        <div className="h-[350px] bg-white border border-black/5 rounded-2xl animate-pulse shadow-sm" />
       </div>
     );
   }
@@ -138,68 +134,68 @@ export default function AdminCharts() {
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       
       {/* 1. LineChart for System Metrics */}
-      <div className="bg-white/5 backdrop-blur-md border border-white/10 p-5 rounded-xl flex flex-col space-y-4">
+      <div className="bg-white border border-black/5 p-6 rounded-2xl flex flex-col space-y-4 shadow-sm">
         <div>
-          <h3 className="font-bold text-white text-base">System Metrics</h3>
-          <p className="text-xs text-zinc-400">Ecosystem node workload & capacity</p>
+          <h3 className="font-bold text-slate-900 text-base">System Metrics</h3>
+          <p className="text-xs text-slate-500">Ecosystem node workload & capacity</p>
         </div>
         <div className="w-full h-[250px]">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={systemData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#27272a" opacity={0.2} />
-              <XAxis dataKey="name" stroke="#71717a" fontSize={11} tickLine={false} axisLine={false} />
-              <YAxis stroke="#71717a" fontSize={11} tickLine={false} axisLine={false} domain={[0, 100]} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" opacity={0.6} />
+              <XAxis dataKey="name" stroke="#64748b" fontSize={11} tickLine={false} axisLine={false} />
+              <YAxis stroke="#64748b" fontSize={11} tickLine={false} axisLine={false} domain={[0, 100]} />
               <Tooltip content={<CustomTooltip />} />
-              <Legend verticalAlign="top" height={36} iconType="circle" wrapperStyle={{ fontSize: "11px", color: "#a1a1aa" }} />
-              <Line type="monotone" dataKey="CPU" stroke="#f59e0b" strokeWidth={2} dot={{ r: 3 }} activeDot={{ r: 5 }} name="CPU Load" />
-              <Line type="monotone" dataKey="Memory" stroke="#3b82f6" strokeWidth={2} dot={{ r: 3 }} activeDot={{ r: 5 }} name="Memory Usage" />
+              <Legend verticalAlign="top" height={36} iconType="circle" wrapperStyle={{ fontSize: "11px", color: "#475569" }} />
+              <Line type="monotone" dataKey="CPU" stroke="#0284c7" strokeWidth={2} dot={{ r: 3 }} activeDot={{ r: 5 }} name="CPU Load" />
+              <Line type="monotone" dataKey="Memory" stroke="#6366f1" strokeWidth={2} dot={{ r: 3 }} activeDot={{ r: 5 }} name="Memory Usage" />
             </LineChart>
           </ResponsiveContainer>
         </div>
       </div>
 
       {/* 2. AreaChart for Transaction Volumes */}
-      <div className="bg-white/5 backdrop-blur-md border border-white/10 p-5 rounded-xl flex flex-col space-y-4">
+      <div className="bg-white border border-black/5 p-6 rounded-2xl flex flex-col space-y-4 shadow-sm">
         <div>
-          <h3 className="font-bold text-white text-base">Transaction Volumes</h3>
-          <p className="text-xs text-zinc-400">Total volume of Aros transacted over time</p>
+          <h3 className="font-bold text-slate-900 text-base">Transaction Volumes</h3>
+          <p className="text-xs text-slate-500">Total volume of Aros transacted over time</p>
         </div>
         <div className="w-full h-[250px]">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={transactionData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
               <defs>
                 <linearGradient id="colorAros" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.4} />
-                  <stop offset="95%" stopColor="#f59e0b" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#0284c7" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="#0284c7" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#27272a" opacity={0.2} />
-              <XAxis dataKey="name" stroke="#71717a" fontSize={11} tickLine={false} axisLine={false} />
-              <YAxis stroke="#71717a" fontSize={11} tickLine={false} axisLine={false} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" opacity={0.6} />
+              <XAxis dataKey="name" stroke="#64748b" fontSize={11} tickLine={false} axisLine={false} />
+              <YAxis stroke="#64748b" fontSize={11} tickLine={false} axisLine={false} />
               <Tooltip content={<CustomTooltip />} />
-              <Legend verticalAlign="top" height={36} iconType="circle" wrapperStyle={{ fontSize: "11px", color: "#a1a1aa" }} />
-              <Area type="monotone" dataKey="Aros" stroke="#f59e0b" strokeWidth={2} fillOpacity={1} fill="url(#colorAros)" name="Volume (Aros)" />
+              <Legend verticalAlign="top" height={36} iconType="circle" wrapperStyle={{ fontSize: "11px", color: "#475569" }} />
+              <Area type="monotone" dataKey="Aros" stroke="#0284c7" strokeWidth={2} fillOpacity={1} fill="url(#colorAros)" name="Volume (Aros)" />
             </AreaChart>
           </ResponsiveContainer>
         </div>
       </div>
 
       {/* 3. BarChart for User Journeys */}
-      <div className="bg-white/5 backdrop-blur-md border border-white/10 p-5 rounded-xl flex flex-col space-y-4">
+      <div className="bg-white border border-black/5 p-6 rounded-2xl flex flex-col space-y-4 shadow-sm">
         <div>
-          <h3 className="font-bold text-white text-base">User Journeys</h3>
-          <p className="text-xs text-zinc-400">Active views vs actions across modules</p>
+          <h3 className="font-bold text-slate-900 text-base">User Journeys</h3>
+          <p className="text-xs text-slate-500">Active views vs actions across modules</p>
         </div>
         <div className="w-full h-[250px]">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={userJourneyData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#27272a" opacity={0.2} />
-              <XAxis dataKey="name" stroke="#71717a" fontSize={10} tickLine={false} axisLine={false} />
-              <YAxis stroke="#71717a" fontSize={11} tickLine={false} axisLine={false} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" opacity={0.6} />
+              <XAxis dataKey="name" stroke="#64748b" fontSize={10} tickLine={false} axisLine={false} />
+              <YAxis stroke="#64748b" fontSize={11} tickLine={false} axisLine={false} />
               <Tooltip content={<CustomTooltip />} />
-              <Legend verticalAlign="top" height={36} iconType="circle" wrapperStyle={{ fontSize: "11px", color: "#a1a1aa" }} />
-              <Bar dataKey="Views" fill="#f59e0b" radius={[4, 4, 0, 0]} name="Page Views" />
-              <Bar dataKey="Actions" fill="#8b5cf6" radius={[4, 4, 0, 0]} name="User Actions" />
+              <Legend verticalAlign="top" height={36} iconType="circle" wrapperStyle={{ fontSize: "11px", color: "#475569" }} />
+              <Bar dataKey="Views" fill="#0f172a" radius={[4, 4, 0, 0]} name="Page Views" />
+              <Bar dataKey="Actions" fill="#0284c7" radius={[4, 4, 0, 0]} name="User Actions" />
             </BarChart>
           </ResponsiveContainer>
         </div>

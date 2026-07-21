@@ -64,21 +64,21 @@ export default function AdminPage() {
 
   if (!isRehydrated || !isAuthenticated) {
     return (
-      <div className="min-h-screen bg-[#06070a] flex justify-center items-center text-white">
-        <span className="w-8 h-8 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen bg-[#fbfbfa] flex justify-center items-center text-slate-900">
+        <span className="w-8 h-8 border-4 border-slate-900 border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
   if (!hasAccess) {
     return (
-      <div className="min-h-screen bg-[#06070a] flex flex-col justify-center items-center text-white p-6 bg-mesh-logo">
-        <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-8 rounded-3xl max-w-md text-center space-y-4 shadow-2xl">
-          <h1 className="text-2xl font-bold tracking-tight">Access Denied</h1>
-          <p className="text-xs text-zinc-400">
+      <div className="min-h-screen bg-[#fbfbfa] flex flex-col justify-center items-center text-slate-900 p-6 bg-mesh-light">
+        <div className="bg-rose-50 border border-rose-200 text-rose-800 p-8 rounded-3xl max-w-md text-center space-y-4 shadow-sm">
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900">Access Denied</h1>
+          <p className="text-xs text-slate-600 font-normal">
             This module contains global platform override privileges. Only official Administrators are authorized.
           </p>
-          <Button variant="primary" onClick={() => router.push("/")} className="px-6 py-2.5">
+          <Button variant="primary" onClick={() => router.push("/")} className="px-6 py-2.5 bg-slate-900 text-white hover:bg-slate-800">
             Return to Home
           </Button>
         </div>
@@ -87,28 +87,27 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#06070a] text-white py-12 px-6 lg:px-12 bg-mesh-logo">
+    <div className="min-h-screen bg-[#fbfbfa] text-slate-900 py-12 px-6 lg:px-12 bg-mesh-light">
       <div className="max-w-6xl mx-auto space-y-12">
         
         {/* Navigation */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-white/10 pb-6">
-          <div className="flex items-center gap-4">
-            <img src="/aroh-logo.png?v=2" alt="AROH Logo" className="h-10 w-10 object-contain rounded-xl border border-cyan-500/30" />
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-black/5 pb-6">
+          <div className="flex items-center gap-4 cursor-pointer" onClick={() => router.push("/")}>
             <div>
-              <h1 className="text-3xl font-extrabold tracking-tight text-gradient-logo">
+              <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">
                 Platform Admin Console
               </h1>
-              <p className="text-zinc-400 text-xs mt-0.5">
+              <p className="text-slate-500 text-xs mt-0.5 font-normal">
                 Global governance controls, unlimited admin Aros ledger, and transaction audits.
               </p>
             </div>
           </div>
           <div className="flex gap-3 items-center">
             <NotificationCenter />
-            <Button variant="secondary" onClick={() => router.push("/")} className="px-4 text-xs">
+            <Button variant="secondary" onClick={() => router.push("/")} className="px-4 text-xs bg-white text-slate-800 border-black/10 hover:bg-slate-50">
               Home
             </Button>
-            <Button variant="glass" onClick={() => router.push("/dashboard")} className="px-4 text-xs">
+            <Button variant="glass" onClick={() => router.push("/dashboard")} className="px-4 text-xs bg-slate-100 text-slate-800 border-slate-200">
               Dashboard
             </Button>
           </div>
@@ -119,19 +118,19 @@ export default function AdminPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Issue Credit Form */}
-          <div className="lg:col-span-1 bg-zinc-950/80 border border-cyan-500/20 p-6 rounded-3xl h-fit space-y-6 border-logo-glow">
-            <h2 className="text-xl font-bold tracking-tight text-white">Issue Aros Incentive</h2>
+          <div className="lg:col-span-1 bg-white border border-black/5 p-6 rounded-3xl h-fit space-y-6 shadow-sm">
+            <h2 className="text-xl font-bold tracking-tight text-slate-900">Issue Aros Incentive</h2>
 
             <form onSubmit={handleReward} className="space-y-4">
               <div>
-                <label htmlFor="targetUserId" className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
+                <label htmlFor="targetUserId" className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">
                   Target Account ID
                 </label>
                 <select
                   id="targetUserId"
                   value={targetUserId}
                   onChange={(e) => setTargetUserId(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl bg-zinc-900 border border-white/10 text-white focus:outline-none focus:border-cyan-500 text-xs"
+                  className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-black/10 text-slate-900 focus:outline-none focus:border-slate-900 text-xs shadow-sm font-mono"
                 >
                   <option value="user-id">Standard User (user-id)</option>
                   <option value="operator-id">CMS Operator (operator-id)</option>
@@ -140,7 +139,7 @@ export default function AdminPage() {
               </div>
 
               <div>
-                <label htmlFor="creditAmount" className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
+                <label htmlFor="creditAmount" className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">
                   Token Amount (Aros)
                 </label>
                 <input
@@ -149,13 +148,13 @@ export default function AdminPage() {
                   value={creditAmount}
                   onChange={(e) => setCreditAmount(e.target.value)}
                   placeholder="e.g. 500"
-                  className="w-full px-4 py-2.5 rounded-xl bg-zinc-900 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:border-cyan-500 transition-colors text-xs"
+                  className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-black/10 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-slate-900 transition-colors text-xs shadow-sm font-mono"
                   required
                 />
               </div>
 
               <div>
-                <label htmlFor="creditDesc" className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
+                <label htmlFor="creditDesc" className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">
                   Ledger Description
                 </label>
                 <input
@@ -164,12 +163,12 @@ export default function AdminPage() {
                   value={creditDesc}
                   onChange={(e) => setCreditDesc(e.target.value)}
                   placeholder="Reason for crediting..."
-                  className="w-full px-4 py-2.5 rounded-xl bg-zinc-900 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:border-cyan-500 transition-colors text-xs"
+                  className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-black/10 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-slate-900 transition-colors text-xs shadow-sm"
                   required
                 />
               </div>
 
-              <Button type="submit" variant="primary" className="w-full py-3 text-xs font-bold mt-4">
+              <Button type="submit" variant="primary" className="w-full py-3 text-xs font-bold mt-4 bg-slate-900 text-white hover:bg-slate-800">
                 Credit Wallet
               </Button>
             </form>
@@ -178,21 +177,21 @@ export default function AdminPage() {
           {/* Global Audit Ledger */}
           <div className="lg:col-span-2 space-y-6">
             <div className="flex justify-between items-center">
-              <h2 className="text-xl font-bold tracking-tight text-white">Ecosystem Audit Ledger</h2>
-              <Button variant="glass" onClick={fetchGlobal} className="px-4 py-1.5 text-xs">
+              <h2 className="text-xl font-bold tracking-tight text-slate-900">Ecosystem Audit Ledger</h2>
+              <Button variant="glass" onClick={fetchGlobal} className="px-4 py-1.5 text-xs bg-slate-100 text-slate-800 border-slate-200">
                 Refresh Ledger
               </Button>
             </div>
 
             {globalTxs.length === 0 ? (
-              <div className="bg-zinc-950/60 border border-white/10 rounded-2xl p-8 text-center text-zinc-400 text-sm">
+              <div className="bg-white border border-black/5 rounded-2xl p-8 text-center text-slate-400 text-sm shadow-sm font-mono">
                 No ledger transactions found in storage.
               </div>
             ) : (
-              <div className="overflow-x-auto bg-zinc-950/70 border border-white/10 rounded-2xl p-6">
-                <table className="w-full text-left text-xs text-zinc-300">
+              <div className="overflow-x-auto bg-white border border-black/5 rounded-2xl p-6 shadow-sm">
+                <table className="w-full text-left text-xs text-slate-700">
                   <thead>
-                    <tr className="border-b border-white/10 text-zinc-500 text-[10px] uppercase tracking-wider font-semibold">
+                    <tr className="border-b border-black/5 text-slate-400 text-[10px] uppercase tracking-wider font-semibold">
                       <th className="pb-3">User ID</th>
                       <th className="pb-3">Type</th>
                       <th className="pb-3">Description</th>
@@ -200,26 +199,26 @@ export default function AdminPage() {
                       <th className="pb-3 text-right">Timestamp</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-white/5 font-mono">
+                  <tbody className="divide-y divide-black/5 font-mono">
                     {globalTxs.map((tx) => (
-                      <tr key={tx.id} className="hover:bg-white/2 transition-colors">
-                        <td className="py-3 font-semibold text-white">{tx.userId}</td>
+                      <tr key={tx.id} className="hover:bg-slate-50 transition-colors">
+                        <td className="py-3 font-semibold text-slate-900">{tx.userId}</td>
                         <td className="py-3">
                           <span
                             className={`px-2 py-0.5 rounded text-[9px] uppercase font-extrabold ${
                               tx.amount > 0
-                                ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-                                : "bg-rose-500/10 text-rose-400 border border-rose-500/20"
+                                ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                                : "bg-rose-50 text-rose-700 border border-rose-200"
                             }`}
                           >
                             {tx.type}
                           </span>
                         </td>
-                        <td className="py-3 text-zinc-300 font-sans">{tx.description}</td>
-                        <td className={`py-3 font-bold ${tx.amount > 0 ? "text-emerald-400" : "text-rose-400"}`}>
+                        <td className="py-3 text-slate-700 font-sans">{tx.description}</td>
+                        <td className={`py-3 font-bold ${tx.amount > 0 ? "text-emerald-600" : "text-rose-600"}`}>
                           {tx.amount > 0 ? `+${tx.amount}` : tx.amount} Aros
                         </td>
-                        <td className="py-3 text-right text-zinc-500 text-[10px]">
+                        <td className="py-3 text-right text-slate-400 text-[10px]">
                           {new Date(tx.timestamp).toLocaleTimeString()}
                         </td>
                       </tr>

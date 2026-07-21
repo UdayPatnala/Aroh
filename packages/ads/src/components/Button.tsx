@@ -30,23 +30,28 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         aria-disabled={isButtonDisabled}
         aria-busy={isLoading}
         className={clsx(
-          "inline-flex items-center justify-center font-medium transition-all duration-250 cursor-pointer disabled:opacity-50 disabled:pointer-events-none active:scale-98",
+          "inline-flex items-center justify-center font-semibold transition-all duration-200 cursor-pointer disabled:opacity-40 disabled:pointer-events-none active:scale-[0.98]",
           accessibility.focusRing,
           {
-            "px-3 py-1.5 text-xs rounded-md": size === "sm",
-            "px-4 py-2 text-sm rounded-lg": size === "md",
-            "px-6 py-3 text-base rounded-xl": size === "lg",
+            "px-3 py-1.5 text-xs rounded-lg": size === "sm",
+            "px-4 py-2 text-sm rounded-xl": size === "md",
+            "px-6 py-3 text-base rounded-2xl": size === "lg",
           },
           {
-            "bg-gradient-to-r from-amber-500 to-amber-600 text-zinc-950 hover:from-amber-400 hover:to-amber-500 hover:shadow-lg hover:shadow-amber-500/20 font-semibold":
+            // Primary: dark navy — the main action call-to-action
+            "bg-slate-900 text-white hover:bg-slate-800 shadow-sm shadow-slate-900/10 border border-slate-900":
               variant === "primary",
-            "bg-zinc-800 text-zinc-100 hover:bg-zinc-700 border border-zinc-700/50":
+            // Secondary: clean white with slate border
+            "bg-white text-slate-800 hover:bg-slate-50 border border-slate-200 shadow-sm":
               variant === "secondary",
-            "bg-zinc-900/60 backdrop-blur-md border border-white/10 text-zinc-100 hover:bg-zinc-800/80 hover:border-amber-500/30":
+            // Glass: frosted white
+            "bg-white/80 backdrop-blur-md border border-black/10 text-slate-700 hover:bg-white hover:border-slate-300 shadow-sm":
               variant === "glass",
-            "bg-transparent text-amber-400 border border-amber-500/40 hover:bg-amber-500/10 hover:border-amber-400":
+            // Outline: transparent with slate border
+            "bg-transparent text-slate-700 border border-slate-300 hover:bg-slate-50 hover:border-slate-400":
               variant === "outline",
-            "bg-red-600/90 text-white hover:bg-red-500 border border-red-500/30":
+            // Danger: rose/red
+            "bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 shadow-sm":
               variant === "danger"
           },
           className

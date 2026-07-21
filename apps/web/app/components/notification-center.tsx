@@ -38,7 +38,7 @@ export default function NotificationCenter() {
       {/* Bell Button */}
       <button
         onClick={handleToggle}
-        className="relative p-2 text-zinc-400 hover:text-white transition-colors bg-white/5 border border-white/5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 cursor-pointer"
+        className="relative p-2 text-slate-600 hover:text-slate-900 transition-colors bg-white border border-black/10 rounded-xl hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 cursor-pointer shadow-sm"
         aria-label={`System Alerts. ${unreadCount} unread.`}
       >
         {/* Simple SVG Bell Icon */}
@@ -60,15 +60,15 @@ export default function NotificationCenter() {
             initial={{ opacity: 0, y: 10, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-            className="absolute right-0 mt-2 w-80 bg-zinc-900/95 border border-white/10 backdrop-blur-xl rounded-xl shadow-2xl overflow-hidden z-[100]"
+            className="absolute right-0 mt-2 w-80 bg-white border border-black/10 rounded-2xl shadow-xl overflow-hidden z-[100]"
           >
             {/* Header */}
-            <div className="p-4 border-b border-white/5 flex justify-between items-center">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-400">System Alerts</h3>
+            <div className="p-4 border-b border-black/5 flex justify-between items-center">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">System Alerts</h3>
               {unreadCount > 0 && (
                 <button
                   onClick={handleMarkAllRead}
-                  className="text-[10px] text-amber-500 hover:underline cursor-pointer focus-visible:outline-none"
+                  className="text-[10px] text-sky-600 font-semibold hover:underline cursor-pointer focus-visible:outline-none"
                 >
                   Mark all as read
                 </button>
@@ -76,35 +76,35 @@ export default function NotificationCenter() {
             </div>
 
             {/* List */}
-            <div className="max-h-64 overflow-y-auto divide-y divide-white/5">
+            <div className="max-h-64 overflow-y-auto divide-y divide-black/5">
               {notifications.length === 0 ? (
-                <div className="p-8 text-center text-zinc-400 text-xs font-mono">
+                <div className="p-8 text-center text-slate-400 text-xs font-mono">
                   No alerts in this session.
                 </div>
               ) : (
                 notifications.map((n) => (
                   <div
                     key={n.id}
-                    className={`p-4 flex gap-3 text-xs hover:bg-white/2 transition-colors ${
-                      !n.read ? "bg-white/[0.01]" : ""
+                    className={`p-4 flex gap-3 text-xs hover:bg-slate-50 transition-colors ${
+                      !n.read ? "bg-slate-50/50" : ""
                     }`}
                   >
                     {/* Status Icon indicator */}
                     <div className="shrink-0 mt-0.5">
                       {n.type === "success" ? (
-                        <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full block" />
+                        <span className="w-2 h-2 bg-emerald-500 rounded-full block" />
                       ) : n.type === "warning" ? (
-                        <span className="w-1.5 h-1.5 bg-rose-400 rounded-full block" />
+                        <span className="w-2 h-2 bg-rose-500 rounded-full block" />
                       ) : (
-                        <span className="w-1.5 h-1.5 bg-blue-400 rounded-full block" />
+                        <span className="w-2 h-2 bg-sky-500 rounded-full block" />
                       )}
                     </div>
 
                     <div className="space-y-1">
-                      <p className={`leading-normal ${!n.read ? "text-white font-medium" : "text-zinc-400"}`}>
+                      <p className={`leading-normal ${!n.read ? "text-slate-900 font-semibold" : "text-slate-600"}`}>
                         {n.message}
                       </p>
-                      <span className="text-[9px] text-zinc-400 block font-mono">
+                      <span className="text-[9px] text-slate-400 block font-mono">
                         {new Date(n.timestamp).toLocaleTimeString()}
                       </span>
                     </div>

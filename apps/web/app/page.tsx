@@ -77,7 +77,7 @@ export default function HomePage() {
         {/* Header Bar */}
         <header className="sticky top-0 bg-[#fbfbfa]/90 backdrop-blur-xl border-b border-black/5 px-6 py-4 relative z-50">
           <div className="max-w-6xl mx-auto flex justify-between items-center">
-            {/* Logo + Sleek Slate Typography */}
+            {/* Sleek Slate Typography */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -90,11 +90,6 @@ export default function HomePage() {
                 if (e.key === "Enter" || e.key === " ") router.push("/");
               }}
             >
-              <img
-                src="/aroh-logo.png?v=2"
-                alt="AROH Official Logo"
-                className="h-10 w-10 object-contain rounded-xl shadow-sm border border-black/5"
-              />
               <span className="font-extrabold tracking-[0.25em] text-xl text-slate-900 select-none">
                 AROH
               </span>
@@ -184,21 +179,7 @@ export default function HomePage() {
             transition={{ duration: 0.6 }}
             className="text-center max-w-2xl mx-auto space-y-6 relative"
           >
-            {/* Official Clean Logo Emblem */}
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              className="flex justify-center mb-4 relative"
-            >
-              <img
-                src="/aroh-logo.png?v=2"
-                alt="AROH Minimalist Geometric Logo"
-                className="h-36 w-36 object-contain rounded-3xl p-1 shadow-md bg-white border border-black/5 relative z-10"
-              />
-            </motion.div>
-
-            <div className="flex items-center justify-center gap-2">
+            <div className="flex items-center justify-center gap-2 pt-4">
               <span className="px-3.5 py-1 rounded-full bg-slate-100 border border-slate-200 text-[10px] uppercase font-bold tracking-widest text-slate-700">
                 AI-Native Ecosystem Platform
               </span>
@@ -291,7 +272,6 @@ export default function HomePage() {
         <footer className="border-t border-black/5 px-6 py-8 relative z-10 text-center bg-white">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-2">
-              <img src="/aroh-logo.png?v=2" alt="AROH Logo" className="h-6 w-6 object-contain" />
               <span className="font-extrabold text-sm text-slate-900 tracking-widest">AROH PLATFORM</span>
             </div>
             <p className="text-xs text-slate-500">
@@ -303,3 +283,4 @@ export default function HomePage() {
     </>
   );
 }
+

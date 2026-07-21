@@ -92,21 +92,21 @@ export default function CmsPage() {
 
   if (!isRehydrated || !isAuthenticated) {
     return (
-      <div className="min-h-screen bg-[#06070a] flex justify-center items-center text-white">
-        <span className="w-8 h-8 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen bg-[#fbfbfa] flex justify-center items-center text-slate-900">
+        <span className="w-8 h-8 border-4 border-slate-900 border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
   if (!hasAccess) {
     return (
-      <div className="min-h-screen bg-[#06070a] flex flex-col justify-center items-center text-white p-6 bg-mesh-logo">
-        <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-8 rounded-3xl max-w-md text-center space-y-4 shadow-2xl">
-          <h1 className="text-2xl font-bold tracking-tight">Access Denied</h1>
-          <p className="text-xs text-zinc-400">
+      <div className="min-h-screen bg-[#fbfbfa] flex flex-col justify-center items-center text-slate-900 p-6 bg-mesh-light">
+        <div className="bg-rose-50 border border-rose-200 text-rose-800 p-8 rounded-3xl max-w-md text-center space-y-4 shadow-sm">
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900">Access Denied</h1>
+          <p className="text-xs text-slate-600 font-normal">
             This module requires CMS Operator or Administrator privileges.
           </p>
-          <Button variant="primary" onClick={() => router.push("/")} className="px-6 py-2.5">
+          <Button variant="primary" onClick={() => router.push("/")} className="px-6 py-2.5 bg-slate-900 text-white hover:bg-slate-800">
             Return to Home
           </Button>
         </div>
@@ -115,28 +115,27 @@ export default function CmsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#06070a] text-white py-12 px-6 lg:px-12 bg-mesh-logo">
+    <div className="min-h-screen bg-[#fbfbfa] text-slate-900 py-12 px-6 lg:px-12 bg-mesh-light">
       <div className="max-w-6xl mx-auto space-y-12">
         
         {/* Navigation */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-white/10 pb-6">
-          <div className="flex items-center gap-4">
-            <img src="/aroh-logo.png?v=2" alt="AROH Logo" className="h-10 w-10 object-contain rounded-xl border border-cyan-500/30" />
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-black/5 pb-6">
+          <div className="flex items-center gap-4 cursor-pointer" onClick={() => router.push("/")}>
             <div>
-              <h1 className="text-3xl font-extrabold tracking-tight text-gradient-logo">
+              <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">
                 AROH CMS Editorial Hub
               </h1>
-              <p className="text-zinc-400 text-xs mt-0.5">
+              <p className="text-slate-500 text-xs mt-0.5 font-normal">
                 Create, schedule, and publish announcements across the AROH Platform.
               </p>
             </div>
           </div>
           <div className="flex gap-3 items-center">
             <NotificationCenter />
-            <Button variant="secondary" onClick={() => router.push("/")} className="px-4 text-xs">
+            <Button variant="secondary" onClick={() => router.push("/")} className="px-4 text-xs bg-white text-slate-800 border-black/10 hover:bg-slate-50">
               Home
             </Button>
-            <Button variant="glass" onClick={() => router.push("/dashboard")} className="px-4 text-xs">
+            <Button variant="glass" onClick={() => router.push("/dashboard")} className="px-4 text-xs bg-slate-100 text-slate-800 border-slate-200">
               Dashboard
             </Button>
           </div>
@@ -145,14 +144,14 @@ export default function CmsPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           
           {/* Announcement Editor Form */}
-          <div className="lg:col-span-1 bg-zinc-950/80 border border-cyan-500/20 p-6 rounded-3xl h-fit space-y-6 border-logo-glow">
-            <h2 className="text-xl font-bold tracking-tight text-white">
+          <div className="lg:col-span-1 bg-white border border-black/5 p-6 rounded-3xl h-fit space-y-6 shadow-sm">
+            <h2 className="text-xl font-bold tracking-tight text-slate-900">
               {isEditing ? "Edit Announcement" : "Publish Announcement"}
             </h2>
 
             <form onSubmit={handleSave} className="space-y-4">
               <div>
-                <label htmlFor="cmsTitle" className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">
+                <label htmlFor="cmsTitle" className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">
                   Announcement Title
                 </label>
                 <input
@@ -161,20 +160,20 @@ export default function CmsPage() {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="e.g. Scheduled System Upgrade"
-                  className="w-full px-4 py-2.5 rounded-xl bg-zinc-900 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:border-cyan-500 text-xs"
+                  className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-black/10 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-slate-900 text-xs shadow-sm"
                   required
                 />
               </div>
 
               <div>
-                <label htmlFor="cmsCategory" className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">
+                <label htmlFor="cmsCategory" className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">
                   Category
                 </label>
                 <select
                   id="cmsCategory"
                   value={category}
                   onChange={(e) => setCategory(e.target.value as AnnouncementCategory)}
-                  className="w-full px-4 py-2.5 rounded-xl bg-zinc-900 border border-white/10 text-white focus:outline-none focus:border-cyan-500 text-xs"
+                  className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-black/10 text-slate-900 focus:outline-none focus:border-slate-900 text-xs shadow-sm"
                 >
                   <option value="info">Info</option>
                   <option value="promotion">Promotion</option>
@@ -183,7 +182,7 @@ export default function CmsPage() {
               </div>
 
               <div>
-                <label htmlFor="cmsPublishedAt" className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">
+                <label htmlFor="cmsPublishedAt" className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">
                   Publish Date & Time
                 </label>
                 {mounted && (
@@ -192,13 +191,13 @@ export default function CmsPage() {
                     type="datetime-local"
                     value={publishedAt}
                     onChange={(e) => setPublishedAt(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-xl bg-zinc-900 border border-white/10 text-white focus:outline-none focus:border-cyan-500 text-xs"
+                    className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-black/10 text-slate-900 focus:outline-none focus:border-slate-900 text-xs shadow-sm font-mono"
                   />
                 )}
               </div>
 
               <div>
-                <label htmlFor="cmsContent" className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">
+                <label htmlFor="cmsContent" className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">
                   Content Body
                 </label>
                 <textarea
@@ -207,7 +206,7 @@ export default function CmsPage() {
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
                   placeholder="Write announcement content..."
-                  className="w-full px-4 py-2.5 rounded-xl bg-zinc-900 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:border-cyan-500 text-xs"
+                  className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-black/10 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-slate-900 text-xs shadow-sm"
                   required
                 />
               </div>
@@ -218,15 +217,15 @@ export default function CmsPage() {
                   type="checkbox"
                   checked={isPublished}
                   onChange={(e) => setIsPublished(e.target.checked)}
-                  className="w-4 h-4 accent-cyan-500 rounded border-white/10 focus:ring-0 cursor-pointer"
+                  className="w-4 h-4 accent-slate-900 rounded border-black/10 focus:ring-0 cursor-pointer"
                 />
-                <label htmlFor="cmsIsPublished" className="text-xs text-zinc-300 font-semibold cursor-pointer">
+                <label htmlFor="cmsIsPublished" className="text-xs text-slate-700 font-semibold cursor-pointer">
                   Publish Immediately
                 </label>
               </div>
 
               <div className="flex gap-2 pt-2">
-                <Button type="submit" variant="primary" className="flex-1 py-2.5 text-xs font-bold">
+                <Button type="submit" variant="primary" className="flex-1 py-2.5 text-xs font-bold bg-slate-900 text-white hover:bg-slate-800">
                   {isEditing ? "Update Alert" : "Save Announcement"}
                 </Button>
                 {isEditing && (
@@ -241,7 +240,7 @@ export default function CmsPage() {
                       setIsPublished(true);
                       setIsEditing(false);
                     }}
-                    className="px-4 py-2.5 text-xs"
+                    className="px-4 py-2.5 text-xs bg-slate-100 text-slate-800 border-slate-200"
                   >
                     Cancel
                   </Button>
@@ -250,12 +249,12 @@ export default function CmsPage() {
             </form>
           </div>
 
-          {/* Announcement List */}
+          {/* Announcement Stream */}
           <div className="lg:col-span-2 space-y-6">
-            <h2 className="text-xl font-bold tracking-tight text-white">Announcement Stream</h2>
+            <h2 className="text-xl font-bold tracking-tight text-slate-900">Announcement Stream</h2>
 
             {allAnnouncements.length === 0 ? (
-              <div className="bg-zinc-950/60 border border-white/10 rounded-2xl p-8 text-center text-zinc-400 text-sm">
+              <div className="bg-white border border-black/5 rounded-2xl p-8 text-center text-slate-400 text-sm shadow-sm font-mono">
                 No announcements in database.
               </div>
             ) : (
@@ -263,35 +262,35 @@ export default function CmsPage() {
                 {allAnnouncements.map((ann) => (
                   <div
                     key={ann.id}
-                    className="bg-zinc-950/70 border border-white/10 rounded-2xl p-6 flex flex-col justify-between gap-4 hover:border-cyan-500/30 transition-all"
+                    className="bg-white border border-black/5 rounded-2xl p-6 flex flex-col justify-between gap-4 hover:border-slate-300 transition-all shadow-sm"
                   >
                     <div className="space-y-2">
                       <div className="flex justify-between items-center">
                         <span
                           className={`px-2.5 py-0.5 rounded text-[8px] uppercase font-bold tracking-wider ${
                             ann.category === "maintenance"
-                              ? "bg-rose-500/10 text-rose-400 border border-rose-500/20"
+                              ? "bg-rose-50 text-rose-600 border border-rose-200"
                               : ann.category === "promotion"
-                              ? "bg-amber-500/10 text-amber-400 border border-amber-500/20"
-                              : "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20"
+                              ? "bg-amber-50 text-amber-600 border border-amber-200"
+                              : "bg-sky-50 text-sky-600 border border-sky-200"
                           }`}
                         >
                           {ann.category}
                         </span>
-                        <span className="text-[10px] text-zinc-500 font-mono">
+                        <span className="text-[10px] text-slate-400 font-mono">
                           {new Date(ann.publishedAt).toLocaleString()}
                         </span>
                       </div>
-                      <h3 className="text-base font-bold text-white">{ann.title}</h3>
-                      <p className="text-zinc-400 text-xs leading-relaxed">{ann.content}</p>
+                      <h3 className="text-base font-bold text-slate-900">{ann.title}</h3>
+                      <p className="text-slate-600 text-xs leading-relaxed">{ann.content}</p>
                     </div>
 
-                    <div className="flex justify-between items-center border-t border-white/5 pt-3">
-                      <span className="text-[10px] text-zinc-500">
-                        Status: <strong className={ann.isPublished ? "text-emerald-400" : "text-amber-400"}>{ann.isPublished ? "PUBLISHED" : "DRAFT"}</strong>
+                    <div className="flex justify-between items-center border-t border-black/5 pt-3">
+                      <span className="text-[10px] text-slate-500 font-mono">
+                        Status: <strong className={ann.isPublished ? "text-emerald-600" : "text-amber-600"}>{ann.isPublished ? "PUBLISHED" : "DRAFT"}</strong>
                       </span>
                       <div className="flex gap-2">
-                        <Button variant="glass" onClick={() => handleEdit(ann)} className="px-3 py-1 text-xs">
+                        <Button variant="glass" onClick={() => handleEdit(ann)} className="px-3 py-1 text-xs bg-slate-100 text-slate-800 border-slate-200">
                           Edit
                         </Button>
                         <Button variant="danger" onClick={() => handleDelete(ann.id)} className="px-3 py-1 text-xs">

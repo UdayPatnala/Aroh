@@ -78,7 +78,8 @@ export const registeredProducts: ProductDetails[] = [
     requiredTier: "basic",
     price: 0,
     version: "v1.0.1",
-    author: "AROH Core Team"
+    author: "AROH Core Team",
+    url: "/dashboard"
   },
   {
     id: "aroh-cms",
@@ -90,6 +91,7 @@ export const registeredProducts: ProductDetails[] = [
     price: 100,
     version: "v1.0.0",
     author: "AROH Content Team",
+    url: "/cms",
     internalOnly: true
   },
   {
@@ -102,9 +104,22 @@ export const registeredProducts: ProductDetails[] = [
     price: 100,
     version: "v0.9.4-beta",
     author: "AROH Devops Group",
+    url: "/admin",
     internalOnly: true
   }
 ];
+
+export const launchProductWebpage = (prod: ProductDetails, router: { push: (url: string) => void }) => {
+  if (!prod.url) {
+    router.push(`/explore/${prod.id}`);
+    return;
+  }
+  if (prod.url.startsWith("http://") || prod.url.startsWith("https://")) {
+    window.open(prod.url, "_blank", "noopener,noreferrer");
+  } else {
+    router.push(prod.url);
+  }
+};
 
 const categories = ["All", "Core Service", "Ecosystem Service", "Analytics", "Developer Service", "AI Tools"];
 
@@ -130,11 +145,7 @@ export default function ExplorePage() {
   });
 
   const handleLaunchProduct = (prod: ProductDetails) => {
-    if (prod.url) {
-      window.open(prod.url, "_blank", "noopener,noreferrer");
-    } else {
-      router.push(`/explore/${prod.id}`);
-    }
+    launchProductWebpage(prod, router);
   };
 
   return (
@@ -142,14 +153,13 @@ export default function ExplorePage() {
       <div className="max-w-6xl mx-auto space-y-10">
         {/* Navigation bar */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-black/5 pb-6">
-          <div className="flex items-center gap-4">
-            <img src="/aroh-logo.png?v=2" alt="AROH Logo" className="h-10 w-10 object-contain rounded-xl shadow-sm border border-black/5" />
+          <div className="flex items-center gap-4 cursor-pointer" onClick={() => router.push("/")}>
             <div>
               <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">
                 Ecosystem Explorer
               </h1>
               <p className="text-slate-500 text-xs mt-0.5">
-                Discover applications and software products in the AROH Ecosystem.
+                Discover and launch applications and software products in the AROH Ecosystem.
               </p>
             </div>
           </div>
@@ -208,7 +218,7 @@ export default function ExplorePage() {
                 key={prod.id}
                 whileHover={{ scale: 1.01 }}
                 onClick={() => handleLaunchProduct(prod)}
-                className="bg-white border border-black/5 rounded-2xl p-6 flex flex-col justify-between hover:border-slate-300 hover:shadow-md transition-all cursor-pointer group shadow-sm"
+                className="bg-white border border-black/5 rounded-2xl p-6 flex flex-col justify-between hover:border-slate-400 hover:shadow-lg transition-all cursor-pointer group shadow-sm"
               >
                 <div className="space-y-4">
                   <div className="flex justify-between items-start">
@@ -220,8 +230,9 @@ export default function ExplorePage() {
                     </span>
                   </div>
 
-                  <h3 className="text-xl font-bold text-slate-900 group-hover:text-sky-600 transition-colors leading-tight">
+                  <h3 className="text-xl font-bold text-slate-900 group-hover:text-sky-600 transition-colors leading-tight flex items-center justify-between">
                     {prod.name}
+                    <span className="text-xs font-semibold text-sky-600 opacity-0 group-hover:opacity-100 transition-opacity">Launch ↗</span>
                   </h3>
                   <p className="text-slate-600 text-xs leading-relaxed line-clamp-3 font-normal">
                     {prod.description}
@@ -230,9 +241,16 @@ export default function ExplorePage() {
 
                 <div className="border-t border-black/5 pt-4 mt-6 flex justify-between items-center text-xs">
                   <span className="text-slate-400 font-mono text-[10px]">{prod.version}</span>
-                  <span className="text-slate-900 group-hover:translate-x-0.5 transition-transform font-bold text-xs">
-                    {prod.url ? "Launch Webpage ↗" : "Details →"}
-                  </span>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleLaunchProduct(prod);
+                    }}
+                    className="px-3 py-1.5 rounded-lg bg-slate-900 text-white font-bold text-[11px] group-hover:bg-sky-600 transition-colors shadow-sm cursor-pointer"
+                  >
+                    Launch Webpage ↗
+                  </button>
                 </div>
               </motion.div>
             ))}
@@ -242,3 +260,4 @@ export default function ExplorePage() {
     </div>
   );
 }
+

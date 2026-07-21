@@ -4,7 +4,7 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import { usePlatformStore } from "@aroh/asdk";
 import { AnimatePresence, motion } from "framer-motion";
-import { registeredProducts } from "../explore/page";
+import { registeredProducts, launchProductWebpage } from "../explore/page";
 import { mockDocDatabase } from "../ai/page";
 
 interface PaletteItem {
@@ -54,50 +54,58 @@ export default function CommandPalette() {
     }
   }, [isOpen]);
 
+  const isAdmin = isAuthenticated && user?.role === "admin";
+  const isOperator = isAuthenticated && (user?.role === "admin" || user?.role === "operator");
+
   const items: PaletteItem[] = React.useMemo(() => {
     const list: PaletteItem[] = [
       { id: "nav-home", name: "Go to Homepage", category: "Navigation", action: () => { router.push("/"); setIsOpen(false); } },
-      { id: "nav-dash", name: "Go to Dashboard", category: "Navigation", action: () => { router.push("/dashboard"); setIsOpen(false); } },
       { id: "nav-explore", name: "Explore Product Registry", category: "Navigation", action: () => { router.push("/explore"); setIsOpen(false); } },
-      { id: "nav-products", name: "Products Console Workspace Hub", category: "Navigation", action: () => { router.push("/products"); setIsOpen(false); } },
-      { id: "nav-ai", name: "Open AROH AI Hub", category: "Navigation", action: () => { router.push("/ai"); setIsOpen(false); } },
     ];
 
-    if (isAuthenticated && user?.role === "admin") {
-      list.push({ id: "nav-admin", name: "Open Admin Console", category: "Administrative Tools", action: () => { router.push("/admin"); setIsOpen(false); } });
-    }
-    if (isAuthenticated && (user?.role === "admin" || user?.role === "operator")) {
-      list.push({ id: "nav-cms", name: "Open CMS Alerts Manager", category: "Administrative Tools", action: () => { router.push("/cms"); setIsOpen(false); } });
+    if (isAuthenticated) {
+      list.push({ id: "nav-dash", name: "Go to Dashboard", category: "Navigation", action: () => { router.push("/dashboard"); setIsOpen(false); } });
+      list.push({ id: "nav-products", name: "Products Workspace", category: "Navigation", action: () => { router.push("/products"); setIsOpen(false); } });
     }
 
-    // Add registered products
-    const isPrivileged = isAuthenticated && (user?.role === "admin" || user?.role === "operator");
+    // Admin & Operator routes — ONLY added for privileged accounts, completely invisible otherwise
+    if (isAdmin) {
+      list.push({ id: "nav-admin", name: "Admin Console", category: "Platform Management", action: () => { router.push("/admin"); setIsOpen(false); } });
+    }
+    if (isOperator) {
+      list.push({ id: "nav-cms", name: "CMS Alerts Manager", category: "Platform Management", action: () => { router.push("/cms"); setIsOpen(false); } });
+    }
+
+    // Products — internal-only products hidden from standard users
     registeredProducts.forEach((p) => {
-      if (p.internalOnly && !isPrivileged) return;
+      if (p.internalOnly && !isOperator) return;
       list.push({
         id: `prod-${p.id}`,
-        name: `Open ${p.name}`,
-        category: "Products & Documentation",
-        action: () => { router.push(`/explore/${p.id}`); setIsOpen(false); }
+        name: p.name,
+        category: "Products",
+        action: () => {
+          launchProductWebpage(p, router);
+          setIsOpen(false);
+        }
       });
     });
 
-    // Add CMS announcements
+    // Announcements — visible to all
     announcements.forEach((ann) => {
       list.push({
         id: `ann-${ann.id}`,
-        name: `Alert: ${ann.title}`,
-        category: `CMS Announcements`,
+        name: ann.title,
+        category: "Announcements",
         action: () => { router.push("/"); setIsOpen(false); }
       });
     });
 
-    // Add Documentation
+    // Documentation
     mockDocDatabase.forEach((doc) => {
       list.push({
         id: `doc-${doc.keyword.replace(/\s+/g, "-")}`,
-        name: `Doc: ${doc.title}`,
-        category: "Ecosystem Documentation",
+        name: doc.title,
+        category: "Documentation",
         action: () => { router.push(`/ai?query=${encodeURIComponent(doc.keyword)}`); setIsOpen(false); }
       });
     });
@@ -105,14 +113,14 @@ export default function CommandPalette() {
     if (isAuthenticated) {
       list.push({
         id: "nav-logout",
-        name: "Sign Out of Workspace",
-        category: "Account Action",
+        name: "Sign Out",
+        category: "Account",
         action: () => { logout(); router.push("/login"); setIsOpen(false); }
       });
     }
 
     return list;
-  }, [isAuthenticated, user, router, logout, announcements]);
+  }, [isAuthenticated, isAdmin, isOperator, user, router, logout, announcements]);
 
   const filteredItems = items.filter((item) =>
     item.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -142,48 +150,49 @@ export default function CommandPalette() {
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-[200] flex items-start justify-center pt-[15vh] px-4">
-          {/* Backdrop blur */}
+          {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setIsOpen(false)}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm pointer-events-auto"
+            className="fixed inset-0 bg-slate-900/30 backdrop-blur-sm pointer-events-auto"
           />
 
-          {/* Palette Box */}
+          {/* Palette Box — light theme */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: -20 }}
+            initial={{ opacity: 0, scale: 0.96, y: -16 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: -20 }}
-            className="relative w-full max-w-lg bg-zinc-900 border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col h-96 pointer-events-auto"
+            exit={{ opacity: 0, scale: 0.96, y: -16 }}
+            transition={{ duration: 0.15 }}
+            className="relative w-full max-w-lg bg-white border border-black/8 rounded-2xl shadow-2xl shadow-slate-900/10 overflow-hidden flex flex-col h-80 pointer-events-auto"
           >
-            {/* Input query field */}
-            <div className="p-4 border-b border-white/5 flex items-center gap-3">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-zinc-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            {/* Input */}
+            <div className="p-4 border-b border-black/5 flex items-center gap-3">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
-              <label htmlFor="commandPaletteInput" className="sr-only">Type a command to search</label>
+              <label htmlFor="commandPaletteInput" className="sr-only">Search or navigate</label>
               <input
                 id="commandPaletteInput"
                 ref={inputRef}
                 type="text"
-                placeholder="Search command or navigate..."
+                placeholder="Search products, announcements, pages..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 onKeyDown={handleKeyDown}
-                className="w-full bg-transparent border-0 text-white placeholder-zinc-500 focus:outline-none text-xs"
+                className="w-full bg-transparent border-0 text-slate-900 placeholder-slate-400 focus:outline-none text-xs"
               />
-              <span className="text-[9px] uppercase bg-white/5 border border-white/10 px-2 py-0.5 rounded text-zinc-400 font-mono">
+              <span className="text-[9px] uppercase bg-slate-100 border border-slate-200 px-2 py-0.5 rounded text-slate-500 font-mono shrink-0">
                 ESC
               </span>
             </div>
 
-            {/* Suggestions list */}
+            {/* Results */}
             <div className="flex-1 overflow-y-auto p-2 space-y-1">
               {filteredItems.length === 0 ? (
-                <div className="p-8 text-center text-zinc-400 text-xs font-mono">
-                  No matching shortcuts found.
+                <div className="p-8 text-center text-slate-400 text-xs">
+                  No results found.
                 </div>
               ) : (
                 Object.entries(
@@ -193,12 +202,11 @@ export default function CommandPalette() {
                     return acc;
                   }, {} as Record<string, PaletteItem[]>)
                 ).map(([category, catItems]) => (
-                  <div key={category} className="space-y-1">
-                    <span className="text-[9px] font-bold uppercase tracking-wider text-zinc-400 px-3 py-2 block">
+                  <div key={category} className="space-y-0.5">
+                    <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 px-3 py-1.5 block">
                       {category}
                     </span>
                     {catItems.map((item) => {
-                      // find index in absolute filtered list
                       const absoluteIndex = filteredItems.findIndex((fi) => fi.id === item.id);
                       const isSelected = absoluteIndex === selectedIndex;
                       return (
@@ -206,13 +214,15 @@ export default function CommandPalette() {
                           key={item.id}
                           onClick={item.action}
                           onMouseEnter={() => setSelectedIndex(absoluteIndex)}
-                          className={`px-3 py-2.5 rounded-lg text-xs flex justify-between items-center cursor-pointer transition-colors ${
-                            isSelected ? "bg-amber-500/10 text-amber-400 font-medium" : "text-zinc-300 hover:bg-white/2"
+                          className={`px-3 py-2 rounded-lg text-xs flex justify-between items-center cursor-pointer transition-colors ${
+                            isSelected
+                              ? "bg-slate-900 text-white font-semibold"
+                              : "text-slate-700 hover:bg-slate-50"
                           }`}
                         >
                           <span>{item.name}</span>
                           {isSelected && (
-                            <span className="text-[10px] text-amber-500 font-mono">⏎ ENTER</span>
+                            <span className="text-[10px] text-white/60 font-mono">⏎</span>
                           )}
                         </div>
                       );
@@ -222,10 +232,10 @@ export default function CommandPalette() {
               )}
             </div>
 
-            {/* Footer tips */}
-            <div className="p-3 border-t border-white/5 bg-black/40 text-[9px] text-zinc-400 flex justify-between font-mono">
-              <span>Use arrows ↑↓ to navigate</span>
-              <span>Press ⏎ to trigger</span>
+            {/* Footer */}
+            <div className="p-3 border-t border-black/5 bg-slate-50 text-[9px] text-slate-400 flex justify-between font-mono">
+              <span>↑↓ navigate</span>
+              <span>⏎ select · ESC close</span>
             </div>
           </motion.div>
         </div>

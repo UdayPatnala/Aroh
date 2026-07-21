@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { usePlatformStore, MembershipLevel, formatArosBalance } from "@aroh/asdk";
 import { Button } from "@aroh/ads";
 import { motion } from "framer-motion";
-import { registeredProducts, ProductDetails } from "../explore/page";
+import { registeredProducts, ProductDetails, launchProductWebpage } from "../explore/page";
 import NotificationCenter from "../components/notification-center";
 
 const categories = ["All", "Core Service", "Ecosystem Service", "Analytics", "Developer Service", "AI Tools"];
@@ -57,11 +57,7 @@ export default function ProductsPage() {
   const hasTierAccess = userTierImportance >= productTierImportance || user?.role === "admin";
 
   const handleLaunchProductWebpage = (product: ProductDetails) => {
-    if (product.url) {
-      window.open(product.url, "_blank", "noopener,noreferrer");
-    } else {
-      router.push(`/explore/${product.id}`);
-    }
+    launchProductWebpage(product, router);
   };
 
   const handleBuyUpgrade = async () => {
@@ -92,7 +88,6 @@ export default function ProductsPage() {
         {/* Navigation / Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-black/5 pb-6">
           <div className="flex items-center gap-4 cursor-pointer" onClick={() => router.push("/")}>
-            <img src="/aroh-logo.png?v=2" alt="AROH Logo" className="h-10 w-10 object-contain rounded-xl border border-black/5 shadow-sm" />
             <div>
               <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">
                 AROH Products Console
@@ -169,17 +164,33 @@ export default function ProductsPage() {
                     <div
                       key={prod.id}
                       onClick={() => setSelectedProduct(prod)}
-                      className={`p-4 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between hover:border-slate-300 bg-white shadow-sm ${
+                      className={`p-4 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between hover:border-slate-400 bg-white shadow-sm group ${
                         isActive ? "border-slate-900 ring-2 ring-slate-900/10 shadow-md" : "border-black/5"
                       }`}
                     >
                       <div className="flex justify-between items-start gap-2">
-                        <h3 className="font-bold text-slate-900 text-sm leading-tight">{prod.name}</h3>
+                        <h3 className="font-bold text-slate-900 text-sm leading-tight group-hover:text-sky-600 transition-colors">
+                          {prod.name}
+                        </h3>
                         <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">
                           {prod.badge}
                         </span>
                       </div>
                       <p className="text-slate-600 text-xs line-clamp-2 mt-2 leading-relaxed font-normal">{prod.description}</p>
+                      
+                      <div className="mt-3 pt-2 border-t border-black/5 flex justify-between items-center">
+                        <span className="text-[9px] font-mono text-slate-400">{prod.version}</span>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleLaunchProductWebpage(prod);
+                          }}
+                          className="px-2.5 py-1 rounded-lg bg-slate-900 text-white font-bold text-[10px] hover:bg-sky-600 transition-colors cursor-pointer"
+                        >
+                          Launch Webpage ↗
+                        </button>
+                      </div>
                     </div>
                   );
                 })
