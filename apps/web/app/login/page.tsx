@@ -81,8 +81,27 @@ export default function LoginPage() {
         </div>
 
         {error && (
-          <div className="mb-6 bg-rose-50 border border-rose-200 text-rose-600 p-3 rounded-xl text-xs text-center font-medium">
-            {error}
+          <div className="mb-6 bg-rose-50 border border-rose-200 text-rose-700 p-4 rounded-2xl text-xs space-y-2">
+            <p className="font-semibold text-center">
+              {error.includes("auth/email-already-in-use") || error.toLowerCase().includes("already exists")
+                ? "An account with this email address already exists."
+                : error.replace(/^Firebase:\s*Error\s*\(([^)]+)\)\.?$/i, "$1")}
+            </p>
+            {(error.includes("auth/email-already-in-use") || error.toLowerCase().includes("already exists")) && (
+              <div className="pt-1 text-center">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsRegister(false);
+                    setIsForgotPassword(false);
+                    clearError();
+                  }}
+                  className="px-3 py-1.5 bg-slate-900 text-white rounded-lg text-[11px] font-bold hover:bg-slate-800 transition-colors shadow-sm"
+                >
+                  Switch to Sign In →
+                </button>
+              </div>
+            )}
           </div>
         )}
 

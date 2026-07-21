@@ -151,6 +151,35 @@ export function formatArosBalance(balance: number | null | undefined, role?: str
   return `${balance.toLocaleString()} Aros`;
 }
 
+export function formatAuthError(err: any): string {
+  if (!err) return "An authentication error occurred.";
+  const codeOrMsg = (err.code || err.message || String(err)).toLowerCase();
+  
+  if (codeOrMsg.includes("auth/email-already-in-use") || codeOrMsg.includes("user already exists") || codeOrMsg.includes("email-already-in-use")) {
+    return "An account with this email address already exists. Please sign in instead.";
+  }
+  if (codeOrMsg.includes("auth/user-not-found") || codeOrMsg.includes("auth/wrong-password") || codeOrMsg.includes("auth/invalid-credential") || codeOrMsg.includes("invalid credentials")) {
+    return "Invalid email address or password. Please verify your credentials and try again.";
+  }
+  if (codeOrMsg.includes("auth/invalid-email")) {
+    return "Please enter a valid email address.";
+  }
+  if (codeOrMsg.includes("auth/weak-password")) {
+    return "Password is too weak. Please use at least 6 characters.";
+  }
+  if (codeOrMsg.includes("auth/too-many-requests")) {
+    return "Too many failed login attempts. Please reset your password or try again later.";
+  }
+  if (codeOrMsg.includes("email not found")) {
+    return "No account found with this email address.";
+  }
+  let cleaned = err.message || String(err);
+  if (cleaned.startsWith("Firebase: Error (")) {
+    cleaned = cleaned.replace(/^Firebase:\s*Error\s*\(([^)]+)\)\.?$/i, "$1");
+  }
+  return cleaned;
+}
+
 // Database queries
 export const mockAuthService = {
   login: async (email: string, password?: string): Promise<{ user: User; profile: Profile; wallet: Wallet }> => {
@@ -184,7 +213,7 @@ export const mockAuthService = {
           wallet: walletData
         };
       } catch (err: any) {
-        throw new Error(err.message || "Invalid credentials");
+        throw new Error(formatAuthError(err));
       }
     }
 
@@ -251,7 +280,7 @@ export const mockAuthService = {
 
         return { user: newUser, profile: newProfile, wallet: newWallet };
       } catch (err: any) {
-        throw new Error(err.message || "Registration failed");
+        throw new Error(formatAuthError(err));
       }
     }
 
@@ -263,7 +292,7 @@ export const mockAuthService = {
     const transactions = getStored<Transaction[]>(MOCK_STORAGE_KEYS.TRANSACTIONS, []);
 
     if (Object.values(users).some((u) => u.email === email)) {
-      throw new Error("User already exists");
+      throw new Error("An account with this email address already exists. Please sign in instead.");
     }
 
     const userId = "u-" + Math.random().toString(36).substr(2, 9);
@@ -331,7 +360,7 @@ export const mockAuthService = {
         await firebaseSendPasswordResetEmail(auth, email);
         return;
       } catch (err: any) {
-        throw new Error(err.message || "Failed to send password reset email");
+        throw new Error(formatAuthError(err));
       }
     }
     initializeMockDb();
