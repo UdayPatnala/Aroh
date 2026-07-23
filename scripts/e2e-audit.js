@@ -2,9 +2,9 @@ const puppeteer = require("puppeteer");
 const fs = require("fs");
 const path = require("path");
 
-const APP_URL = "http://localhost:3000";
-const SCREENSHOT_DIR = "C:/Users/udayp/.gemini/antigravity/brain/3a105ffc-89ff-45a8-99cb-378ec0eb6e9e/screenshots";
-const CHROME_PATH = "C:/Program Files/Google/Chrome/Application/chrome.exe";
+const APP_URL = process.env.APP_URL || "http://localhost:3000";
+const SCREENSHOT_DIR = process.env.SCREENSHOT_DIR || path.join(__dirname, "..", "screenshots");
+const CHROME_PATH = process.env.CHROME_PATH || (fs.existsSync("C:/Program Files/Google/Chrome/Application/chrome.exe") ? "C:/Program Files/Google/Chrome/Application/chrome.exe" : null);
 
 // Ensure screenshot directory exists
 if (!fs.existsSync(SCREENSHOT_DIR)) {
@@ -27,14 +27,18 @@ async function runAudit() {
   console.log("=== Starting Automated E2E Browser Audit ===");
   
   let browser;
+  const launchOpts = {
+    headless: "new",
+    args: ["--no-sandbox", "--disable-gpu", "--remote-allow-origins=*"]
+  };
+  if (CHROME_PATH) {
+    launchOpts.executablePath = CHROME_PATH;
+  }
+
   try {
-    browser = await puppeteer.launch({
-      executablePath: CHROME_PATH,
-      headless: "new",
-      args: ["--no-sandbox", "--disable-gpu", "--remote-allow-origins=*"]
-    });
+    browser = await puppeteer.launch(launchOpts);
   } catch (launchErr) {
-    console.error("Failed to launch native Chrome. Attempting to launch Puppeteer-bundled browser instead...", launchErr);
+    console.error("Failed to launch specified Chrome. Attempting to launch Puppeteer-bundled browser instead...", launchErr);
     browser = await puppeteer.launch({
       headless: "new",
       args: ["--no-sandbox", "--disable-gpu", "--remote-allow-origins=*"]
