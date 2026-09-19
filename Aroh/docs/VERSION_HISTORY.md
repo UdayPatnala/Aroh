@@ -8,12 +8,46 @@
 
 | Version | Date | Type | Quick Summary | Git Tag | Commit |
 |---|---|:---:|---|:---:|:---:|
-| **v2.2.0** | 2026-09-11 | `MINOR` | **SEO, AI Discoverability, Structured Data, Production Foundation & Execution History Protocol**: Established permanent Execution History ledger (`docs/EXECUTION_HISTORY.md`), created `/llms.txt` and `/llms-full.txt`, added Schema.org JSON-LD structured data, strengthened root & page metadata across all routes, expanded sitemap to 25 canonical routes, hardened robots.txt crawler directives, implemented custom 404 (`not-found.tsx`) and error boundary (`error.tsx`), and expanded test suite to 423 passing assertions. | `v2.2.0` | [`HEAD`](file:///d:/PROJECT/AROH%20Open%20Source) |
+| Version | Date | Type | Quick Summary | Git Tag | Commit |
+|---|---|:---:|---|:---:|:---:|
+| **v2.3.0** | 2026-09-19 | `MINOR` | **Wave 2 Milestone 3.1: Developer API Key Vault**: Implemented cryptographic HMAC-SHA256 API key generation, zero-plaintext storage (SHA-256 hash only), rate limit tier gating (Basic 60 rpm, Pro 300 rpm, Enterprise 1200 rpm), Next.js API routes (`/api/developer/keys`), and dashboard key vault UI (`/dashboard/keys`). Expanded test coverage with 10 new Vitest assertions; 33/33 routes compiled. | `v2.3.0` | [`HEAD`](file:///d:/PROJECT/AROH%20Open%20Source) |
+| **v2.2.0** | 2026-09-11 | `MINOR` | **SEO, AI Discoverability, Structured Data, Production Foundation & Execution History Protocol**: Established permanent Execution History ledger (`docs/EXECUTION_HISTORY.md`), created `/llms.txt` and `/llms-full.txt`, added Schema.org JSON-LD structured data, strengthened root & page metadata across all routes, expanded sitemap to 25 canonical routes, hardened robots.txt crawler directives, implemented custom 404 (`not-found.tsx`) and error boundary (`error.tsx`), and expanded test suite to 423 passing assertions. | `v2.2.0` | [`e752edb`](file:///d:/PROJECT/AROH%20Open%20Source) |
 | **v2.1.0** | 2026-09-11 | `MINOR` | **AROH Privacy, Consent, Legal Terms, Cookies & DPDP Compliance**: Implemented full privacy & compliance architecture under DPDP Act 2023 & DPDP Rules 2025. Codified 20 master legal/privacy documents, 4 machine-readable registers, ASDK consent & rights engine, universal cookie banner & footer, 10 public routes, 5 API routes, and expanded test suite to 367 passing assertions. | `v2.1.0` | [`9d4dc71`](file:///d:/PROJECT/AROH%20Open%20Source) |
 
 ---
 
 ## 2. Version Entries
+
+### v2.3.0
+- **Date**: 2026-09-19
+- **Type**: `MINOR` (Developer API Key Vault — Milestone 3.1)
+- **Previous Version**: `v2.2.0`
+
+#### Quick Summary
+Initiated Wave 2 (`Phase 3.0: Developer Portal & External Service Federation`) by delivering Milestone 3.1 (`WAVE-02-TASK-01: Developer API Key Vault`):
+- **Cryptographic Key Generation & Hashing (`packages/asdk/src/services/api-key.ts`)**:
+  - Implemented HMAC-SHA256 generation using Node.js `crypto`.
+  - Keys use distinct prefixes `aroh_live_` (production) and `aroh_test_` (sandbox).
+  - Storage is strictly zero-plaintext: only SHA-256 hex hashes are persisted in database/mock store.
+  - Raw key is emitted strictly once upon creation; all subsequent reads return masked format (`aroh_live_4a2c••••••••b8e1`).
+- **Tier-Gated Rate Limiting**:
+  - Basic: 60 rpm
+  - Developer Pro: 300 rpm
+  - Enterprise: 1200 rpm
+- **Server API Routes (`apps/web/app/api/developer/keys/`)**:
+  - `GET /api/developer/keys`: Scoped listing of active and revoked keys (masked only).
+  - `POST /api/developer/keys`: Zod-validated creation returning one-time raw token.
+  - `GET /api/developer/keys/[keyId]`: Individual key inspection.
+  - `DELETE /api/developer/keys/[keyId]`: Irreversible key revocation (sets status to `revoked` with timestamp).
+- **Dashboard Management UI (`apps/web/app/dashboard/keys/page.tsx`)**:
+  - Dedicated route styled to `@aroh/ads` light aesthetic (`#F7F5F0`).
+  - Key creation form with name, environment, and tier selectors.
+  - Dismissible one-time raw key banner with copy-to-clipboard action.
+  - Keys table displaying status indicators, rate limit rpm, and revocation actions.
+- **Automated Verification**:
+  - 10 new automated Vitest assertions in `packages/asdk/tests/api-key.test.ts` (100% pass).
+  - All 11 monorepo test suites pass cleanly.
+  - Next.js 16 production build compiles all 33 routes with 0 errors.
 
 ### v2.2.0
 - **Date**: 2026-09-11

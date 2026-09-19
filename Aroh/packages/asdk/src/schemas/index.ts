@@ -64,3 +64,4 @@ export const AnnouncementSchema = z.object({
 export type Announcement = z.infer<typeof AnnouncementSchema>;
 
 export * from "./product";
+export * from "./api-key";

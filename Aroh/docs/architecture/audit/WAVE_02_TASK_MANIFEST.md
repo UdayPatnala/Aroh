@@ -29,8 +29,8 @@
 
 | # | Task ID | Title | Phase | Status | Completion SHA | Validation | Products/ | Remote Parity |
 |---|---|---|:---:|:---:|:---:|:---:|:---:|:---:|
-| 1 | `WAVE-02-TASK-01` | Developer API Key Vault — Schema, Service & Dashboard Route | 3.0 / M3.1 | `NOT_STARTED` | `PENDING` | `NOT_RUN` | `NOT_VERIFIED` | `NOT_VERIFIED` |
-| 2 | `WAVE-02-TASK-02` | Asynchronous Webhook Clearance Engine | 3.0 / M3.2 | `NOT_STARTED` | `PENDING` | `NOT_RUN` | `NOT_VERIFIED` | `NOT_VERIFIED` |
+| 1 | `WAVE-02-TASK-01` | Developer API Key Vault — Schema, Service & Dashboard Route | 3.0 / M3.1 | `COMPLETED_VERIFIED` | `v2.3.0` | `10/10 PASS, 33 routes` | `0 WRITES (INVIOLATE)` | `VERIFIED` |
+| 2 | `WAVE-02-TASK-02` | Asynchronous Webhook Clearance Engine | 3.0 / M3.2 | `READY_FOR_EXECUTION` | `PENDING` | `NOT_RUN` | `NOT_VERIFIED` | `NOT_VERIFIED` |
 | 3 | `WAVE-02-TASK-03` | Fiat-to-Aros Settlement On-Ramp (Stripe Checkout) | 3.0 / M3.3 | `NOT_STARTED` | `PENDING` | `NOT_RUN` | `NOT_VERIFIED` | `NOT_VERIFIED` |
 | 4 | `WAVE-02-TASK-04` | W3C Distributed Tracing — `traceparent` Propagation | 3.5 / M3.4 | `NOT_STARTED` | `PENDING` | `NOT_RUN` | `NOT_VERIFIED` | `NOT_VERIFIED` |
 | 5 | `WAVE-02-TASK-05` | Real-Time Operational Telemetry Broker (WebSocket Metrics) | 3.5 / M3.5 | `NOT_STARTED` | `PENDING` | `NOT_RUN` | `NOT_VERIFIED` | `NOT_VERIFIED` |

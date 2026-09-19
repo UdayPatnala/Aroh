@@ -7,3 +7,4 @@ export * from "./ai/provider";
 export * from "./registry/products";
 export * from "./adapters/index";
 export * from "./privacy/index";
+export * from "./services/api-key";

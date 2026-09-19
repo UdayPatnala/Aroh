@@ -193,3 +193,34 @@ flowchart LR
 - **Lessons Learned & Future Warnings**:
   - In Next.js App Router, `"use client"` page components cannot export `metadata`; creating route-level `layout.tsx` files provides a clean, modular metadata boundary without refactoring client state.
   - Sitemaps must remain synchronized with `@aroh/asdk`'s `CANONICAL_PRODUCT_REGISTRY` to prevent route drift when new products are registered.
+
+---
+
+### [HIST-005] Developer API Key Vault Implementation & Wave 2 Initiation
+- **Date**: 2026-09-19
+- **Version**: `v2.3.0`
+- **Starting Checkpoint**: `git tag WAVE-02-TASK-01-START`
+- **Resulting Outcome**: `EXECUTION_COMPLETE_VERIFIED`
+- **Objective**: Implement Phase 3.0 Milestone 3.1 (`WAVE-02-TASK-01`): Cryptographic HMAC-SHA256 API key generation, zero-plaintext storage (SHA-256 hash only), rate limit tier enforcement (Basic 60 rpm, Pro 300 rpm, Enterprise 1200 rpm), Next.js API routes (`/api/developer/keys`), and dashboard key vault UI (`/dashboard/keys`).
+- **Automated QA Verification**:
+  - `packages/asdk/tests/api-key.test.ts`: 10 / 10 assertions PASS
+  - `packages/asdk` test suite: 57 / 57 assertions PASS across 5 test suites
+  - Monorepo test suite: All 11 suites cleanly passing
+  - Next.js 16 Production Build (`apps/web`): 33 / 33 routes compiled cleanly with 0 errors
+- **Affected Files (8 files)**:
+  - `Aroh/packages/asdk/src/schemas/api-key.ts` [NEW]
+  - `Aroh/packages/asdk/src/services/api-key.ts` [NEW]
+  - `Aroh/packages/asdk/src/schemas/index.ts` [MODIFIED]
+  - `Aroh/packages/asdk/src/index.ts` [MODIFIED]
+  - `Aroh/packages/asdk/tests/api-key.test.ts` [NEW]
+  - `Aroh/apps/web/app/api/developer/keys/route.ts` [NEW]
+  - `Aroh/apps/web/app/api/developer/keys/[keyId]/route.ts` [NEW]
+  - `Aroh/apps/web/app/dashboard/keys/page.tsx` [NEW]
+  - `Aroh/docs/architecture/audit/WAVE_02_TASK_01_HANDOFF.md` [NEW]
+  - `Aroh/docs/architecture/audit/WAVE_02_TASK_01_HANDOFF.json` [NEW]
+  - `Aroh/docs/architecture/audit/WAVE_02_TASK_MANIFEST.md` [MODIFIED]
+- **Boundary Verification**:
+  - `Products/` submodule status: 0 files modified, 0 writes (inviolate).
+- **Lessons Learned & Future Warnings**:
+  - Raw cryptographic keys must be generated and emitted exactly once; masking logic ensures safe client UI rendering without risk of leaking internal entropy.
+  - Revocation is strictly irreversible to protect downstream services from zombie key revival.
