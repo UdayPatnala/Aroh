@@ -2,11 +2,12 @@
 
 > **Authoritative System Record**: This document is the **single source of truth for project knowledge** across the **AROH Open Source Platform & Application Ecosystem**. It embodies the accumulated project intent, architecture, implementation reality, operational history, security guardrails, statutory compliance registers, and future roadmap.
 > 
-> **Current Platform Version**: `2.03.07.0`  
-> **Authoritative Version Format**: `A.BC.DE.F` (Major: 2, Sub-version: 03, Functional: 07, Patch: 0)  
+> **Current Platform Version**: `2.03.08.0`  
+> **Authoritative Version Format**: `A.BC.DE.F` (Major: 2, Sub-version: 03, Functional: 08, Patch: 0)  
 > **Status**: `VERIFIED`  
-> **Latest Git Commit**: `d37e3e2` (Synchronized with `main`)  
-> **Associated Version Control Ledger**: [`VERSION_CONTROLLER.md`](file:///d:/PROJECT/AROH%20Open%20Source/VERSION_CONTROLLER.md)
+> **Latest Git Commit**: `3463a93` (Synchronized with `main`)  
+> **Associated Version Control Ledger**: [`VERSION_CONTROLLER.md`](file:///d:/PROJECT/AROH%20Open%20Source/VERSION_CONTROLLER.md)  
+> **Authoritative Architecture Specification**: [`ARCHITECTURE.md`](file:///d:/PROJECT/AROH%20Open%20Source/ARCHITECTURE.md)
 
 ---
 
@@ -468,15 +469,18 @@ Every meaningful issue discovered during development is permanently preserved in
 Future human engineers and autonomous AI agents must adhere strictly to these non-negotiable rules:
 1. **Universal Version Controller Governance**:
    - Every project-changing command must visit [`VERSION_CONTROLLER.md`](file:///d:/PROJECT/AROH%20Open%20Source/VERSION_CONTROLLER.md) first to inspect previous changes, calculate target versions under `A.BC.DE.F`, and update the version ledger upon verified completion.
-2. **`Products/` Boundary Inviolability**:
+2. **Universal Modular Architecture & Change-Isolation Governance ([`ARCHITECTURE.md`](file:///d:/PROJECT/AROH%20Open%20Source/ARCHITECTURE.md))**:
+   - Every page, feature, function, component, workflow, service, API, data model, button, interaction, and system capability must have a clearly identifiable ownership boundary.
+   - Formulate an internal Change Manifest before modifying code; classify files as `DIRECT`, `RELATED`, `DEPENDENT`, `SHARED`, or `UNRELATED`. Modify only the smallest safe ownership boundary.
+3. **`Products/` Boundary Inviolability**:
    - `Products/` contains autonomous spoke repositories (`Products/OmniStream`, `Products/Spedex`). Zero mutations, refactoring, or file deletions are permitted inside `Products/` during platform tasks.
-3. **Zero Fabrication Policy**:
+4. **Zero Fabrication Policy**:
    - Never invent synthetic metrics, mock URLs, fake git commit hashes, or imaginary capabilities.
-4. **Three Realities Reconciliation**:
+5. **Three Realities Reconciliation**:
    - Always reconcile what was intended (conversations), what was actually built (code/git), and what should be done next (gap analysis).
-5. **Fail-Closed Security & Financial Safety**:
-   - If an age, consent, or payment eligibility status is unknown, the system must fail closed. Minor accounts cannot purchase Aros under any circumstance.
-6. **Append-Only History Preservation**:
+6. **Fail-Closed Security & Financial Safety**:
+   - If an age, consent, or payment eligibility status is unknown, the system must fail closed. Minor accounts cannot purchase Aros under any circumstance (`NO_MINOR_PAYMENT_FOR_AROS = TRUE`).
+7. **Append-Only History Preservation**:
    - Never overwrite or erase historical execution logs (`EXECUTION_HISTORY.md`) or bug records.
 
 ---
@@ -490,14 +494,15 @@ The ChatGPT Data Prompt provided in earlier project phases represented the **Wav
 - Wave 2 was documented as planned/future.
 - Aros purchasing and minor restrictions were documented as conceptual requirements.
 
-### 21.2 Concrete Reality Verification (`v2.03.07.0`)
-Cross-checking against the current codebase, git history, and test runners reveals that **Wave 2, Aros Purchase Safety, Transaction Receipts, Dispute Handling, and Developer Tools have been fully implemented and verified**:
+### 21.2 Concrete Reality Verification (`v2.03.08.0`)
+Cross-checking against the current codebase, git history, and test runners reveals that **Wave 2, Aros Purchase Safety, Dispute Redressal, Developer Tools, and the Universal Modular Architecture have been fully implemented and verified**:
 
-| Dimension | ChatGPT Data Prompt Baseline (Wave 1) | Concrete Verified Reality (`v2.03.07.0`) | Status |
+| Dimension | ChatGPT Data Prompt Baseline (Wave 1) | Concrete Verified Reality (`v2.03.08.0`) | Status |
 |---|:---:|:---:|:---:|
-| **Platform Version** | `2.00.05.0` (Wave 1 Baseline) | `2.03.07.0` (Wave 2 + Safety + Dispute UI & API Explorer) | Verified in `VERSION_CONTROLLER.md` |
+| **Platform Version** | `2.00.05.0` (Wave 1 Baseline) | `2.03.08.0` (Modular Architecture & Change Isolation) | Verified in `VERSION_CONTROLLER.md` |
 | **Monorepo Test Pass Rate** | 239 / 239 PASS | **506+ PASS** across 13 test suites | Verified via `npm test` |
 | **Next.js Compiled Routes** | 14 Routes | **44 Routes + Proxy Middleware** | Verified via Turbopack build |
+| **Universal Modular Architecture** | Unspecified | **IMPLEMENTED & CODIFIED** ([`ARCHITECTURE.md`](file:///d:/PROJECT/AROH%20Open%20Source/ARCHITECTURE.md)) | v2.03.08.0 |
 | **Developer API Key Vault & Explorer** | Planned (Milestone 3.1) | **IMPLEMENTED & VERIFIED** (`/dashboard/keys`, HMAC-SHA256 & Live Explorer) | v2.03.07.0 |
 | **Webhook Clearance Engine** | Planned (Milestone 3.2) | **IMPLEMENTED & VERIFIED** (`/api/developer/webhooks`) | Commit `629fb18` |
 | **Fiat-to-Aros Settlement** | Planned (Milestone 3.3) | **IMPLEMENTED & VERIFIED** (`/api/payment/checkout`, sandbox) | Commit `629fb18` |
@@ -532,12 +537,13 @@ Cross-checking against the current codebase, git history, and test runners revea
 1. Complete formal corporate entity incorporation and legal signoff for items LR-009 through LR-013.
 2. Configure production Stripe / Razorpay live webhooks and API secret keys.
 
-### Priority 1 (Ecosystem Polish & Developer Tooling - COMPLETED)
+### Priority 1 (Ecosystem Polish & Architecture Governance - COMPLETED)
 3. **[DONE]** Implement user-facing dispute submission interface for transaction chargeback reviews (`/dashboard/purchase`, `/api/payment/dispute`).
 4. **[DONE]** Expand developer API documentation with interactive OpenAPI/Swagger explorer (`/dashboard/keys`).
+5. **[DONE]** Codify Universal Modular Architecture & Change-Isolation Governance System ([`ARCHITECTURE.md`](file:///d:/PROJECT/AROH%20Open%20Source/ARCHITECTURE.md)).
 
 ### Priority 2 (Phase 4 Mobile Expansion)
-5. Initialize Phase 4 (`2.04.00.0`): React Native / Expo shell integrating `@aroh/asdk`.
+6. Initialize Phase 4 (`2.04.00.0`): React Native / Expo shell integrating `@aroh/asdk`.
 
 ---
 
@@ -549,6 +555,7 @@ Cross-checking against the current codebase, git history, and test runners revea
 - **Phase 3 (Developer Platform, Tracing & Telemetry - Wave 2)**: COMPLETED (`2.03.01.0` – `2.03.05.0`)
 - **Aros Age, Consent, Purchase & Payment Safety Hardening**: COMPLETED (`2.03.06.0`)
 - **Ecosystem Polish, Dispute Redressal & Interactive Developer Tooling**: COMPLETED (`2.03.07.0`)
+- **Universal Modular Architecture & Change-Isolation Governance**: COMPLETED (`2.03.08.0`)
 - **Phase 4 (Cross-Platform Mobile Shell)**: PLANNED (`2.04.00.0`)
 - **Phase 5 (Federated Multi-Tenant Enterprise)**: PROPOSED (`3.00.00.0`)
 
@@ -556,24 +563,25 @@ Cross-checking against the current codebase, git history, and test runners revea
 
 ## 26. Important Lessons Learned
 
-1. **Fail-Closed Is Essential for Financial & Minor Safety**: Never assume user eligibility; if age is unknown or under 18, immediately block payment intent creation on the server side.
-2. **Never Overwrite Products from Platform Scripts**: `Products/` must remain an inviolable boundary. Spoke integration must be achieved via adapters and contracts, never file mutation.
-3. **Web Crypto API Over Node Crypto for Edge Middleware**: Next.js Edge Middleware cannot load Node.js built-in modules like `crypto`. All universal runtime utilities must be authored against W3C Web Crypto standards.
-4. **Idempotency Must Be Dual-Keyed**: Checking only session ID or charge ID is insufficient. Protect against replay attacks and duplicate webhooks by binding both `providerTransactionId` and `purchaseIntentId`.
-5. **Documentation Must Advance Concurrently with Code**: A feature is not complete until its Zod schemas, tests, execution history, and version controller entries are synchronized.
+1. **Architecture is a System of Boundaries**: Every component, action, and API route must belong to an explicit domain owner to eliminate orphan code and avoid monolithic files.
+2. **Calculate Change Radius Before Modifying**: Classifying files as `DIRECT`, `RELATED`, `DEPENDENT`, `SHARED`, or `UNRELATED` prevents scope creep and protects stable domains from accidental regressions.
+3. **Fail-Closed Is Essential for Financial & Minor Safety**: Never assume user eligibility; if age is unknown or under 18, immediately block payment intent creation on the server side.
+4. **Never Overwrite Products from Platform Scripts**: `Products/` must remain an inviolable boundary. Spoke integration must be achieved via adapters and contracts, never file mutation.
+5. **Web Crypto API Over Node Crypto for Edge Middleware**: Next.js Edge Middleware cannot load Node.js built-in modules like `crypto`. All universal runtime utilities must be authored against W3C Web Crypto standards.
 
 ---
 
 ## 27. Release & Version Information
 
-- **Current Version**: `2.03.07.0` (`v2.3.7`)
+- **Current Version**: `2.03.08.0` (`v2.3.8`)
 - **Version Tier Breakdown**:
   - Major (`A` = `2`): Master monorepo restructuring & ecosystem decoupling.
   - Sub-Version (`BC` = `03`): Developer Platform & External Service Federation (Wave 2).
-  - Functional (`DE` = `07`): Ecosystem Polish, Cryptographic Receipts, Grievance/Dispute Redressal, & Developer API Explorer.
+  - Functional (`DE` = `08`): Universal Modular Architecture & Change-Isolation Governance System.
   - Patch (`F` = `0`): Baseline verified release.
-- **Commit**: `d37e3e2` (synchronized via `personal/main`)
+- **Commit**: `3463a93` (synchronized via `personal/main`)
 - **Authoritative Version Ledger**: [`VERSION_CONTROLLER.md`](file:///d:/PROJECT/AROH%20Open%20Source/VERSION_CONTROLLER.md)
+- **Authoritative Architecture Specification**: [`ARCHITECTURE.md`](file:///d:/PROJECT/AROH%20Open%20Source/ARCHITECTURE.md)
 
 ---
 
@@ -584,9 +592,9 @@ Cross-checking against the current codebase, git history, and test runners revea
 AROH is an orchestrated open-source ecosystem that connects independent applications to a unified platform hub without compromising product autonomy. 
 
 To develop safely on AROH:
-1. **Always read [`VERSION_CONTROLLER.md`](file:///d:/PROJECT/AROH%20Open%20Source/VERSION_CONTROLLER.md)** before starting work. Understand the active version (`2.03.07.0`) and calculate your target version.
+1. **Always read [`VERSION_CONTROLLER.md`](file:///d:/PROJECT/AROH%20Open%20Source/VERSION_CONTROLLER.md) and [`ARCHITECTURE.md`](file:///d:/PROJECT/AROH%20Open%20Source/ARCHITECTURE.md)** before starting work. Understand the active version (`2.03.08.0`), identify the owning domain, and calculate your target version and change radius.
 2. **Never touch `Products/`**: All files in `Products/` belong to autonomous spoke repositories.
 3. **Enforce Server Authority**: User balances, API keys, and purchase eligibility are strictly managed server-side. Minors are strictly prohibited from purchasing Aros (`NO_MINOR_PAYMENT_FOR_AROS = TRUE`).
 4. **Validate Everything with Zod**: Every API payload, webhook event, and spoke contract must pass runtime schema validation.
 5. **Run the Full Test Suite**: Verify that all 13 monorepo test suites (506+ assertions) and Next.js 16 build (44 routes) pass with zero errors before declaring completion.
-6. **Update [`AROH.md`](file:///d:/PROJECT/AROH%20Open%20Source/AROH.md) and [`VERSION_CONTROLLER.md`](file:///d:/PROJECT/AROH%20Open%20Source/VERSION_CONTROLLER.md)** to keep this living institutional memory synchronized.
+6. **Update [`AROH.md`](file:///d:/PROJECT/AROH%20Open%20Source/AROH.md), [`ARCHITECTURE.md`](file:///d:/PROJECT/AROH%20Open%20Source/ARCHITECTURE.md), and [`VERSION_CONTROLLER.md`](file:///d:/PROJECT/AROH%20Open%20Source/VERSION_CONTROLLER.md)** to keep this living institutional memory synchronized.

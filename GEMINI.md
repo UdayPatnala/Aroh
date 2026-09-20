@@ -1,8 +1,8 @@
-﻿# UNIVERSAL VERSION CONTROLLER & CHANGE GOVERNANCE SYSTEM — AROH OPEN SOURCE
+# UNIVERSAL VERSION CONTROLLER & MODULAR ARCHITECTURE GOVERNANCE — AROH OPEN SOURCE
 
-> **Authoritative Workspace Rule**: This repository operates strictly under the **Universal Version Controller + Change Governance System**, the **Three Realities Reconciliation Model**, and **Product Intent Recovery**.
+> **Authoritative Workspace Rule**: This repository operates strictly under the **Universal Version Controller + Change Governance System**, the **Universal Modular Architecture & Change-Isolation Governance System** ([`ARCHITECTURE.md`](file:///d:/PROJECT/AROH%20Open%20Source/ARCHITECTURE.md)), the **Three Realities Reconciliation Model**, and **Product Intent Recovery**.
 > 
-> **Absolute Invariant**: *THE AGENT MUST VISIT THE AUTHORITATIVE VERSION CONTROLLER (VERSION_CONTROLLER.md) BEFORE EXECUTION TO UNDERSTAND RELEVANT PREVIOUS CHANGES, AND MUST UPDATE THE VERSION CONTROLLER AFTER SUCCESSFUL IMPLEMENTATION AND VERIFICATION.*
+> **Absolute Invariant**: *THE AGENT MUST VISIT THE AUTHORITATIVE VERSION CONTROLLER (VERSION_CONTROLLER.md) AND ARCHITECTURE SPECIFICATION (ARCHITECTURE.md) BEFORE EXECUTION TO UNDERSTAND RELEVANT PREVIOUS CHANGES, OWNERSHIP BOUNDARIES, AND MINIMUM SAFE CHANGE RADIUS, AND MUST UPDATE BOTH UPON VERIFIED COMPLETION.*
 
 ---
 
@@ -36,7 +36,7 @@ All project changes and releases MUST use the 4-tier format:
 Where:
 * `A` = Major Version (0–∞) — Materially alters architecture, identity, or breaking contract.
 * `BC` = Sub-Version / Release Line (01–99, `00` reserved for reset) — Meaningful release stage or milestone.
-* `DE` = Functional Change (01–99, `00` reserved for reset) — New feature, capability, or API endpoint.
+* `DE` = Functional Change (01–99, `00` reserved for reset) — New feature, capability, architecture system, or API endpoint.
 * `F` = Minor Fix / Bug / Error (0–9) — Bug fixes, styling, small validation, or documentation corrections.
 
 ### Reset Hierarchy:
@@ -50,36 +50,37 @@ Where:
 ## 3. MANDATORY MASTER EXECUTION PIPELINE
 
 ```text
-┌─────────────────────────────────────────┐
-│ 1. READ VERSION CONTROLLER              │
-├─────────────────────────────────────────┤
-│ 2. FIND RELEVANT HISTORICAL CHANGES     │
-├─────────────────────────────────────────┤
-│ 3. INSPECT CURRENT IMPLEMENTATION       │
-├─────────────────────────────────────────┤
-│ 4. UNDERSTAND USER REQUEST              │
-├─────────────────────────────────────────┤
-│ 5. CLASSIFY CHANGE                      │
-│    MAJOR / BC / DE / F                  │
-├─────────────────────────────────────────┤
-│ 6. CALCULATE TARGET VERSION             │
-├─────────────────────────────────────────┤
-│ 7. ANALYSE RISKS / DEPENDENCIES         │
-├─────────────────────────────────────────┤
-│ 8. IMPLEMENT (SIMPLE WORKING MODEL)     │
-├─────────────────────────────────────────┤
-│ 9. TEST & VERIFY (TESTS, BUILD, LINT)   │
-├─────────────────────────────────────────┤
-│ 10. UPDATE VERSION METADATA             │
-├─────────────────────────────────────────┤
-│ 11. COMMIT IF AUTHORIZED                │
-├─────────────────────────────────────────┤
-│ 12. UPDATE VERSION CONTROLLER           │
-├─────────────────────────────────────────┤
-│ 13. FINAL CONSISTENCY CHECK             │
-├─────────────────────────────────────────┤
-│ 14. REPORT FINAL STATE                  │
-└─────────────────────────────────────────┘
+┌───────────────────────────────────────────────┐
+│ 1. READ VERSION CONTROLLER                    │
+├───────────────────────────────────────────────┤
+│ 2. READ ARCHITECTURE (ARCHITECTURE.md)        │
+├───────────────────────────────────────────────┤
+│ 3. SEARCH PROJECT & LOCATE EXISTING CODE      │
+├───────────────────────────────────────────────┤
+│ 4. IDENTIFY OWNER DOMAIN & TRACE DEPENDENCIES │
+├───────────────────────────────────────────────┤
+│ 5. FORMULATE CHANGE MANIFEST & CHANGE RADIUS  │
+│    (DIRECT / RELATED / DEPENDENT / SHARED)    │
+├───────────────────────────────────────────────┤
+│ 6. CLASSIFY CHANGE & CALCULATE TARGET VERSION │
+│    MAJOR / BC / DE / F                        │
+├───────────────────────────────────────────────┤
+│ 7. IMPLEMENT SMALLEST SAFE CHANGE             │
+├───────────────────────────────────────────────┤
+│ 8. TEST LOCALLY & RUN FULL MONOREPO QA        │
+├───────────────────────────────────────────────┤
+│ 9. VERIFY BUILD (TURBOPACK) & NO REGRESSIONS  │
+├───────────────────────────────────────────────┤
+│ 10. UPDATE VERSION METADATA & SYSTEM EXPORTS  │
+├───────────────────────────────────────────────┤
+│ 11. COMMIT IF AUTHORIZED                      │
+├───────────────────────────────────────────────┤
+│ 12. UPDATE VERSION CONTROLLER & ARCHITECTURE  │
+├───────────────────────────────────────────────┤
+│ 13. FINAL CONSISTENCY CHECK                   │
+├───────────────────────────────────────────────┤
+│ 14. REPORT FINAL STATE                        │
+└───────────────────────────────────────────────┘
 ```
 
 ---

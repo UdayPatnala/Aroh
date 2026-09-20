@@ -462,4 +462,35 @@ flowchart LR
   - Exposing an interactive API explorer inside the Developer Key Vault gives ecosystem developers immediate testability with zero client-side setup while ensuring all calls route with proper headers.
   - Grievance tracking references must be cryptographically non-guessable and immutably recorded in the compliance audit trail.
 
+---
+
+### [HIST-013] Universal Modular Architecture & Change-Isolation Governance System
+- **Date**: 2026-09-20
+- **Version**: `2.03.08.0` (`v2.3.8`)
+- **Objective**: Establish authoritative `ARCHITECTURE.md` at repository root implementing the 76-rule Universal Modular Architecture & Change-Isolation Governance System. Build complete domain ownership mapping across all 9 platform domains, assign ownership to all 44 routes and shared packages, establish single source of truth registers, define change radius protocol (`DIRECT`, `RELATED`, `DEPENDENT`, `SHARED`, `UNRELATED`), and synchronize `GEMINI.md`, `AROH.md`, `VERSION_CONTROLLER.md`, and version exports.
+- **Automated QA Verification**:
+  - `packages/asdk/tests/version.test.ts`: 6 / 6 assertions PASS for `2.03.08.0`
+  - `packages/asdk` test suite: 130 / 130 assertions PASS across 12 test suites
+  - Monorepo test suite: All 13 test suites cleanly passing (506+ total assertions)
+  - Next.js 16 Production Build (`apps/web`): 44 / 44 routes compiled cleanly with Turbopack
+  - DPDP Privacy Audit Script (`test-privacy-static-audit.js`): 117 / 117 assertions PASS
+  - SEO Audit Script (`test-seo-audit.js`): 56 / 56 assertions PASS
+- **Affected Files**:
+  - `ARCHITECTURE.md` [NEW/EXPANDED]
+  - `GEMINI.md` [MODIFIED]
+  - `AROH.md` [MODIFIED]
+  - `VERSION_CONTROLLER.md` [MODIFIED]
+  - `Aroh/packages/asdk/src/version/index.ts` [MODIFIED]
+  - `Aroh/packages/asdk/tests/version.test.ts` [MODIFIED]
+  - `Aroh/docs/ARCHITECTURE.md` [MODIFIED]
+  - `Aroh/docs/EXECUTION_HISTORY.md` [MODIFIED]
+  - `Aroh/docs/VERSION_HISTORY.md` [MODIFIED]
+  - `Aroh/docs/PROJECT_STATUS.md` [MODIFIED]
+- **Boundary Verification**:
+  - `Products/` boundary status: 0 files modified, 0 writes (inviolate).
+- **Lessons Learned & Future Warnings**:
+  - Architecture is not a set of file-type buckets (`components/`, `utils/`, `services/`); it is a system of explicit domain ownership boundaries.
+  - Formulating an internal Change Manifest before any code edit ensures surgical modifications, preserves existing behaviors, and guarantees that unrelated code is never mutated.
+
+
 

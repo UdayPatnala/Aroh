@@ -8,7 +8,8 @@
 
 | Canonical Version | Legacy Tag | Date | Change Level | Quick Summary | Commit |
 |:---:|:---:|---|:---:|---|:---:|
-| **`2.03.07.0`** | `v2.3.7` | 2026-09-20 | `FUNCTIONAL` (`DE`) | **Ecosystem Polish, Cryptographic Receipts, Grievance/Dispute Redressal & Interactive Developer API Explorer**: Implemented user-facing dispute submission & grievance redressal interface, cryptographic transaction receipts modal & retrieval endpoint, and an interactive Developer API Explorer in Developer Tools dashboard. | [`HEAD`](file:///d:/PROJECT/AROH%20Open%20Source) |
+| **`2.03.08.0`** | `v2.3.8` | 2026-09-20 | `FUNCTIONAL` (`DE`) | **Universal Modular Architecture & Change-Isolation Governance System**: Established authoritative `ARCHITECTURE.md` at repository root implementing 76-rule modular architecture and change-isolation governance. Mapped 9 platform domains, 44 routes, and single sources of truth, enforcing change radius protocol (`DIRECT`, `RELATED`, `DEPENDENT`, `SHARED`, `UNRELATED`). | [`HEAD`](file:///d:/PROJECT/AROH%20Open%20Source) |
+| **`2.03.07.0`** | `v2.3.7` | 2026-09-20 | `FUNCTIONAL` (`DE`) | **Ecosystem Polish, Cryptographic Receipts, Grievance/Dispute Redressal & Interactive Developer API Explorer**: Implemented user-facing dispute submission & grievance redressal interface, cryptographic transaction receipts modal & retrieval endpoint, and an interactive Developer API Explorer in Developer Tools dashboard. | [`d37e3e2`](file:///d:/PROJECT/AROH%20Open%20Source) |
 | **`2.03.06.0`** | `v2.3.6` | 2026-09-20 | `FUNCTIONAL` (`DE`) | **Aros Age, Consent, Purchase Safety & Compliance Hardening**: Enforced mandatory `NO_MINOR_PAYMENT_FOR_AROS = TRUE` policy server-side, dedicated affirmative consent, provider-agnostic payment abstraction, authoritative append-only ledger settlement, statutory registers (`PAYMENT_DATA_PROCESSING_REGISTER.json`), and comprehensive 15-test purchase safety suite. | [`629fb18`](file:///d:/PROJECT/AROH%20Open%20Source) |
 | **`2.03.05.0`** | `v2.3.5` | 2026-09-19 | `FUNCTIONAL` (`DE`) | **Wave 2 Milestone 3.5: Real-Time Telemetry Broker & Registry Modernization**: Implemented circular event ring buffer (500 events), SSE metrics stream route (`/api/telemetry/stream`), Admin Dashboard Telemetry Panel, and canonical product registry URL synchronization for JavaPath Pro, OmniStream, and Music Mirror. | [`HEAD`](file:///d:/PROJECT/AROH%20Open%20Source) |
 | **`2.03.04.0`** | `v2.3.4` | 2026-09-19 | `FUNCTIONAL` (`DE`) | **Wave 2 Milestone 3.4: W3C Distributed Tracing**: Implemented Web Crypto API-based W3C Trace Context engine (`traceparent` format `00-{traceId}-{spanId}-{flags}`) in `@aroh/asdk`, integrated Next.js Proxy Middleware propagating trace context on ingress/egress, and verified with 11 automated Vitest assertions. | [`HEAD`](file:///d:/PROJECT/AROH%20Open%20Source) |
@@ -22,6 +23,26 @@
 ---
 
 ## 2. Version Entries
+
+### 2.03.08.0 (`v2.3.8`)
+- **Date**: 2026-09-20
+- **Change Level**: `FUNCTIONAL` (`DE=08`)
+- **Previous Version**: `2.03.07.0` (`v2.3.7`)
+
+#### Quick Summary
+Delivered **Universal Modular Architecture & Change-Isolation Governance System**:
+- **Authoritative Architecture Specification (`ARCHITECTURE.md`)**:
+  - Implemented comprehensive 76-rule system of boundaries, domain/feature ownership, locality, and change isolation at repository root.
+  - Formulated strict 5-tier change radius protocol (`DIRECT`, `RELATED`, `DEPENDENT`, `SHARED`, `UNRELATED`) preventing scope creep and unrequested refactors.
+- **Architectural Ownership Map**:
+  - Codified explicit ownership across all 9 platform domains: Identity/Auth, Financial Economy/Aros Ledger, Developer Platform/Keys, AI Orchestration, Product Showcase/Registry, Observability/Telemetry/Tracing, Statutory Privacy/DPDP, Design System (`@aroh/ads`), and Autonomous Product Spokes (`Products/`).
+- **Single Sources of Truth & Traceability**:
+  - Defined explicit source-of-truth registries for versioning, product catalog, financial transactions, privacy policies, and discoverability.
+  - Formulated full execution trace from user action through Page, Section, Feature, Component, Action Handler, Service, Gateway, Ledger, Receipt, Audit Event, and UI confirmation.
+- **Automated Verification**:
+  - Full `@aroh/asdk` suite passing (130 assertions).
+  - All 13 monorepo test suites passing (506+ assertions).
+  - Next.js 16 production build compiles 44 / 44 routes cleanly.
 
 ### 2.03.07.0 (`v2.3.7`)
 - **Date**: 2026-09-20

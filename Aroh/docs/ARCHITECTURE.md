@@ -1,10 +1,11 @@
 # AROH Platform: Architecture & System Design Specification
 
 > **Status**: Living Architectural Specification  
-> **Platform Version**: `v2.2.0`  
-> **Governance Authority**: `Universal Product Reverse-Engineering + Engineering System`, `GEMINI.md`, `D1`, `D2`, `D3`  
+> **Platform Version**: `2.03.08.0`  
+> **Governance Authority**: `Universal Modular Architecture & Change-Isolation Governance System`, `GEMINI.md`, `VERSION_CONTROLLER.md`  
+> **Master Architectural Document**: 👉 [`ARCHITECTURE.md`](file:///d:/PROJECT/AROH%20Open%20Source/ARCHITECTURE.md)  
 > **Canonical Root**: `d:\PROJECT\AROH Open Source`  
-> **Golden Invariant**: *Never let the current codebase overwrite the project's historical product intent. Reconcile the code with the intent.*
+> **Golden Invariant**: *Every page, feature, function, component, workflow, service, API, data model, button, interaction, and system capability must have a clearly identifiable ownership boundary so that modifying one thing does not unnecessarily modify, overwrite, delete, or destabilize unrelated parts of the project.*
 
 ---
 
