@@ -1,8 +1,8 @@
 # AROH Platform: Live Project Status & Active Wave Tracker
 
-> **Current Platform Version**: `2.03.06.0` (Aros Age, Consent, Purchase & Payment Safety Hardening)  
-> **Authoritative Version Format**: `A.BC.DE.F` (Major: 2, Sub-version: 03, Functional: 06, Patch: 0)  
-> **Last Updated**: 2026-09-20T09:35:00+05:30  
+> **Current Platform Version**: `2.03.07.0` (Ecosystem Polish, Dispute Redressal & Interactive Developer API Explorer)  
+> **Authoritative Version Format**: `A.BC.DE.F` (Major: 2, Sub-version: 03, Functional: 07, Patch: 0)  
+> **Last Updated**: 2026-09-20T15:15:00+05:30  
 > **Governance Authority**: `Universal Version Control & Change Governance System`, `GEMINI.md`  
 > **Repository Root**: `d:\PROJECT\AROH Open Source`  
 > **Production Deployment**: [https://aroh-os.vercel.app](https://aroh-os.vercel.app)
@@ -11,18 +11,21 @@
 
 ## 1. Executive Status Overview
 
-The AROH Platform has completed **Wave 2 (Developer Portal & External Service Federation)** and executed **Aros Age, Consent, Purchase, Payment & Transaction-Safety Hardening (`2.03.06.0`)** under mandatory invariant `NO_MINOR_PAYMENT_FOR_AROS = TRUE`.
+The AROH Platform has completed **Wave 2 (Developer Portal & External Service Federation)**, executed **Aros Age, Consent, Purchase, Payment & Transaction-Safety Hardening (`2.03.06.0`)**, and delivered **Ecosystem Polish, Dispute Redressal & Interactive Developer Tooling (`2.03.07.0`)**.
 
 | Invariant / Metric | Verified Current State | Target / Benchmark | Status |
 |---|:---:|:---:|:---:|
-| **Platform Version** | `2.03.06.0` | `2.03.06.0` | `CURRENT` |
+| **Platform Version** | `2.03.07.0` | `2.03.07.0` | `CURRENT` |
 | **Git Working Tree** | Clean (`personal/main`) | 0 uncommitted platform files | `OPTIMAL` |
-| **Automated Test Pass Rate** | **504+ PASS** (13/13 suites) | 100% pass, 0 warnings | `VERIFIED` |
-| **Next.js Production Build** | **41 / 41 routes + Middleware** | 0 build errors, Turbopack | `VERIFIED` |
+| **Automated Test Pass Rate** | **506+ PASS** (13/13 suites) | 100% pass, 0 warnings | `VERIFIED` |
+| **Next.js Production Build** | **44 / 44 routes + Middleware** | 0 build errors, Turbopack | `VERIFIED` |
 | **`Products/` Boundary Integrity** | **0 mutations, 0 uncommitted files** | Strict read-only isolation | `INVIOLABLE` |
 | **DPDP Legal Compliance** | 20 master policies, 5 registers, 10 routes | DPDP Act 2023 / Rules 2025 | `COMPLIANT` |
 | **Aros Purchase Safety** | Minor payment blocked server-side, unbundled consent | `NO_MINOR_PAYMENT_FOR_AROS = TRUE` | `VERIFIED` |
 | **Payment Abstraction** | Provider-agnostic interface + mock sandbox | Zero raw card/UPI secrets stored | `VERIFIED` |
+| **Cryptographic Receipts** | SHA-256 integrity receipt, JSON export | `/api/payment/receipt/[receiptId]` | `VERIFIED` |
+| **Grievance Redressal** | Dispute modal, audit logging, tracking ID | `/api/payment/dispute` | `VERIFIED` |
+| **Developer Tools & Explorer** | Interactive API runner, cURL builder, HMAC keys | `/dashboard/keys` | `VERIFIED` |
 | **AI Discoverability** | `/llms.txt`, `/llms-full.txt`, JSON-LD | Full crawler authorization | `VERIFIED` |
 | **Developer Key Vault** | HMAC-SHA256, hash-only storage, 3 tiers | Phase 3.0 / Milestone 3.1 | `VERIFIED` |
 | **Webhook Clearance Engine** | HMAC-SHA256 signing, backoff retry (3x) | Phase 3.0 / Milestone 3.2 | `VERIFIED` |
@@ -44,6 +47,7 @@ The authoritative sequence for Wave 2 and Purchase Safety is codified in the tas
 | **4** | `WAVE-02-TASK-04` | W3C Distributed Tracing (`traceparent`) | M3.4 | `COMPLETED_VERIFIED` | Web Crypto API universal |
 | **5** | `WAVE-02-TASK-05` | Real-Time Telemetry Broker (SSE) | M3.5 | `COMPLETED_VERIFIED` | Ring buffer & SSE stream |
 | **6** | `AROS-PURCHASE-SAFETY` | Age, Consent, Minor Restriction & Ledger Hardening | Hardening | `COMPLETED_VERIFIED` | `NO_MINOR_PAYMENT_FOR_AROS` |
+| **7** | `AROH-ECOSYSTEM-POLISH` | Receipts, Dispute Redressal & API Explorer | Polish | `COMPLETED_VERIFIED` | `v2.03.07.0` verified |
 
 ---
 
@@ -60,7 +64,7 @@ All products registered in `@aroh/asdk` (`CANONICAL_PRODUCT_REGISTRY`) are verif
 | **JavaPath Pro** | `v1.1.0` | Monaco Editor, Java AST Runner | Published (`/explore/javapath-pro`) | External Spoke |
 | **Aros Wallet** | `v2.0.0` | Double-entry ledger, Firebase Auth | Integrated (`/dashboard`) | Internal Package |
 | **Aros AI Portal** | `v2.0.0` | LLM abstraction orchestrator | Integrated (`/ai`) | Internal Package |
-| **Aroh Platform Hub** | `v2.3.6` | Next.js 16, @aroh/ads, @aroh/asdk | Live ([aroh-os.vercel.app](https://aroh-os.vercel.app)) | Core Platform |
+| **Aroh Platform Hub** | `v2.3.7` | Next.js 16, @aroh/ads, @aroh/asdk | Live ([aroh-os.vercel.app](https://aroh-os.vercel.app)) | Core Platform |
 
 ---
 

@@ -8,7 +8,8 @@
 
 | Canonical Version | Legacy Tag | Date | Change Level | Quick Summary | Commit |
 |:---:|:---:|---|:---:|---|:---:|
-| **`2.03.06.0`** | `v2.3.6` | 2026-09-20 | `FUNCTIONAL` (`DE`) | **Aros Age, Consent, Purchase Safety & Compliance Hardening**: Enforced mandatory `NO_MINOR_PAYMENT_FOR_AROS = TRUE` policy server-side, dedicated affirmative consent, provider-agnostic payment abstraction, authoritative append-only ledger settlement, statutory registers (`PAYMENT_DATA_PROCESSING_REGISTER.json`), and comprehensive 15-test purchase safety suite. | [`HEAD`](file:///d:/PROJECT/AROH%20Open%20Source) |
+| **`2.03.07.0`** | `v2.3.7` | 2026-09-20 | `FUNCTIONAL` (`DE`) | **Ecosystem Polish, Cryptographic Receipts, Grievance/Dispute Redressal & Interactive Developer API Explorer**: Implemented user-facing dispute submission & grievance redressal interface, cryptographic transaction receipts modal & retrieval endpoint, and an interactive Developer API Explorer in Developer Tools dashboard. | [`HEAD`](file:///d:/PROJECT/AROH%20Open%20Source) |
+| **`2.03.06.0`** | `v2.3.6` | 2026-09-20 | `FUNCTIONAL` (`DE`) | **Aros Age, Consent, Purchase Safety & Compliance Hardening**: Enforced mandatory `NO_MINOR_PAYMENT_FOR_AROS = TRUE` policy server-side, dedicated affirmative consent, provider-agnostic payment abstraction, authoritative append-only ledger settlement, statutory registers (`PAYMENT_DATA_PROCESSING_REGISTER.json`), and comprehensive 15-test purchase safety suite. | [`629fb18`](file:///d:/PROJECT/AROH%20Open%20Source) |
 | **`2.03.05.0`** | `v2.3.5` | 2026-09-19 | `FUNCTIONAL` (`DE`) | **Wave 2 Milestone 3.5: Real-Time Telemetry Broker & Registry Modernization**: Implemented circular event ring buffer (500 events), SSE metrics stream route (`/api/telemetry/stream`), Admin Dashboard Telemetry Panel, and canonical product registry URL synchronization for JavaPath Pro, OmniStream, and Music Mirror. | [`HEAD`](file:///d:/PROJECT/AROH%20Open%20Source) |
 | **`2.03.04.0`** | `v2.3.4` | 2026-09-19 | `FUNCTIONAL` (`DE`) | **Wave 2 Milestone 3.4: W3C Distributed Tracing**: Implemented Web Crypto API-based W3C Trace Context engine (`traceparent` format `00-{traceId}-{spanId}-{flags}`) in `@aroh/asdk`, integrated Next.js Proxy Middleware propagating trace context on ingress/egress, and verified with 11 automated Vitest assertions. | [`HEAD`](file:///d:/PROJECT/AROH%20Open%20Source) |
 | **`2.03.03.0`** | `v2.3.3` | 2026-09-19 | `FUNCTIONAL` (`DE`) | **Wave 2 Milestone 3.3: Fiat-to-Aros Settlement On-Ramp**: Implemented Stripe Checkout session builder, fixed exchange rate conversion ($1.00 USD = 100 Aros), idempotent settlement engine utilizing immutable ledger transactions, Stripe webhook clearance endpoint, and dashboard purchase interface (`/dashboard/purchase`). | [`HEAD`](file:///d:/PROJECT/AROH%20Open%20Source) |
@@ -21,6 +22,27 @@
 ---
 
 ## 2. Version Entries
+
+### 2.03.07.0 (`v2.3.7`)
+- **Date**: 2026-09-20
+- **Change Level**: `FUNCTIONAL` (`DE=07`)
+- **Previous Version**: `2.03.06.0` (`v2.3.6`)
+
+#### Quick Summary
+Delivered **Ecosystem Polish, Cryptographic Transaction Receipts, Grievance/Dispute Redressal & Interactive Developer API Explorer**:
+- **Cryptographic Transaction Receipts (`/api/payment/receipt/[receiptId]`, Receipt Modal)**:
+  - Generated immutable cryptographic receipts for settled transactions with SHA-256 integrity hashes.
+  - Provided interactive receipt inspection modal in `/dashboard/purchase` with JSON export and policy terms disclosure.
+- **Formal Dispute / Grievance Redressal (`/api/payment/dispute`, Dispute Modal)**:
+  - Implemented user dispute submission endpoint with automatic tracking reference generation and compliance audit logging.
+  - Interactive dispute dialog in `/dashboard/purchase` enabling users to dispute unsettled charges directly from purchase history.
+- **Interactive Developer API Explorer (`/dashboard/keys`)**:
+  - Added interactive request runner to Developer Tools dashboard with endpoint selector, header customization, live cURL command builder, and latency/status response viewer.
+- **Automated Verification**:
+  - 2/2 Vitest tests in `packages/asdk/tests/dispute-receipt.test.ts`.
+  - 130/130 Vitest assertions across 12 suites in `@aroh/asdk`.
+  - All 13 monorepo test suites passing (506+ total assertions).
+  - Next.js 16 production build compiles 44 / 44 routes cleanly.
 
 ### 2.03.06.0 (`v2.3.6`)
 - **Date**: 2026-09-20

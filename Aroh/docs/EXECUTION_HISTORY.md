@@ -427,3 +427,39 @@ flowchart LR
   - Dedicated unbundled affirmative consent cannot be buried in general Terms of Service; it requires separate, non-pre-ticked affirmation of closed-loop virtual utility and non-refundable status.
   - Maintain a strict provider abstraction layer so testing and future Indian localized payment gateways (UPI/Razorpay/Cashfree) plug in without breaking financial accounting guarantees.
 
+---
+
+### [HIST-012] Ecosystem Polish, Cryptographic Transaction Receipts, Grievance/Dispute Redressal & Interactive Developer API Explorer
+- **Date**: 2026-09-20
+- **Version**: `2.03.07.0` (`v2.3.7`)
+- **Objective**: Implement user-facing dispute submission & grievance redressal interface, cryptographic transaction receipts modal & retrieval endpoint, and an interactive Developer API Explorer in the Developer Tools dashboard.
+- **Automated QA Verification**:
+  - `packages/asdk/tests/dispute-receipt.test.ts`: 2 / 2 test suites PASS
+  - `packages/asdk/tests/version.test.ts`: 6 / 6 assertions PASS for `2.03.07.0`
+  - `packages/asdk` test suite: 130 / 130 assertions PASS across 12 test suites
+  - Monorepo test suite: All 13 test suites cleanly passing (506+ total assertions)
+  - Next.js 16 Production Build (`apps/web`): 44 / 44 routes compiled cleanly with Turbopack
+  - DPDP Privacy Audit Script (`test-privacy-static-audit.js`): 117 / 117 assertions PASS
+  - SEO Audit Script (`test-seo-audit.js`): 56 / 56 assertions PASS
+- **Affected Files**:
+  - `VERSION_CONTROLLER.md` [MODIFIED]
+  - `AROH.md` [MODIFIED]
+  - `Aroh/packages/asdk/src/version/index.ts` [MODIFIED]
+  - `Aroh/packages/asdk/src/services/purchase-safety.ts` [MODIFIED]
+  - `Aroh/packages/asdk/src/schemas/payment.ts` [MODIFIED]
+  - `Aroh/packages/asdk/tests/version.test.ts` [MODIFIED]
+  - `Aroh/packages/asdk/tests/dispute-receipt.test.ts` [NEW]
+  - `Aroh/apps/web/app/api/payment/receipt/[receiptId]/route.ts` [NEW]
+  - `Aroh/apps/web/app/api/payment/dispute/route.ts` [NEW]
+  - `Aroh/apps/web/app/dashboard/purchase/page.tsx` [MODIFIED]
+  - `Aroh/apps/web/app/dashboard/keys/page.tsx` [MODIFIED]
+  - `Aroh/docs/EXECUTION_HISTORY.md` [MODIFIED]
+  - `Aroh/docs/VERSION_HISTORY.md` [MODIFIED]
+  - `Aroh/docs/PROJECT_STATUS.md` [MODIFIED]
+- **Boundary Verification**:
+  - `Products/` boundary status: 0 files modified, 0 writes (inviolate).
+- **Lessons Learned & Future Warnings**:
+  - Exposing an interactive API explorer inside the Developer Key Vault gives ecosystem developers immediate testability with zero client-side setup while ensuring all calls route with proper headers.
+  - Grievance tracking references must be cryptographically non-guessable and immutably recorded in the compliance audit trail.
+
+

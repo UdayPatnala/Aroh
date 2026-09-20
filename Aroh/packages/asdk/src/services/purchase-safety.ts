@@ -657,9 +657,24 @@ export class PurchaseSafetyService {
     return receipt ? { ...receipt } : null;
   }
 
+  getReceiptByTransactionId(transactionId: string): TransactionReceipt | null {
+    const receipt = Array.from(this.receipts.values()).find((r) => r.transaction_id === transactionId);
+    return receipt ? { ...receipt } : null;
+  }
+
   getUserReceipts(userId: string): TransactionReceipt[] {
     return Array.from(this.receipts.values()).filter((r) => r.user_id === userId);
+  }
+
+  getDispute(disputeId: string): DisputeRecord | null {
+    const dispute = this.disputes.get(disputeId);
+    return dispute ? { ...dispute } : null;
+  }
+
+  getUserDisputes(userId: string): DisputeRecord[] {
+    return Array.from(this.disputes.values()).filter((d) => d.user_id === userId);
   }
 }
 
 export const purchaseSafetyService = new PurchaseSafetyService();
+

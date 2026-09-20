@@ -5,6 +5,7 @@ export const ArosTierPackageSchema = z.object({
   name: z.string(),
   arosAmount: z.number().int().positive(),
   priceUsdCents: z.number().int().positive(),
+  description: z.string().optional(),
   popular: z.boolean().optional(),
   badge: z.string().optional()
 });
@@ -17,6 +18,7 @@ export const AROS_TIER_PACKAGES: ArosTierPackage[] = [
     name: "Starter Pack",
     arosAmount: 500,
     priceUsdCents: 500, // $5.00 USD
+    description: "Ideal for testing models and evaluating spoke workflows.",
     badge: "Basic"
   },
   {
@@ -24,6 +26,7 @@ export const AROS_TIER_PACKAGES: ArosTierPackage[] = [
     name: "Developer Pro Pack",
     arosAmount: 1500,
     priceUsdCents: 1500, // $15.00 USD
+    description: "Complete package for active development and automated agent tasks.",
     popular: true,
     badge: "Most Popular"
   },
@@ -32,6 +35,7 @@ export const AROS_TIER_PACKAGES: ArosTierPackage[] = [
     name: "Ecosystem Builder",
     arosAmount: 5000,
     priceUsdCents: 5000, // $50.00 USD
+    description: "Maximum bandwidth tier for high-throughput production spokes.",
     badge: "Best Value"
   }
 ];
