@@ -29,7 +29,7 @@ VERIFIED
 | 2.03.04.0 | 2.03.03.0 | FUNCTIONAL | HEAD | Implemented Phase 3.5 Milestone 3.4 W3C Distributed Tracing utility in ASDK and Next.js traceparent proxy middleware |
 | 2.03.05.0 | 2.03.04.0 | FUNCTIONAL | HEAD | Implemented Phase 3.5 Milestone 3.5 Real-Time Operational Telemetry Broker (SSE metrics stream) & Product Registry verification |
 | 2.03.06.0 | 2.03.05.0 | FUNCTIONAL | 629fb18 | Hardened Aros Age, Dedicated Unbundled Consent, Purchase Safety, Server Minor Blocking, Payment Provider Abstraction & Statutory Registers |
-| 2.03.07.0 | 2.03.06.0 | FUNCTIONAL | 76f2d26 | Implemented Cryptographic Transaction Receipts, Grievance/Dispute Redressal & Interactive Developer API Explorer |
+| 2.03.07.0 | 2.03.06.0 | FUNCTIONAL | d37e3e2 | Implemented Cryptographic Transaction Receipts, Grievance/Dispute Redressal & Interactive Developer API Explorer |
 
 ## In-Development / Unreleased
 
