@@ -38,6 +38,11 @@ describe("Canonical Product Showcase Registry", () => {
     const music = getProductById("music-mirror");
     expect(music?.liveUrl).toBe("https://music-mirror-aos.vercel.app/");
     expect(music?.status).toBe("online");
+
+    // JavaPath Pro — verified live 2026-09-19
+    const javapath = getProductById("javapath-pro");
+    expect(javapath?.liveUrl).toBe("https://javapath-pro-aos.vercel.app/");
+    expect(javapath?.status).toBe("online");
   });
 
   it("truthfully marks offline or in-development products without guessing URLs", () => {
@@ -46,9 +51,10 @@ describe("Canonical Product Showcase Registry", () => {
     expect(spedex?.liveUrl).toBeUndefined();
     expect(spedex?.githubUrl).toBe("https://github.com/UdayPatnala/Spedex");
 
+    // JavaPath Pro is now live — verified Vercel deployment confirmed 2026-09-19
     const javapath = getProductById("javapath-pro");
-    expect(javapath?.status).toBe("development");
-    expect(javapath?.liveUrl).toBeUndefined();
+    expect(javapath?.status).toBe("online");
+    expect(javapath?.liveUrl).toBe("https://javapath-pro-aos.vercel.app/");
     expect(javapath?.githubUrl).toBe("https://github.com/UdayPatnala/Java-Path");
   });
 

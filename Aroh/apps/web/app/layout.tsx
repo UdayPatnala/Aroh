@@ -7,6 +7,7 @@ import GlassDock from "./components/dock";
 import CookieBanner from "./components/cookie-banner";
 import PlatformFooter from "./components/footer";
 import StructuredData from "./components/structured-data";
+import VersionBadge from "./components/version-badge";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -102,6 +103,7 @@ export default function RootLayout({
         <CommandPalette />
         <SessionSync />
         <GlassDock />
+        <VersionBadge />
       </body>
     </html>
   );

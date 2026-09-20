@@ -198,7 +198,7 @@ flowchart LR
 
 ### [HIST-005] Developer API Key Vault Implementation & Wave 2 Initiation
 - **Date**: 2026-09-19
-- **Version**: `v2.3.0`
+- **Version**: `2.03.01.0` (`v2.3.0`)
 - **Starting Checkpoint**: `git tag WAVE-02-TASK-01-START`
 - **Resulting Outcome**: `EXECUTION_COMPLETE_VERIFIED`
 - **Objective**: Implement Phase 3.0 Milestone 3.1 (`WAVE-02-TASK-01`): Cryptographic HMAC-SHA256 API key generation, zero-plaintext storage (SHA-256 hash only), rate limit tier enforcement (Basic 60 rpm, Pro 300 rpm, Enterprise 1200 rpm), Next.js API routes (`/api/developer/keys`), and dashboard key vault UI (`/dashboard/keys`).
@@ -224,3 +224,206 @@ flowchart LR
 - **Lessons Learned & Future Warnings**:
   - Raw cryptographic keys must be generated and emitted exactly once; masking logic ensures safe client UI rendering without risk of leaking internal entropy.
   - Revocation is strictly irreversible to protect downstream services from zombie key revival.
+
+---
+
+### [HIST-006] Dynamic Version Governance & Unobtrusive UI Display
+- **Date**: 2026-09-19
+- **Version**: `2.03.01.1` (`v2.3.1`)
+- **Objective**: Implement continuous version governance, historical reconstruction of pre-v2 foundation phases in `VERSION_CONTROLLER.md`, dynamic version indicator badge in bottom-right corner, Next.js API `/api/platform/version`, and elimination of hardcoded version in platform footer.
+- **Automated QA Verification**:
+  - `packages/asdk/tests/version.test.ts`: 6 / 6 assertions PASS
+  - `packages/asdk` test suite: 63 / 63 assertions PASS across 6 test suites
+  - Monorepo test suite: All 12 test suites cleanly passing (439+ total assertions)
+  - Next.js 16 Production Build (`apps/web`): 34 / 34 routes compiled cleanly with 0 errors
+- **Affected Files (8 files)**:
+  - `VERSION_CONTROLLER.md` [MODIFIED]
+  - `Aroh/packages/asdk/src/version/index.ts` [NEW]
+  - `Aroh/packages/asdk/src/index.ts` [MODIFIED]
+  - `Aroh/packages/asdk/tests/version.test.ts` [NEW]
+  - `Aroh/apps/web/app/api/platform/version/route.ts` [NEW]
+  - `Aroh/apps/web/app/api/health/route.ts` [MODIFIED]
+  - `Aroh/apps/web/app/components/version-badge.tsx` [NEW]
+  - `Aroh/apps/web/app/components/footer.tsx` [MODIFIED]
+  - `Aroh/apps/web/app/layout.tsx` [MODIFIED]
+  - `Aroh/docs/VERSION_HISTORY.md` [MODIFIED]
+  - `Aroh/docs/PROJECT_STATUS.md` [MODIFIED]
+- **Boundary Verification**:
+  - `Products/` boundary status: 0 files modified, 0 writes (inviolate).
+- **Lessons Learned & Future Warnings**:
+  - UI version badges must be subtle and float unobtrusively without blocking central navigation elements like `GlassDock`.
+  - Version numbers must never be hardcoded in footer or UI components; always import `PLATFORM_VERSION` from `@aroh/asdk` or fetch from `/api/platform/version`.
+
+---
+
+### [HIST-007] Asynchronous Webhook Clearance Engine
+- **Date**: 2026-09-19
+- **Version**: `2.03.02.0` (`v2.3.2`)
+- **Objective**: Deliver Wave 2 Milestone 3.2 (`WAVE-02-TASK-02`): Webhook endpoint registration, cryptographic HMAC-SHA256 signature signing (`x-aroh-signature`) with timestamp replay prevention, exponential backoff retry clearance dispatcher ($2^n \times 500\text{ms}$ over 3 attempts), automated failing endpoint state transitions, and Next.js developer webhook API routes.
+- **Automated QA Verification**:
+  - `packages/asdk/tests/webhook.test.ts`: 16 / 16 assertions PASS
+  - `packages/asdk` test suite: 79 / 79 assertions PASS across 7 test suites
+  - Monorepo test suite: All 12 test suites cleanly passing (455+ total assertions)
+  - Next.js 16 Production Build (`apps/web`): 35 / 35 routes compiled cleanly with 0 errors
+- **Affected Files (9 files)**:
+  - `VERSION_CONTROLLER.md` [MODIFIED]
+  - `Aroh/packages/asdk/src/schemas/webhook.ts` [NEW]
+  - `Aroh/packages/asdk/src/schemas/index.ts` [MODIFIED]
+  - `Aroh/packages/asdk/src/services/webhook.ts` [NEW]
+  - `Aroh/packages/asdk/src/version/index.ts` [MODIFIED]
+  - `Aroh/packages/asdk/src/index.ts` [MODIFIED]
+  - `Aroh/packages/asdk/tests/webhook.test.ts` [NEW]
+  - `Aroh/packages/asdk/tests/version.test.ts` [MODIFIED]
+  - `Aroh/apps/web/app/api/developer/webhooks/route.ts` [NEW]
+  - `Aroh/apps/web/app/api/developer/webhooks/[webhookId]/route.ts` [NEW]
+  - `Aroh/docs/architecture/audit/WAVE_02_TASK_02_HANDOFF.md` [NEW]
+  - `Aroh/docs/architecture/audit/WAVE_02_TASK_02_HANDOFF.json` [NEW]
+  - `Aroh/docs/architecture/audit/WAVE_02_TASK_MANIFEST.md` [MODIFIED]
+  - `Aroh/docs/VERSION_HISTORY.md` [MODIFIED]
+  - `Aroh/docs/PROJECT_STATUS.md` [MODIFIED]
+- **Boundary Verification**:
+  - `Products/` boundary status: 0 files modified, 0 writes (inviolate).
+- **Lessons Learned & Future Warnings**:
+  - Network transports should always be injectable or pluggable into the clearance engine to allow zero-fragility unit testing without hitting real network endpoints or stalling CI test runs.
+  - Constant-time comparison (`crypto.timingSafeEqual`) must be used for signature checking to prevent timing side-channel attacks.
+
+---
+
+### [HIST-008] Fiat-to-Aros Settlement On-Ramp
+- **Date**: 2026-09-19
+- **Version**: `2.03.03.0` (`v2.3.3`)
+- **Objective**: Deliver Wave 2 Milestone 3.3 (`WAVE-02-TASK-03`): Stripe Checkout session builder, fixed exchange rate conversion ($1.00 USD = 100 Aros), idempotent settlement engine utilizing immutable ledger transactions, Stripe webhook clearance endpoint, and dashboard purchase interface (`/dashboard/purchase`).
+- **Automated QA Verification**:
+  - `packages/asdk/tests/payment.test.ts`: 9 / 9 assertions PASS
+  - `packages/asdk` test suite: 88 / 88 assertions PASS across 8 test suites
+  - Monorepo test suite: All 12 test suites cleanly passing (464+ total assertions)
+  - Next.js 16 Production Build (`apps/web`): 38 / 38 routes compiled cleanly with 0 errors
+- **Affected Files (9 files)**:
+  - `VERSION_CONTROLLER.md` [MODIFIED]
+  - `Aroh/packages/asdk/src/schemas/payment.ts` [NEW]
+  - `Aroh/packages/asdk/src/schemas/index.ts` [MODIFIED]
+  - `Aroh/packages/asdk/src/services/payment.ts` [NEW]
+  - `Aroh/packages/asdk/src/services/firebase.ts` [MODIFIED]
+  - `Aroh/packages/asdk/src/version/index.ts` [MODIFIED]
+  - `Aroh/packages/asdk/src/index.ts` [MODIFIED]
+  - `Aroh/packages/asdk/tests/payment.test.ts` [NEW]
+  - `Aroh/packages/asdk/tests/version.test.ts` [MODIFIED]
+  - `Aroh/apps/web/app/api/payment/checkout/route.ts` [NEW]
+  - `Aroh/apps/web/app/api/payment/webhook/route.ts` [NEW]
+  - `Aroh/apps/web/app/dashboard/purchase/page.tsx` [NEW]
+  - `Aroh/docs/architecture/audit/WAVE_02_TASK_03_HANDOFF.md` [NEW]
+  - `Aroh/docs/architecture/audit/WAVE_02_TASK_03_HANDOFF.json` [NEW]
+  - `Aroh/docs/architecture/audit/WAVE_02_TASK_MANIFEST.md` [MODIFIED]
+  - `Aroh/docs/VERSION_HISTORY.md` [MODIFIED]
+  - `Aroh/docs/PROJECT_STATUS.md` [MODIFIED]
+- **Boundary Verification**:
+  - `Products/` boundary status: 0 files modified, 0 writes (inviolate).
+- **Lessons Learned & Future Warnings**:
+  - Fiat-to-token settlements must never mutate user balances directly; always use immutable ledger credit transactions (`creditWallet`) with detailed metadata to preserve financial auditability under ADR-004.
+  - Replay attack protection requires checking both `sessionId` and `chargeId` before crediting to prevent double-spend vulnerability upon duplicated webhook events.
+
+---
+
+### [HIST-009] W3C Distributed Tracing Engine
+- **Date**: 2026-09-19
+- **Version**: `2.03.04.0` (`v2.3.4`)
+- **Objective**: Deliver Wave 2 Milestone 3.4 (`WAVE-02-TASK-04`): Standardized W3C Trace Context engine (`traceparent` format `00-{traceId}-{spanId}-{flags}`) in `@aroh/asdk`, integrated Next.js Proxy Middleware propagating trace context on ingress/egress across all `/api/*` and page routes, and Web Crypto API universal runtime support.
+- **Automated QA Verification**:
+  - `packages/asdk/tests/tracing.test.ts`: 11 / 11 assertions PASS
+  - `packages/asdk` test suite: 99 / 99 assertions PASS across 9 test suites
+  - Monorepo test suite: All 12 test suites cleanly passing (475+ total assertions)
+  - Next.js 16 Production Build (`apps/web`): 38 / 38 routes + Proxy Middleware compiled cleanly
+- **Affected Files (6 files)**:
+  - `VERSION_CONTROLLER.md` [MODIFIED]
+  - `Aroh/packages/asdk/src/tracing/index.ts` [NEW]
+  - `Aroh/packages/asdk/src/index.ts` [MODIFIED]
+  - `Aroh/packages/asdk/tests/tracing.test.ts` [NEW]
+  - `Aroh/apps/web/middleware.ts` [NEW]
+  - `Aroh/docs/architecture/audit/WAVE_02_TASK_04_HANDOFF.md` [NEW]
+  - `Aroh/docs/architecture/audit/WAVE_02_TASK_04_HANDOFF.json` [NEW]
+  - `Aroh/docs/architecture/audit/WAVE_02_TASK_MANIFEST.md` [MODIFIED]
+  - `Aroh/docs/VERSION_HISTORY.md` [MODIFIED]
+  - `Aroh/docs/PROJECT_STATUS.md` [MODIFIED]
+- **Boundary Verification**:
+  - `Products/` boundary status: 0 files modified, 0 writes (inviolate).
+- **Lessons Learned & Future Warnings**:
+  - Edge Middleware in Next.js cannot use Node.js `crypto.randomBytes`; always build on universal Web Crypto API (`crypto.getRandomValues`).
+  - Strict validation of hexadecimal traceparent formatting prevents downstream logging truncation or parser crashes.
+
+---
+
+### [HIST-010] Real-Time Operational Telemetry Broker & Registry Modernization
+- **Date**: 2026-09-19
+- **Version**: `2.03.05.0` (`v2.3.5`)
+- **Objective**: Deliver Wave 2 Milestone 3.5 (`WAVE-02-TASK-05`): In-process circular event ring buffer (500 events), 9 canonical event types, aggregate metrics (p50/p95 latency, active journeys), SSE stream route (`/api/telemetry/stream`), Admin Dashboard Telemetry Panel, and canonical product registry URL synchronization for JavaPath Pro, OmniStream, and Music Mirror.
+- **Automated QA Verification**:
+  - `packages/asdk/tests/telemetry.test.ts`: 14 / 14 assertions PASS
+  - `packages/asdk/tests/product-registry.test.ts`: 7 / 7 assertions PASS
+  - `packages/asdk` test suite: 113 / 113 assertions PASS across 10 test suites
+  - Monorepo test suite: All 13 test suites cleanly passing (489+ total assertions)
+  - Next.js 16 Production Build (`apps/web`): 39 / 39 routes compiled cleanly with Turbopack
+- **Affected Files (7 files)**:
+  - `VERSION_CONTROLLER.md` [MODIFIED]
+  - `Aroh/packages/asdk/src/telemetry/index.ts` [NEW]
+  - `Aroh/packages/asdk/src/registry/products.ts` [MODIFIED]
+  - `Aroh/packages/asdk/src/index.ts` [MODIFIED]
+  - `Aroh/packages/asdk/tests/telemetry.test.ts` [NEW]
+  - `Aroh/packages/asdk/tests/product-registry.test.ts` [MODIFIED]
+  - `Aroh/apps/web/app/api/telemetry/stream/route.ts` [NEW]
+  - `Aroh/apps/web/app/admin/page.tsx` [MODIFIED]
+  - `Aroh/docs/architecture/audit/WAVE_02_TASK_05_HANDOFF.md` [NEW]
+  - `Aroh/docs/architecture/audit/WAVE_02_TASK_05_HANDOFF.json` [NEW]
+  - `Aroh/docs/architecture/audit/WAVE_02_FINAL_HANDOFF.md` [NEW]
+  - `Aroh/docs/architecture/audit/WAVE_02_FINAL_HANDOFF.json` [NEW]
+- **Boundary Verification**:
+  - `Products/` boundary status: 0 files modified, 0 writes (inviolate).
+- **Lessons Learned & Future Warnings**:
+  - Next.js App Router does not natively host stateful WebSockets without a standalone server; Server-Sent Events (SSE) offer the standard-compliant, resilient push mechanism for dashboard observability.
+  - Telemetry payloads must strictly sanitize user identity to an 8-character SHA-256 hash prefix (`userIdHash`) to prevent accidental PII leakage in observability streams.
+
+---
+
+### [HIST-011] Aros Age, Consent, Purchase, Payment & Transaction-Safety Compliance Hardening
+- **Date**: 2026-09-20
+- **Version**: `2.03.06.0` (`v2.3.6`)
+- **Objective**: Execute end-to-end Aros economy compliance hardening under mandatory policy `NO_MINOR_PAYMENT_FOR_AROS = TRUE`: server-side under-18 payment intent blocking, unbundled dedicated affirmative purchase consent, provider-agnostic payment abstraction with mock sandbox, authoritative append-only double-entry ledger settlement, statutory registers synchronization, and legal classification.
+- **Automated QA Verification**:
+  - `packages/asdk/tests/purchase-safety.test.ts`: 15 / 15 assertions PASS
+  - `packages/asdk` test suite: 128 / 128 assertions PASS across 11 test suites
+  - Monorepo test suite: All 13 test suites cleanly passing (504+ total assertions)
+  - Next.js 16 Production Build (`apps/web`): 41 / 41 routes compiled cleanly with Turbopack
+  - DPDP Privacy Audit Script (`test-privacy-static-audit.js`): 117 / 117 assertions PASS
+  - SEO Audit Script (`test-seo-audit.js`): 56 / 56 assertions PASS
+- **Affected Files (18 files)**:
+  - `VERSION_CONTROLLER.md` [MODIFIED]
+  - `Aroh/packages/asdk/src/schemas/purchase-safety.ts` [NEW]
+  - `Aroh/packages/asdk/src/schemas/index.ts` [MODIFIED]
+  - `Aroh/packages/asdk/src/services/payment-provider.ts` [NEW]
+  - `Aroh/packages/asdk/src/services/purchase-safety.ts` [NEW]
+  - `Aroh/packages/asdk/src/services/payment.ts` [MODIFIED]
+  - `Aroh/packages/asdk/src/index.ts` [MODIFIED]
+  - `Aroh/packages/asdk/src/version/index.ts` [MODIFIED]
+  - `Aroh/packages/asdk/tests/purchase-safety.test.ts` [NEW]
+  - `Aroh/packages/asdk/tests/version.test.ts` [MODIFIED]
+  - `Aroh/apps/web/app/api/payment/checkout/route.ts` [MODIFIED]
+  - `Aroh/apps/web/app/api/payment/eligibility/route.ts` [NEW]
+  - `Aroh/apps/web/app/api/payment/consent/route.ts` [NEW]
+  - `Aroh/apps/web/app/dashboard/purchase/page.tsx` [MODIFIED]
+  - `Aroh/docs/privacy/PAYMENT_DATA_PROCESSING_REGISTER.json` [NEW]
+  - `Aroh/docs/privacy/CHILD_AND_MINOR_PRIVACY_POLICY.md` [MODIFIED]
+  - `Aroh/docs/legal/TERMS_OF_SERVICE.md` [MODIFIED]
+  - `Aroh/docs/privacy/LEGAL_REVIEW_REGISTER.json` [MODIFIED]
+  - `Aroh/docs/privacy/DATA_PROCESSORS.json` [MODIFIED]
+  - `Aroh/docs/legal/LEGAL_DOCUMENT_HISTORY.md` [MODIFIED]
+  - `Aroh/scripts/test-privacy-static-audit.js` [MODIFIED]
+  - `Aroh/docs/architecture/audit/AROS_PURCHASE_SAFETY_TASK_MANIFEST.md` [NEW]
+  - `Aroh/docs/architecture/audit/AROS_PURCHASE_SAFETY_TASK_MANIFEST.json` [NEW]
+  - `Aroh/docs/architecture/audit/AROS_PURCHASE_SAFETY_IMPLEMENTATION_HANDOFF.md` [NEW]
+  - `Aroh/docs/architecture/audit/AROS_PURCHASE_SAFETY_IMPLEMENTATION_HANDOFF.json` [NEW]
+- **Boundary Verification**:
+  - `Products/` boundary status: 0 files modified, 0 writes (inviolate).
+- **Lessons Learned & Future Warnings**:
+  - Never conflate platform login with purchase eligibility: minor status must fail closed on the server side before any payment gateway intent, session, or token is requested.
+  - Dedicated unbundled affirmative consent cannot be buried in general Terms of Service; it requires separate, non-pre-ticked affirmation of closed-loop virtual utility and non-refundable status.
+  - Maintain a strict provider abstraction layer so testing and future Indian localized payment gateways (UPI/Razorpay/Cashfree) plug in without breaking financial accounting guarantees.
+

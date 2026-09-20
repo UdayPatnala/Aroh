@@ -87,6 +87,56 @@
       "owner": "Litigation & Commercial Counsel",
       "status": "LEGAL_REVIEW_REQUIRED",
       "required_legal_confirmation": "Review clause enforceability against recent Indian consumer protection jurisprudence"
+    },
+    {
+      "item": "LR-009-AROS-LEGAL-CLASSIFICATION",
+      "decision_required": "Definitive regulatory classification of Aros tokens: closed-system digital utility rewards vs prepaid payment instruments (PPI) under RBI Master Directions on PPIs",
+      "current_assumption": "Aros are non-transferable, non-cash-redeemable, closed-system platform utility credits exclusively for unlocking features in AROH ecosystem; zero cash conversion permitted",
+      "source": "Aroh/docs/legal/TERMS_OF_SERVICE.md Section 5",
+      "risk": "Regulatory non-compliance if classified as a regulated stored-value facility or PPI without requisite license",
+      "owner": "Fintech Regulatory Counsel",
+      "status": "LEGAL_REVIEW_REQUIRED",
+      "required_legal_confirmation": "Formal legal opinion confirming closed-loop exemption under RBI guidelines"
+    },
+    {
+      "item": "LR-010-MINOR-PAYMENT-RESTRICTION-POLICY",
+      "decision_required": "Legal validity and consumer protection alignment of prohibiting under-18 accounts from initiating Aros purchases",
+      "current_assumption": "Prohibition is an AROH platform eligibility and transaction safety rule designed to protect minors and prevent unauthorized payment instrument use; not claimed to be a statutory universal ban on all minor transactions",
+      "source": "Aroh/docs/privacy/CHILD_AND_MINOR_PRIVACY_POLICY.md Section 2.1",
+      "risk": "Potential consumer grievance alleging unfair contract terms if not clearly disclosed prior to purchase attempt",
+      "owner": "Compliance & Commercial Counsel",
+      "status": "LEGAL_REVIEW_REQUIRED",
+      "required_legal_confirmation": "Verify language aligns with Indian Contract Act (capacity of minors) and Consumer Protection Act"
+    },
+    {
+      "item": "LR-011-TAXATION-AND-GST-TREATMENT",
+      "decision_required": "GST classification and applicability (e.g. OIDAR services at 18%) for fiat-to-Aros digital credit purchases",
+      "current_assumption": "Purchases currently simulated in sandbox/test mode; live checkout inactive pending GST registration and corporate entity incorporation",
+      "source": "Aroh/packages/asdk/src/schemas/payment.ts",
+      "risk": "Tax liability assessment and statutory penalty if digital services GST is not collected once commercial transactions activate",
+      "owner": "Tax & Corporate Finance Counsel",
+      "status": "LEGAL_REVIEW_REQUIRED",
+      "required_legal_confirmation": "Determine appropriate HSN/SAC code and tax invoicing requirements for digital utility token packs"
+    },
+    {
+      "item": "LR-012-PARENTAL-PURCHASE-WORKFLOW-FEASIBILITY",
+      "decision_required": "Statutory requirements for introducing a dedicated, legally compliant parental purchase flow on behalf of minors",
+      "current_assumption": "Currently prohibited; parents cannot authorize minor purchases through the minor's account. Any future implementation must require separate adult identity, explicit consent, and clear asset ownership",
+      "source": "Aroh/docs/privacy/CHILD_AND_MINOR_PRIVACY_POLICY.md",
+      "risk": "Strict liability under Section 9 DPDP Act if parental consent verification is not robust",
+      "owner": "Privacy & Product Counsel",
+      "status": "LEGAL_REVIEW_REQUIRED",
+      "required_legal_confirmation": "Draft dedicated Parental Authorization & Consent Agreement prior to feature scoping"
+    },
+    {
+      "item": "LR-013-REFUND-AND-CHARGEBACK-POLICY",
+      "decision_required": "Statutory compliance of non-refundable consumed digital credit policy under Consumer Protection (E-Commerce) Rules, 2020",
+      "current_assumption": "Consumed digital credits are non-refundable; unconsumed credits resulting from technical error or unauthorized charges are refunded via administrative review",
+      "source": "Aroh/docs/legal/TERMS_OF_SERVICE.md Section 5",
+      "risk": "Challenge before Consumer Forum if refund refusal is deemed deficiency of service",
+      "owner": "Commercial Litigation Counsel",
+      "status": "LEGAL_REVIEW_REQUIRED",
+      "required_legal_confirmation": "Confirm enforceability of digital content consumption exception under Indian consumer law"
     }
   ]
 }

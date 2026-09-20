@@ -33,7 +33,7 @@ export const CANONICAL_PRODUCT_REGISTRY: ProductShowcase[] = [
     ],
     technologySummary: "TypeScript, React, Next.js / Vite, CSS3D, Web Audio Parametric DSP, Web Workers, Canvas CV",
     sourceOfTruth: "Authoritative GitHub repo (UdayPatnala/OmniStream) & verified Vercel deployment (0mnistream.vercel.app)",
-    lastVerified: "2026-09-10T04:12:00Z",
+    lastVerified: "2026-09-19T13:30:00Z",
     metadataVersion: "1.0.0"
   },
   {
@@ -110,7 +110,7 @@ export const CANONICAL_PRODUCT_REGISTRY: ProductShowcase[] = [
     ],
     technologySummary: "React 19, TypeScript, Vite, face-api.js (TensorFlow.js edge), Zustand with localStorage persist",
     sourceOfTruth: "Authoritative GitHub repo (UdayPatnala/Music-Mirror) & verified Vercel deployment (music-mirror-aos.vercel.app)",
-    lastVerified: "2026-09-10T04:12:00Z",
+    lastVerified: "2026-09-19T13:30:00Z",
     metadataVersion: "1.0.0"
   },
   {
@@ -163,12 +163,13 @@ export const CANONICAL_PRODUCT_REGISTRY: ProductShowcase[] = [
     longDescription: "JavaPath Pro is a full-stack learning platform designed to train software engineers in modern Java (Java 17 LTS), architectural design patterns, and enterprise software engineering workflows. It emulates real corporate environments through an in-browser interactive IDE, real-time static compiler diagnostics (bracket matching, syntax hygiene), remote sandboxed Java execution, corporate backlog simulation tickets, and an intelligent Staff Code Mentor evaluating standard vs production-grade patterns.",
     category: "Developer Platform",
     badge: "Interactive Sandbox",
-    status: "development",
+    status: "online",
     requiredTier: "pro",
     price: 150,
     version: "v1.1.0",
     author: "Patnala Uday Kumar",
     githubUrl: "https://github.com/UdayPatnala/Java-Path",
+    liveUrl: "https://javapath-pro-aos.vercel.app/",
     docsUrl: "https://github.com/UdayPatnala/Java-Path#readme",
     primaryCapabilities: [
       {
@@ -193,8 +194,8 @@ export const CANONICAL_PRODUCT_REGISTRY: ProductShowcase[] = [
       }
     ],
     technologySummary: "JavaScript / React, Java 17 LTS, AST Static Diagnostics, Remote Sandbox Execution",
-    sourceOfTruth: "Authoritative GitHub repo (UdayPatnala/Java-Path) & README.md",
-    lastVerified: "2026-09-10T04:12:00Z",
+    sourceOfTruth: "Authoritative GitHub repo (UdayPatnala/Java-Path) & verified Vercel deployment (javapath-pro-aos.vercel.app)",
+    lastVerified: "2026-09-19T13:30:00Z",
     metadataVersion: "1.0.0"
   },
   {

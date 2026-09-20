@@ -45,6 +45,20 @@
       "deletion_requirement": "Zero data retention for training on commercial API endpoints",
       "verified_at": "2026-09-11",
       "source": "Aroh/packages/asdk/src/ai/provider.ts"
+    },
+    {
+      "processor": "Payment Gateway Providers (Stripe Inc. / Decoupled Provider Adapters)",
+      "service": "Payment Intent Authorization & Tokenized Checkout Session Clearance",
+      "purpose": "Processing fiat currency settlement for Aros purchases via tokenized payment gateways; AROH never stores raw credit/debit card numbers, CVV, or banking credentials",
+      "data_categories": ["payment_amount", "currency", "provider_session_id", "transaction_status"],
+      "location": "Global / Multi-region infrastructure (US / EU / India)",
+      "international_transfer": "Applicable for global payment gateways; governed by payment processor DPAs and tokenization standards",
+      "security_controls": "PCI-DSS Level 1, SOC 2 Type II, TLS 1.3 in-transit, AES-256 at-rest",
+      "contract_status": "Commercial Payment Processing Terms & DPA; currently MockPaymentProvider default in repository",
+      "subprocessor_policy": "Subject to verified payment network partner policies",
+      "deletion_requirement": "Transaction ledger records retained for statutory tax/financial compliance (7 years)",
+      "verified_at": "2026-09-20",
+      "source": "Aroh/packages/asdk/src/services/payment-provider.ts"
     }
   ]
 }

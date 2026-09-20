@@ -610,6 +610,12 @@ export const mockWalletService = {
     return { wallet, transaction: newTx };
   },
 
+  getWallet: (userId: string): Wallet | null => {
+    initializeMockDb();
+    const wallets = getStored<Record<string, Wallet>>(MOCK_STORAGE_KEYS.WALLETS, {});
+    return wallets[userId] ? { ...wallets[userId] } : null;
+  },
+
   getTransactions: async (userId: string): Promise<Transaction[]> => {
     if (!isMock && db) {
       try {

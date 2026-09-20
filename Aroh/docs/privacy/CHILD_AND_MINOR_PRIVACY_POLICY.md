@@ -24,6 +24,12 @@ The DPDP Act establishes strict obligations regarding the processing of children
 2. **Prohibition of Independent Account Creation:** Natural persons under 18 years of age are strictly prohibited from independently registering an account, providing personal credentials, or managing Aros token wallets without verifiable parental consent.
 3. **Parental Supervised Access:** Minors may explore public, unauthenticated educational resources (such as public documentation or sandboxed AST demos in JavaPath Pro) solely under the direct supervision of a parent or legal guardian.
 
+### 2.1 Aros Minor Payment Restriction — Strict Safety Policy
+- **Policy Declaration:** AROH does not permit accounts belonging to persons under 18 to initiate purchases of Aros.
+- **Fail-Closed Server Enforcement:** All purchase intent creation, payment gateway sessions, and checkout redirects are blocked server-side if an account has not attained verified adult eligibility (`ADULT_ELIGIBLE`).
+- **No Third-Party Instrument Authorization:** Minors are strictly prohibited from using a parent or guardian's credit card, debit card, UPI ID, or net banking account through the minor's account. Parental consent or authorization is not inferred from the adult ownership of a payment method.
+- **Data Minimization:** No payment credentials or national identity documents are collected or logged during an age-gated rejection.
+
 ---
 
 ## 3. Absolute Statutory Prohibitions (Section 9)

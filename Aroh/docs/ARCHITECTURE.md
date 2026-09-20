@@ -1,4 +1,4 @@
-﻿# AROH Platform: Architecture & System Design Specification
+# AROH Platform: Architecture & System Design Specification
 
 > **Status**: Living Architectural Specification  
 > **Platform Version**: `v2.2.0`  
@@ -66,6 +66,7 @@ Previous user requirements, product vision, motivation, agreed features, rejecte
         ↓
 
 SOURCE 2 — PERSISTENT ENGINEERING MEMORY
+VERSION_CONTROLLER.md (Authoritative concise version ledger)
 Aroh/docs/VERSION_HISTORY.md
 Aroh/docs/EXECUTION_HISTORY.md
 Aroh/docs/PROJECT_STATUS.md

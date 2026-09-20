@@ -42,3 +42,4 @@ Every legal notice, terms document, and privacy policy within AROH is managed un
 | **Account Deletion Policy** | `AROH-PRIVACY-DELETION-V1.0` | `1.0.0` | 2026-09-11 | `ACTIVE_NOW` | `LEGAL_REVIEW_REQUIRED` | Deletion cascade details, anonymization, and statutory exceptions. |
 | **Data Export Policy** | `AROH-PRIVACY-EXPORT-V1.0` | `1.0.0` | 2026-09-11 | `ACTIVE_NOW` | `LEGAL_REVIEW_REQUIRED` | Self-service portable JSON data export architecture. |
 | **Law Enforcement Policy** | `AROH-PRIVACY-LEGALREQ-V1.0` | `1.0.0` | 2026-09-11 | `ACTIVE_NOW` | `LEGAL_REVIEW_REQUIRED` | Verification protocols for Indian statutory and judicial warrants. |
+| **Purchase & Payment Safety Policy** | `AROH-LEGAL-PURCHASE-SAFETY-V1.0` | `1.0.0` | 2026-09-20 | `ACTIVE_NOW` | `LEGAL_REVIEW_REQUIRED` | Strict 18+ minor payment restriction, dedicated unbundled purchase consent, authoritative ledger, and refund rules. |

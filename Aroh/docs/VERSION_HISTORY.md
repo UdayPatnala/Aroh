@@ -4,24 +4,168 @@
 
 ---
 
-## 1. Quick Navigation Index
+## 1. Quick Navigation Index (Authoritative Format: `A.BC.DE.F`)
 
-| Version | Date | Type | Quick Summary | Git Tag | Commit |
-|---|---|:---:|---|:---:|:---:|
-| Version | Date | Type | Quick Summary | Git Tag | Commit |
-|---|---|:---:|---|:---:|:---:|
-| **v2.3.0** | 2026-09-19 | `MINOR` | **Wave 2 Milestone 3.1: Developer API Key Vault**: Implemented cryptographic HMAC-SHA256 API key generation, zero-plaintext storage (SHA-256 hash only), rate limit tier gating (Basic 60 rpm, Pro 300 rpm, Enterprise 1200 rpm), Next.js API routes (`/api/developer/keys`), and dashboard key vault UI (`/dashboard/keys`). Expanded test coverage with 10 new Vitest assertions; 33/33 routes compiled. | `v2.3.0` | [`HEAD`](file:///d:/PROJECT/AROH%20Open%20Source) |
-| **v2.2.0** | 2026-09-11 | `MINOR` | **SEO, AI Discoverability, Structured Data, Production Foundation & Execution History Protocol**: Established permanent Execution History ledger (`docs/EXECUTION_HISTORY.md`), created `/llms.txt` and `/llms-full.txt`, added Schema.org JSON-LD structured data, strengthened root & page metadata across all routes, expanded sitemap to 25 canonical routes, hardened robots.txt crawler directives, implemented custom 404 (`not-found.tsx`) and error boundary (`error.tsx`), and expanded test suite to 423 passing assertions. | `v2.2.0` | [`e752edb`](file:///d:/PROJECT/AROH%20Open%20Source) |
-| **v2.1.0** | 2026-09-11 | `MINOR` | **AROH Privacy, Consent, Legal Terms, Cookies & DPDP Compliance**: Implemented full privacy & compliance architecture under DPDP Act 2023 & DPDP Rules 2025. Codified 20 master legal/privacy documents, 4 machine-readable registers, ASDK consent & rights engine, universal cookie banner & footer, 10 public routes, 5 API routes, and expanded test suite to 367 passing assertions. | `v2.1.0` | [`9d4dc71`](file:///d:/PROJECT/AROH%20Open%20Source) |
+| Canonical Version | Legacy Tag | Date | Change Level | Quick Summary | Commit |
+|:---:|:---:|---|:---:|---|:---:|
+| **`2.03.06.0`** | `v2.3.6` | 2026-09-20 | `FUNCTIONAL` (`DE`) | **Aros Age, Consent, Purchase Safety & Compliance Hardening**: Enforced mandatory `NO_MINOR_PAYMENT_FOR_AROS = TRUE` policy server-side, dedicated affirmative consent, provider-agnostic payment abstraction, authoritative append-only ledger settlement, statutory registers (`PAYMENT_DATA_PROCESSING_REGISTER.json`), and comprehensive 15-test purchase safety suite. | [`HEAD`](file:///d:/PROJECT/AROH%20Open%20Source) |
+| **`2.03.05.0`** | `v2.3.5` | 2026-09-19 | `FUNCTIONAL` (`DE`) | **Wave 2 Milestone 3.5: Real-Time Telemetry Broker & Registry Modernization**: Implemented circular event ring buffer (500 events), SSE metrics stream route (`/api/telemetry/stream`), Admin Dashboard Telemetry Panel, and canonical product registry URL synchronization for JavaPath Pro, OmniStream, and Music Mirror. | [`HEAD`](file:///d:/PROJECT/AROH%20Open%20Source) |
+| **`2.03.04.0`** | `v2.3.4` | 2026-09-19 | `FUNCTIONAL` (`DE`) | **Wave 2 Milestone 3.4: W3C Distributed Tracing**: Implemented Web Crypto API-based W3C Trace Context engine (`traceparent` format `00-{traceId}-{spanId}-{flags}`) in `@aroh/asdk`, integrated Next.js Proxy Middleware propagating trace context on ingress/egress, and verified with 11 automated Vitest assertions. | [`HEAD`](file:///d:/PROJECT/AROH%20Open%20Source) |
+| **`2.03.03.0`** | `v2.3.3` | 2026-09-19 | `FUNCTIONAL` (`DE`) | **Wave 2 Milestone 3.3: Fiat-to-Aros Settlement On-Ramp**: Implemented Stripe Checkout session builder, fixed exchange rate conversion ($1.00 USD = 100 Aros), idempotent settlement engine utilizing immutable ledger transactions, Stripe webhook clearance endpoint, and dashboard purchase interface (`/dashboard/purchase`). | [`HEAD`](file:///d:/PROJECT/AROH%20Open%20Source) |
+| **`2.03.02.0`** | `v2.3.2` | 2026-09-19 | `FUNCTIONAL` (`DE`) | **Wave 2 Milestone 3.2: Asynchronous Webhook Clearance Engine**: Implemented webhook registration schemas and service, cryptographic HMAC-SHA256 event signing (`x-aroh-signature`) with timestamp replay prevention, exponential backoff retry clearance dispatcher ($2^n \times 500\text{ms}$ over 3 attempts), Next.js developer webhook API routes, and 16 automated Vitest assertions. | [`HEAD`](file:///d:/PROJECT/AROH%20Open%20Source) |
+| **`2.03.01.1`** | `v2.3.1` | 2026-09-19 | `PATCH` (`F`) | **Dynamic Version Governance & Unobtrusive UI Display**: Reconstructed pre-v2 history (Phases 0 & 1), established centralized `@aroh/asdk` version governance exports, created Next.js `/api/platform/version` endpoint, mounted unobtrusive floating bottom-right version badge with interactive popover, and eliminated hardcoded version string from platform footer. | [`HEAD`](file:///d:/PROJECT/AROH%20Open%20Source) |
+| **`2.03.01.0`** | `v2.3.0` | 2026-09-19 | `FUNCTIONAL` (`DE`) | **Wave 2 Milestone 3.1: Developer API Key Vault**: Implemented cryptographic HMAC-SHA256 API key generation, zero-plaintext storage (SHA-256 hash only), rate limit tier gating (Basic 60 rpm, Pro 300 rpm, Enterprise 1200 rpm), Next.js API routes (`/api/developer/keys`), and dashboard key vault UI (`/dashboard/keys`). Expanded test coverage with 10 new Vitest assertions; 33/33 routes compiled. | [`97b8557`](file:///d:/PROJECT/AROH%20Open%20Source) |
+| **`2.02.00.0`** | `v2.2.0` | 2026-09-11 | `SUB-VERSION` (`BC`) | **SEO, AI Discoverability, Structured Data, Production Foundation & Execution History Protocol**: Established permanent Execution History ledger (`docs/EXECUTION_HISTORY.md`), created `/llms.txt` and `/llms-full.txt`, added Schema.org JSON-LD structured data, strengthened root & page metadata across all routes, expanded sitemap to 25 canonical routes, hardened robots.txt crawler directives, implemented custom 404 (`not-found.tsx`) and error boundary (`error.tsx`), and expanded test suite to 423 passing assertions. | [`e752edb`](file:///d:/PROJECT/AROH%20Open%20Source) |
+| **`2.01.00.0`** | `v2.1.0` | 2026-09-11 | `SUB-VERSION` (`BC`) | **AROH Privacy, Consent, Legal Terms, Cookies & DPDP Compliance**: Implemented full privacy & compliance architecture under DPDP Act 2023 & DPDP Rules 2025. Codified 20 master legal/privacy documents, 4 machine-readable registers, ASDK consent & rights engine, universal cookie banner & footer, 10 public routes, 5 API routes, and expanded test suite to 367 passing assertions. | [`9d4dc71`](file:///d:/PROJECT/AROH%20Open%20Source) |
 
 ---
 
 ## 2. Version Entries
 
-### v2.3.0
+### 2.03.06.0 (`v2.3.6`)
+- **Date**: 2026-09-20
+- **Change Level**: `FUNCTIONAL` (`DE=06`)
+- **Previous Version**: `2.03.05.0` (`v2.3.5`)
+
+#### Quick Summary
+Delivered **Aros Age, Dedicated Consent, Purchase, Payment & Transaction-Safety Compliance Hardening** under mandatory invariant `NO_MINOR_PAYMENT_FOR_AROS = TRUE`:
+- **Server-Side Minor Payment Blocking**:
+  - Enforced server-side `assertPurchaseEligible` check returning `MINOR_PAYMENT_BLOCKED` before any payment intent, checkout session, or order is generated.
+  - Separate account creation from purchase eligibility; no minor purchasing via parent instrument through minor's account.
+- **Dedicated Unbundled Affirmative Purchase Consent**:
+  - Unbundled consent requirement (`PURCHASE_TERMS_CONFIRMATION`, `VIRTUAL_CURRENCY_DISCLOSURE`) with 0 pre-ticked checkboxes.
+  - Full transparency on non-monetary, non-refundable, non-transferable closed-loop Aros utility.
+- **Provider-Agnostic Payment Abstraction**:
+  - Defined `PaymentProvider` interface with sandbox `MockPaymentProvider` eliminating vendor lock-in.
+  - Zero raw credit card or banking secrets persisted or logged.
+- **Authoritative Append-Only Ledger & Replay Defense**:
+  - Integrated `purchaseSafetyService` with `paymentSettlementService` and `mockWalletService`.
+  - Enforced double-spending protection via composite idempotency key checks (`providerTransactionId`, `purchaseIntentId`).
+- **Statutory Registers & Policy Documentation**:
+  - Created `Aroh/docs/privacy/PAYMENT_DATA_PROCESSING_REGISTER.json`.
+  - Hardened Section 2.1 in `CHILD_AND_MINOR_PRIVACY_POLICY.md` and Section 5 in `TERMS_OF_SERVICE.md`.
+  - Registered items LR-009 to LR-013 in `LEGAL_REVIEW_REGISTER.json`.
+- **Automated Verification**:
+  - 15/15 automated Vitest assertions in `packages/asdk/tests/purchase-safety.test.ts`.
+  - All 11 `@aroh/asdk` suites passing (128 assertions).
+  - DPDP static privacy audit: 117/117 passing.
+  - Next.js 16 production build compiles 41 / 41 routes cleanly.
+
+### 2.03.05.0 (`v2.3.5`)
 - **Date**: 2026-09-19
-- **Type**: `MINOR` (Developer API Key Vault — Milestone 3.1)
-- **Previous Version**: `v2.2.0`
+- **Change Level**: `FUNCTIONAL` (`DE=05`)
+- **Previous Version**: `2.03.04.0` (`v2.3.4`)
+
+#### Quick Summary
+Delivered Phase 3.5 Milestone 3.5 (`WAVE-02-TASK-05: Real-Time Operational Telemetry Broker & Product Registry Modernization`):
+- **Real-Time Operational Telemetry Broker (`packages/asdk/src/telemetry/index.ts`)**:
+  - In-process circular event ring buffer (500 events), 9 canonical event types (`route.hit`, `api_key.used`, `webhook.dispatched`, `payment.settled`, etc.).
+  - Aggregate metrics computation: p50/p95 latency, active/completed user journeys, webhook success/failure rates.
+  - SSE frame serialization and heartbeat generation every 5 seconds.
+- **Server API Route & Admin Dashboard Panel (`apps/web`)**:
+  - `GET /api/telemetry/stream`: Admin/operator-gated Server-Sent Events stream route.
+  - `/admin`: Interactive live telemetry dashboard with 8 metric cards and live event stream.
+- **Canonical Product Registry Synchronization (`packages/asdk/src/registry/products.ts`)**:
+  - Modernized registry statuses; verified live URLs for JavaPath Pro, OmniStream, and Music Mirror.
+- **Automated Verification**:
+  - 14 Vitest assertions in `packages/asdk/tests/telemetry.test.ts` (100% pass).
+  - 7 Vitest assertions in `packages/asdk/tests/product-registry.test.ts` (100% pass).
+  - Next.js 16 production build compiles 39 / 39 routes cleanly.
+
+### 2.03.04.0 (`v2.3.4`)
+- **Date**: 2026-09-19
+- **Change Level**: `FUNCTIONAL` (`DE=04`)
+- **Previous Version**: `2.03.03.0` (`v2.3.3`)
+
+#### Quick Summary
+Delivered Phase 3.5 Milestone 3.4 (`WAVE-02-TASK-04: W3C Distributed Tracing`):
+- **W3C Distributed Tracing Utilities (`packages/asdk/src/tracing/index.ts`)**:
+  - Implemented `generateTraceId()`, `generateSpanId()`, `isValidTraceparent()`, `parseTraceparent()`, `formatTraceparent()`, `extractOrCreateTraceContext()`.
+  - Built strictly on Web Crypto API (`crypto.getRandomValues`) for universal runtime compatibility (Edge, Node.js, Browser).
+  - Enforced W3C specification: version `00`, 32-hex trace ID (non-zero), 16-hex span ID (non-zero), 2-hex flags.
+- **Next.js Edge Proxy Middleware (`apps/web/middleware.ts`)**:
+  - Intercepts all incoming HTTP requests to `/api/*` and downstream pages.
+  - Validates inbound `traceparent` headers or generates new trace contexts upon ingress.
+  - Propagates `traceparent` and `x-trace-id` down to request headers and reflects them into outgoing HTTP response headers.
+- **Automated Verification**:
+  - 11 Vitest assertions in `packages/asdk/tests/tracing.test.ts` (100% pass).
+  - Next.js production build: 38/38 routes + Proxy Middleware compiled cleanly with 0 Edge runtime warnings.
+
+### 2.03.03.0 (`v2.3.3`)
+- **Date**: 2026-09-19
+- **Change Level**: `FUNCTIONAL` (`DE=03`)
+- **Previous Version**: `2.03.02.0` (`v2.3.2`)
+
+#### Quick Summary
+Delivered Phase 3.0 Milestone 3.3 (`WAVE-02-TASK-03: Fiat-to-Aros Settlement On-Ramp`):
+- **Zod Schemas & Pricing Catalog (`packages/asdk/src/schemas/payment.ts`)**:
+  - Codified canonical tier packages: `pkg_500` (500 Aros / $5.00), `pkg_1500` (1500 Aros / $15.00), `pkg_5000` (5000 Aros / $50.00).
+  - Fixed conversion math: **$1.00 USD = 100 Aros** (1 cent = 1 Aros).
+  - Defined `CreateCheckoutSessionRequestSchema` and `CheckoutSessionRecordSchema`.
+- **Settlement Service & ADR-004 Financial Authority (`packages/asdk/src/services/payment.ts`)**:
+  - Implemented `PaymentSettlementService` with strict charge ID & session ID idempotency deduplication.
+  - Exclusively executes immutable wallet ledger credits via `mockWalletService.creditWallet` (0 direct balance overwrites).
+  - Integrated hermetic mock sandbox fallback for zero-network CI test reliability.
+- **Server API Routes & Dashboard Route (`apps/web`)**:
+  - `POST /api/payment/checkout`: Creates checkout session with custom redirects.
+  - `POST /api/payment/webhook`: Ingests and clears Stripe settlement events (`checkout.session.completed`).
+  - `GET /dashboard/purchase`: Dedicated purchase route with live Aros balance, package selector cards, instant settlement sandbox, and transaction feedback.
+- **Automated Verification**:
+  - 9 automated Vitest assertions in `packages/asdk/tests/payment.test.ts` (100% pass).
+  - All 12 monorepo test suites passing (464+ assertions).
+  - Next.js 16 production build compiles 38 / 38 routes cleanly with Turbopack.
+
+### 2.03.02.0 (`v2.3.2`)
+- **Date**: 2026-09-19
+- **Change Level**: `FUNCTIONAL` (`DE=02`)
+- **Previous Version**: `2.03.01.1` (`v2.3.1`)
+
+#### Quick Summary
+Delivered Phase 3.0 Milestone 3.2 (`WAVE-02-TASK-02: Asynchronous Webhook Clearance Engine`):
+- **Zod Schemas (`packages/asdk/src/schemas/webhook.ts`)**:
+  - Enforced 4 canonical event types: `aros.credited`, `aros.debited`, `membership.upgraded`, `challenge.completed`.
+  - Defined strict registration, endpoint record, event payload, and delivery attempt schemas.
+- **Webhook Clearance Service (`packages/asdk/src/services/webhook.ts`)**:
+  - Secure signing secret generation (`whsec_` prefix) with SHA-256 hash-only storage (zero plaintext).
+  - Cryptographic HMAC-SHA256 signature signing and constant-time verification (`x-aroh-signature: t={ts},v1={sig}`) with 300-second replay attack protection window.
+  - Dispatcher with exponential backoff retry: $2^n \times 500\text{ms}$ over 3 attempts, failure logging, and automatic transition to `failing` status after 3 consecutive failures.
+- **Server API Routes (`apps/web/app/api/developer/webhooks/`)**:
+  - `GET /api/developer/webhooks`: Lists registered endpoints for authenticated user.
+  - `POST /api/developer/webhooks`: Zod-validated endpoint creation returning one-time secret.
+  - `GET /api/developer/webhooks/[webhookId]`: Retrieves endpoint details and delivery logs.
+  - `DELETE /api/developer/webhooks/[webhookId]`: Deletes endpoint.
+- **Automated Verification**:
+  - 16 new automated Vitest unit tests in `packages/asdk/tests/webhook.test.ts` (100% pass).
+  - All 12 monorepo test suites passing (455+ assertions).
+  - Next.js 16 production build compiles 35 / 35 routes cleanly.
+
+### 2.03.01.1 (`v2.3.1`)
+- **Date**: 2026-09-19
+- **Change Level**: `PATCH` (`F=1`)
+- **Previous Version**: `2.03.01.0` (`v2.3.0`)
+
+#### Quick Summary
+Implemented **Dynamic Version Governance & Unobtrusive UI Display** under the Universal Version Controller mandate:
+- **ASDK Version Governance Exports (`packages/asdk/src/version/index.ts`)**:
+  - Exported authoritative `PLATFORM_VERSION = "2.03.01.1"`, status `VERIFIED`, release name, and commit hash.
+  - Implemented `isValidVersionFormat` and `parseVersion` enforcing strict `A.BC.DE.F` tier structure.
+  - Added 6 automated Vitest assertions verifying version format compliance and tier parsing.
+- **Dynamic Next.js API Route (`apps/web/app/api/platform/version/route.ts`)**:
+  - Exposes `/api/platform/version` with caching headers (`public, s-maxage=3600`) and metadata linking to Version Controller.
+  - Updated `/api/health` to dynamically return authoritative platform version.
+- **Unobtrusive Floating Version Badge (`apps/web/app/components/version-badge.tsx`)**:
+  - Floating pill mounted at bottom-right corner (`fixed bottom-4 right-4 z-40`), styled cleanly with `@aroh/ads` frosted glass aesthetic.
+  - Interactive popup displaying version status, release milestone, tier breakdown, build date, commit baseline, copy-to-clipboard action, and link to governance documentation.
+  - Accessible with ARIA attributes and keyboard Escape dismissal.
+- **Footer De-hardcoding (`apps/web/app/components/footer.tsx`)**:
+  - Replaced legacy hardcoded string `"v2.1.0-dpdp"` with dynamic `v${PLATFORM_VERSION}`.
+- **Historical Reconstruction in `VERSION_CONTROLLER.md`**:
+  - Formally appended pre-v2 foundation phases (`1.00.00.0` Phase 0, `1.05.00.0` Phase 1 MVP) into authoritative root ledger.
+
+### 2.03.01.0 (`v2.3.0`)
+- **Date**: 2026-09-19
+- **Change Level**: `FUNCTIONAL` (`DE=01`)
+- **Previous Version**: `2.02.00.0` (`v2.2.0`)
 
 #### Quick Summary
 Initiated Wave 2 (`Phase 3.0: Developer Portal & External Service Federation`) by delivering Milestone 3.1 (`WAVE-02-TASK-01: Developer API Key Vault`):

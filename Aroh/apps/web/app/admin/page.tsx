@@ -3,10 +3,11 @@
 import * as React from "react";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
-import { usePlatformStore, mockWalletService, formatArosBalance } from "@aroh/asdk";
+import { usePlatformStore, mockWalletService } from "@aroh/asdk";
 import { Button } from "@aroh/ads";
 import NotificationCenter from "../components/notification-center";
 import ArohLogo from "../components/aroh-logo";
+import type { TelemetryMetricsSnapshot, TelemetryEvent } from "@aroh/asdk/src/telemetry";
 
 // Dynamically import AdminCharts to prevent SSR conflicts (Next.js client-only mounting)
 const AdminCharts = dynamic(() => import("../components/admin-charts"), {
@@ -19,6 +20,178 @@ const AdminCharts = dynamic(() => import("../components/admin-charts"), {
     </div>
   ),
 });
+
+// ─── Telemetry Panel ─────────────────────────────────────────────────────────
+
+function TelemetryPanel() {
+  const [snapshot, setSnapshot] = React.useState<TelemetryMetricsSnapshot | null>(null);
+  const [connected, setConnected] = React.useState(false);
+  const [recentEvents, setRecentEvents] = React.useState<TelemetryEvent[]>([]);
+
+  React.useEffect(() => {
+    // Connect to SSE stream with demo mode enabled (admin page is already role-gated)
+    const eventSource = new EventSource("/api/telemetry/stream?demo=1");
+
+    eventSource.addEventListener("heartbeat", () => {
+      setConnected(true);
+    });
+
+    eventSource.addEventListener("snapshot", (e) => {
+      try {
+        const snap: TelemetryMetricsSnapshot = JSON.parse(e.data);
+        setSnapshot(snap);
+        setRecentEvents(snap.recentEvents ?? []);
+        setConnected(true);
+      } catch {
+        // Malformed frame — ignore
+      }
+    });
+
+    eventSource.onerror = () => {
+      setConnected(false);
+    };
+
+    return () => {
+      eventSource.close();
+    };
+  }, []);
+
+  const metricCard = (label: string, value: string | number | null, accent: string) => (
+    <div className={`bg-white border ${accent} rounded-2xl p-5 space-y-1 shadow-sm`}>
+      <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">{label}</p>
+      <p className="text-2xl font-extrabold text-slate-900 font-mono">
+        {value === null ? "—" : value}
+      </p>
+    </div>
+  );
+
+  const eventTypeBadge = (type: string) => {
+    const colours: Record<string, string> = {
+      "settlement.completed": "bg-emerald-50 text-emerald-700 border-emerald-200",
+      "settlement.latency": "bg-blue-50 text-blue-700 border-blue-200",
+      "webhook.dispatched": "bg-violet-50 text-violet-700 border-violet-200",
+      "webhook.failed": "bg-rose-50 text-rose-700 border-rose-200",
+      "journey.started": "bg-amber-50 text-amber-700 border-amber-200",
+      "journey.completed": "bg-teal-50 text-teal-700 border-teal-200",
+      "api_key.created": "bg-indigo-50 text-indigo-700 border-indigo-200",
+      "heartbeat": "bg-slate-50 text-slate-500 border-slate-200",
+    };
+    const cls = colours[type] ?? "bg-slate-50 text-slate-500 border-slate-200";
+    return (
+      <span className={`px-2 py-0.5 rounded text-[9px] uppercase font-extrabold border ${cls}`}>
+        {type}
+      </span>
+    );
+  };
+
+  return (
+    <div className="bg-white border border-black/5 rounded-3xl p-6 space-y-6 shadow-sm">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-xl font-bold tracking-tight text-slate-900">
+            Real-Time Telemetry Stream
+          </h2>
+          <p className="text-xs text-slate-500 mt-0.5">
+            SSE operational metrics broker — settlement latency, journeys, webhooks
+          </p>
+        </div>
+        <span
+          className={`flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider px-3 py-1.5 rounded-full border ${
+            connected
+              ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+              : "bg-rose-50 text-rose-600 border-rose-200"
+          }`}
+        >
+          <span
+            className={`w-1.5 h-1.5 rounded-full ${connected ? "bg-emerald-500 animate-pulse" : "bg-rose-400"}`}
+          />
+          {connected ? "Live" : "Connecting…"}
+        </span>
+      </div>
+
+      {/* Metric Cards */}
+      {snapshot ? (
+        <>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            {metricCard("Settlements", snapshot.settlementCount, "border-emerald-200/60")}
+            {metricCard(
+              "p50 Latency",
+              snapshot.settlementLatencyP50Ms !== null ? `${snapshot.settlementLatencyP50Ms}ms` : null,
+              "border-blue-200/60"
+            )}
+            {metricCard(
+              "p95 Latency",
+              snapshot.settlementLatencyP95Ms !== null ? `${snapshot.settlementLatencyP95Ms}ms` : null,
+              "border-blue-200/60"
+            )}
+            {metricCard("Active Journeys", snapshot.activeJourneys, "border-amber-200/60")}
+          </div>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            {metricCard("Completed Journeys", snapshot.completedJourneys, "border-teal-200/60")}
+            {metricCard("Webhook Success", snapshot.webhookSuccessCount, "border-violet-200/60")}
+            {metricCard("Webhook Failures", snapshot.webhookFailureCount, "border-rose-200/60")}
+            {metricCard("Keys Issued", snapshot.apiKeyCreatedCount, "border-indigo-200/60")}
+          </div>
+
+          {/* Recent Events Feed */}
+          {recentEvents.length > 0 && (
+            <div>
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-3">
+                Recent Telemetry Events
+              </p>
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs text-slate-700">
+                  <thead>
+                    <tr className="border-b border-black/5 text-slate-400 text-[10px] uppercase tracking-wider font-semibold">
+                      <th className="pb-2">Event</th>
+                      <th className="pb-2">Trace ID</th>
+                      <th className="pb-2">Details</th>
+                      <th className="pb-2 text-right">Time</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-black/5 font-mono">
+                    {recentEvents.map((ev) => (
+                      <tr key={ev.id} className="hover:bg-slate-50 transition-colors">
+                        <td className="py-2">{eventTypeBadge(ev.type)}</td>
+                        <td className="py-2 text-slate-400 text-[10px]">
+                          {ev.traceparent.split("-")[1]?.slice(0, 8) ?? "—"}…
+                        </td>
+                        <td className="py-2 text-slate-600 font-sans text-[11px]">
+                          {ev.payload.note ??
+                            ev.payload.journeyPath ??
+                            ev.payload.webhookEventType ??
+                            (ev.payload.latencyMs !== undefined ? `${ev.payload.latencyMs}ms` : "—")}
+                        </td>
+                        <td className="py-2 text-right text-slate-400 text-[10px]">
+                          {new Date(ev.timestamp).toLocaleTimeString()}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {recentEvents.length === 0 && (
+            <p className="text-center text-slate-400 text-xs py-4 font-mono">
+              No telemetry events yet. Events populate as the platform processes operations.
+            </p>
+          )}
+        </>
+      ) : (
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div key={i} className="h-20 bg-slate-100 rounded-2xl animate-pulse" />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 
 export default function AdminPage() {
   const router = useRouter();
@@ -116,6 +289,9 @@ export default function AdminPage() {
 
         {/* Live Ecosystem Metrics */}
         <AdminCharts />
+
+        {/* Real-Time Telemetry Broker Panel — Wave 2 Milestone 3.5 */}
+        <TelemetryPanel />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Issue Credit Form */}

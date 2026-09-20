@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { PLATFORM_VERSION } from "@aroh/asdk";
 import ArohLogo from "./aroh-logo";
 
 export default function PlatformFooter() {
@@ -147,7 +148,7 @@ export default function PlatformFooter() {
           <div className="flex items-center gap-4 text-[11px] text-slate-400">
             <span>Republic of India</span>
             <span>•</span>
-            <span className="font-mono">v2.1.0-dpdp</span>
+            <span className="font-mono">v{PLATFORM_VERSION}</span>
           </div>
         </div>
       </div>

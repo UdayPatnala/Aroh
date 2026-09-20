@@ -118,6 +118,16 @@ if (fs.existsSync(legalReviewRegisterPath)) {
   assert(data.items.length >= 5, `Legal Review Register tracks ${data.items.length} legal review items (>=5 expected)`);
 }
 
+const paymentRegisterPath = path.join(privacyDocsDir, "PAYMENT_DATA_PROCESSING_REGISTER.json");
+assert(fs.existsSync(paymentRegisterPath), "PAYMENT_DATA_PROCESSING_REGISTER.json exists");
+if (fs.existsSync(paymentRegisterPath)) {
+  const data = JSON.parse(fs.readFileSync(paymentRegisterPath, "utf-8"));
+  assert(Array.isArray(data.entries), "Payment Data Processing Register contains 'entries' array");
+  assert(data.entries.length >= 5, `Payment Register contains ${data.entries.length} payment data categories (>=5 expected)`);
+  const sample = data.entries[0];
+  assert(sample.data_id && sample.category && sample.purpose && sample.legal_basis, "Payment Register entry contains mandatory DPDP fields");
+}
+
 // 3. Audit Products/ Boundary
 console.log("\n--- Test 3: Products/ Directory Inviolability ---");
 const productsDir = path.resolve(rootDir, "..", "Products");

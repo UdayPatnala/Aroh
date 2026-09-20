@@ -49,6 +49,9 @@ By accessing, browsing, registering an account, or interacting with the Platform
 1. **Closed-Loop Utility Points:** "Aros" tokens are non-monetary, closed-loop in-platform utility reward points engineered for membership tier unlocks, platform feature access, and developer simulation.
 2. **No Fiat Redemption or Transferability:** Aros tokens have **zero cash value**, cannot be redeemed for fiat currency, cannot be traded on secondary markets, cannot be transferred peer-to-peer between users, and do not constitute legal tender, stored value, or prepaid payment instruments (PPIs) under Reserve Bank of India regulations.
 3. **Balance Adjustments:** AROH reserves the right to modify, recalculate, or revoke unearned or fraudulently acquired Aros tokens in the event of software vulnerabilities, exploits, or violations of these Terms.
+4. **Minor Payment Restriction & Eligibility:** In accordance with our safety policy, AROH does not permit accounts belonging to persons under 18 to initiate purchases of Aros. Minors are strictly prohibited from attempting to purchase Aros, creating checkout sessions, or utilizing a parent or guardian's payment instrument through their account.
+5. **Purchase Finality & Refunds:** All purchases of Aros tokens represent acquisitions of non-refundable digital utility credits upon consumption. Unconsumed credits resulting from unauthorized charges, billing errors, or technical fulfillment failures are subject to our verified administrative refund workflow.
+6. **Authoritative Ledger:** The append-only AROH Aros ledger is the authoritative source of truth for all token balances and transactions. Front-end balance displays are non-authoritative representations.
 
 ---
 

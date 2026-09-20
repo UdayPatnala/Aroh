@@ -30,10 +30,10 @@
 | # | Task ID | Title | Phase | Status | Completion SHA | Validation | Products/ | Remote Parity |
 |---|---|---|:---:|:---:|:---:|:---:|:---:|:---:|
 | 1 | `WAVE-02-TASK-01` | Developer API Key Vault — Schema, Service & Dashboard Route | 3.0 / M3.1 | `COMPLETED_VERIFIED` | `v2.3.0` | `10/10 PASS, 33 routes` | `0 WRITES (INVIOLATE)` | `VERIFIED` |
-| 2 | `WAVE-02-TASK-02` | Asynchronous Webhook Clearance Engine | 3.0 / M3.2 | `READY_FOR_EXECUTION` | `PENDING` | `NOT_RUN` | `NOT_VERIFIED` | `NOT_VERIFIED` |
-| 3 | `WAVE-02-TASK-03` | Fiat-to-Aros Settlement On-Ramp (Stripe Checkout) | 3.0 / M3.3 | `NOT_STARTED` | `PENDING` | `NOT_RUN` | `NOT_VERIFIED` | `NOT_VERIFIED` |
-| 4 | `WAVE-02-TASK-04` | W3C Distributed Tracing — `traceparent` Propagation | 3.5 / M3.4 | `NOT_STARTED` | `PENDING` | `NOT_RUN` | `NOT_VERIFIED` | `NOT_VERIFIED` |
-| 5 | `WAVE-02-TASK-05` | Real-Time Operational Telemetry Broker (WebSocket Metrics) | 3.5 / M3.5 | `NOT_STARTED` | `PENDING` | `NOT_RUN` | `NOT_VERIFIED` | `NOT_VERIFIED` |
+| 2 | `WAVE-02-TASK-02` | Asynchronous Webhook Clearance Engine | 3.0 / M3.2 | `COMPLETED_VERIFIED` | `v2.03.02.0` | `16/16 PASS, 35 routes` | `0 WRITES (INVIOLATE)` | `VERIFIED` |
+| 3 | `WAVE-02-TASK-03` | Fiat-to-Aros Settlement On-Ramp (Stripe Checkout) | 3.0 / M3.3 | `COMPLETED_VERIFIED` | `v2.03.03.0` | `9/9 PASS, 38 routes` | `0 WRITES (INVIOLATE)` | `VERIFIED` |
+| 4 | `WAVE-02-TASK-04` | W3C Distributed Tracing — `traceparent` Propagation | 3.5 / M3.4 | `COMPLETED_VERIFIED` | `v2.03.04.0` | `11/11 PASS, 38 routes` | `0 WRITES (INVIOLATE)` | `VERIFIED` |
+| 5 | `WAVE-02-TASK-05` | Real-Time Operational Telemetry Broker (WebSocket Metrics) | 3.5 / M3.5 | `COMPLETED_VERIFIED` | `v2.03.05.0` | `14/14 PASS, 39 routes` | `0 WRITES (INVIOLATE)` | `VERIFIED` |
 
 ---
 
@@ -151,10 +151,10 @@ WAVE-02-TASK-01 (API Key Vault)
 ## 6. Completion Summary
 
 - **Total Approved Tasks**: 5
-- **Completed**: 0
+- **Completed**: 5
 - **Blocked**: 0
 - **Requires Review**: 0
-- **Not Started**: 5
+- **Not Started**: 0
 
 ---
 
