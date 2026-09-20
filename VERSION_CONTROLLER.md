@@ -28,7 +28,7 @@ VERIFIED
 | 2.03.03.0 | 2.03.02.0 | FUNCTIONAL | HEAD | Implemented Phase 3.0 Milestone 3.3 Fiat-to-Aros Settlement On-Ramp schemas, service, immutable ledger crediting, and purchase dashboard |
 | 2.03.04.0 | 2.03.03.0 | FUNCTIONAL | HEAD | Implemented Phase 3.5 Milestone 3.4 W3C Distributed Tracing utility in ASDK and Next.js traceparent proxy middleware |
 | 2.03.05.0 | 2.03.04.0 | FUNCTIONAL | HEAD | Implemented Phase 3.5 Milestone 3.5 Real-Time Operational Telemetry Broker (SSE metrics stream) & Product Registry verification |
-| 2.03.06.0 | 2.03.05.0 | FUNCTIONAL | HEAD | Hardened Aros Age, Dedicated Unbundled Consent, Purchase Safety, Server Minor Blocking, Payment Provider Abstraction & Statutory Registers |
+| 2.03.06.0 | 2.03.05.0 | FUNCTIONAL | 629fb18 | Hardened Aros Age, Dedicated Unbundled Consent, Purchase Safety, Server Minor Blocking, Payment Provider Abstraction & Statutory Registers |
 
 ## In-Development / Unreleased
 
