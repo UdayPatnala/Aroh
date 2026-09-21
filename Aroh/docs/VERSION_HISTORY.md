@@ -8,6 +8,7 @@
 
 | Canonical Version | Legacy Tag | Date | Change Level | Quick Summary | Commit |
 |:---:|:---:|---|:---:|---|:---:|
+| **`2.04.00.0`** | `v2.4.0` | 2026-09-21 | `SUB-VERSION` (`BC`) | **Phase 4 Mobile Expansion: Unified Cross-Platform Shell & React Native Ecosystem Client**: Initialized `@aroh/mobile` client shell (`apps/mobile`), universal storage engine (`IPlatformStorage`), deterministic `aroh://` deep linking router, mobile device biometric security attestation, and proximity test suites. | [`HEAD`](file:///d:/PROJECT/AROH%20Open%20Source) |
 | **`2.03.08.0`** | `v2.3.8` | 2026-09-20 | `FUNCTIONAL` (`DE`) | **Universal Modular Architecture & Change-Isolation Governance System**: Established authoritative `ARCHITECTURE.md` at repository root implementing 76-rule modular architecture and change-isolation governance. Mapped 9 platform domains, 44 routes, and single sources of truth, enforcing change radius protocol (`DIRECT`, `RELATED`, `DEPENDENT`, `SHARED`, `UNRELATED`). | [`HEAD`](file:///d:/PROJECT/AROH%20Open%20Source) |
 | **`2.03.07.0`** | `v2.3.7` | 2026-09-20 | `FUNCTIONAL` (`DE`) | **Ecosystem Polish, Cryptographic Receipts, Grievance/Dispute Redressal & Interactive Developer API Explorer**: Implemented user-facing dispute submission & grievance redressal interface, cryptographic transaction receipts modal & retrieval endpoint, and an interactive Developer API Explorer in Developer Tools dashboard. | [`d37e3e2`](file:///d:/PROJECT/AROH%20Open%20Source) |
 | **`2.03.06.0`** | `v2.3.6` | 2026-09-20 | `FUNCTIONAL` (`DE`) | **Aros Age, Consent, Purchase Safety & Compliance Hardening**: Enforced mandatory `NO_MINOR_PAYMENT_FOR_AROS = TRUE` policy server-side, dedicated affirmative consent, provider-agnostic payment abstraction, authoritative append-only ledger settlement, statutory registers (`PAYMENT_DATA_PROCESSING_REGISTER.json`), and comprehensive 15-test purchase safety suite. | [`629fb18`](file:///d:/PROJECT/AROH%20Open%20Source) |
@@ -23,6 +24,27 @@
 ---
 
 ## 2. Version Entries
+
+### 2.04.00.0 (`v2.4.0`)
+- **Date**: 2026-09-21
+- **Change Level**: `SUB-VERSION` (`BC=04`, `DE=00`, `F=0`)
+- **Previous Version**: `2.03.08.0` (`v2.3.8`)
+
+#### Quick Summary
+Delivered **Phase 4 Mobile Expansion: Unified Cross-Platform Shell & React Native Ecosystem Client**:
+- **Cross-Platform Mobile Shell (`Aroh/apps/mobile`, `@aroh/mobile`)**:
+  - Implemented mobile client shell with tab-based navigation across 5 core views: Explore (Product showcase), Wallet (Aros ledger & minor safety badge), AI Hub (Multi-provider inference console), Dev Keys (API key vault & telemetry), and Privacy (DPDP Act 2023 statutory rights & consent).
+  - Expo / React Native configuration (`app.json`, `package.json`, `tsconfig.json`).
+- **Universal Storage Engine (`@aroh/asdk/src/storage/index.ts`)**:
+  - Defined `IPlatformStorage` interface supporting Web `window.localStorage`, Node/SSR/Vitest in-memory storage, and React Native / Expo asynchronous secure drivers (`MobileStorageAdapter`).
+  - Swapped hardcoded `window.localStorage` in `usePlatformStore` with universal storage engine.
+- **Deterministic Deep Link Engine (`@aroh/asdk/src/mobile/index.ts`)**:
+  - Implemented `parseArohDeepLink` handling `aroh://` scheme routes (`aroh://wallet`, `aroh://receipt/:id`, `aroh://explore/:spokeId`, `aroh://privacy`).
+  - Implemented mobile device biometric and security attestation state machine (`evaluateDeviceSecurity`).
+- **Automated QA & Proximity Tests**:
+  - `storage.test.ts` (4 assertions PASS) & `mobile.test.ts` (9 assertions PASS).
+  - Full `@aroh/asdk` suite passing: 143 / 143 tests across 14 test files.
+  - Next.js production build compiling 44 routes + middleware proxy with zero errors.
 
 ### 2.03.08.0 (`v2.3.8`)
 - **Date**: 2026-09-20

@@ -2,10 +2,10 @@
 
 > **Authoritative System Record**: This document is the **single source of truth for project knowledge** across the **AROH Open Source Platform & Application Ecosystem**. It embodies the accumulated project intent, architecture, implementation reality, operational history, security guardrails, statutory compliance registers, and future roadmap.
 > 
-> **Current Platform Version**: `2.03.08.0`  
-> **Authoritative Version Format**: `A.BC.DE.F` (Major: 2, Sub-version: 03, Functional: 08, Patch: 0)  
+> **Current Platform Version**: `2.04.00.0`  
+> **Authoritative Version Format**: `A.BC.DE.F` (Major: 2, Sub-version: 04, Functional: 00, Patch: 0)  
 > **Status**: `VERIFIED`  
-> **Latest Git Commit**: `db8cebd` (Synchronized with `main`)  
+> **Latest Git Commit**: `HEAD` (Synchronized with `main`)  
 > **Associated Version Control Ledger**: [`VERSION_CONTROLLER.md`](file:///d:/PROJECT/AROH%20Open%20Source/VERSION_CONTROLLER.md)  
 > **Authoritative Architecture Specification**: [`ARCHITECTURE.md`](file:///d:/PROJECT/AROH%20Open%20Source/ARCHITECTURE.md)
 
@@ -77,7 +77,7 @@ AROH establishes a **Decoupled Hub-and-Spoke Ecosystem**:
   - [x] Synchronized statutory registers (`PAYMENT_DATA_PROCESSING_REGISTER.json`, `LEGAL_REVIEW_REGISTER.json` LR-009 to LR-013).
 
 ### 4.2 Long-Term Goals
-- [ ] Phase 4 Mobile Client (`2.04.00.0`): Cross-platform React Native / Expo shell integrated with `@aroh/asdk`.
+- [x] Phase 4 Mobile Client (`2.04.00.0`): Cross-platform React Native / Expo shell (`@aroh/mobile`), universal storage engine, and deep link router.
 - [ ] Phase 5 Federated Multi-Tenant Enterprise: Cross-organization team wallets, SAML/SCIM SSO, and federated product permissions.
 
 ---
@@ -542,8 +542,12 @@ Cross-checking against the current codebase, git history, and test runners revea
 4. **[DONE]** Expand developer API documentation with interactive OpenAPI/Swagger explorer (`/dashboard/keys`).
 5. **[DONE]** Codify Universal Modular Architecture & Change-Isolation Governance System ([`ARCHITECTURE.md`](file:///d:/PROJECT/AROH%20Open%20Source/ARCHITECTURE.md)).
 
-### Priority 2 (Phase 4 Mobile Expansion)
-6. Initialize Phase 4 (`2.04.00.0`): React Native / Expo shell integrating `@aroh/asdk`.
+### Priority 2 (Phase 4 Mobile Expansion - COMPLETED)
+6. **[DONE]** Initialize Phase 4 (`2.04.00.0`): React Native / Expo shell (`@aroh/mobile`), universal storage engine (`IPlatformStorage`), and deterministic deep link router (`aroh://`).
+
+### Priority 3 (Phase 5 Enterprise & Gateway Activation)
+7. Complete formal corporate entity incorporation and legal signoff for items LR-009 through LR-013.
+8. Initialize Phase 5 (`3.00.00.0`): Federated Multi-Tenant Enterprise, cross-organization team wallets, and SAML/SCIM SSO.
 
 ---
 
@@ -556,8 +560,8 @@ Cross-checking against the current codebase, git history, and test runners revea
 - **Aros Age, Consent, Purchase & Payment Safety Hardening**: COMPLETED (`2.03.06.0`)
 - **Ecosystem Polish, Dispute Redressal & Interactive Developer Tooling**: COMPLETED (`2.03.07.0`)
 - **Universal Modular Architecture & Change-Isolation Governance**: COMPLETED (`2.03.08.0`)
-- **Phase 4 (Cross-Platform Mobile Shell)**: PLANNED (`2.04.00.0`)
-- **Phase 5 (Federated Multi-Tenant Enterprise)**: PROPOSED (`3.00.00.0`)
+- **Phase 4 (Cross-Platform Mobile Shell)**: COMPLETED (`2.04.00.0`)
+- **Phase 5 (Federated Multi-Tenant Enterprise)**: PLANNED (`3.00.00.0`)
 
 ---
 
@@ -568,18 +572,19 @@ Cross-checking against the current codebase, git history, and test runners revea
 3. **Fail-Closed Is Essential for Financial & Minor Safety**: Never assume user eligibility; if age is unknown or under 18, immediately block payment intent creation on the server side.
 4. **Never Overwrite Products from Platform Scripts**: `Products/` must remain an inviolable boundary. Spoke integration must be achieved via adapters and contracts, never file mutation.
 5. **Web Crypto API Over Node Crypto for Edge Middleware**: Next.js Edge Middleware cannot load Node.js built-in modules like `crypto`. All universal runtime utilities must be authored against W3C Web Crypto standards.
+6. **Universal Storage Engines Ensure Platform Independence**: Relying directly on browser `window.localStorage` breaks React Native, SSR, and Node environments. Explicit storage abstractions (`IPlatformStorage`) preserve cross-platform runtime portability.
 
 ---
 
 ## 27. Release & Version Information
 
-- **Current Version**: `2.03.08.0` (`v2.3.8`)
+- **Current Version**: `2.04.00.0` (`v2.4.0`)
 - **Version Tier Breakdown**:
   - Major (`A` = `2`): Master monorepo restructuring & ecosystem decoupling.
-  - Sub-Version (`BC` = `03`): Developer Platform & External Service Federation (Wave 2).
-  - Functional (`DE` = `08`): Universal Modular Architecture & Change-Isolation Governance System.
+  - Sub-Version (`BC` = `04`): Unified Cross-Platform Shell & React Native Ecosystem Client (Phase 4).
+  - Functional (`DE` = `00`): Reset for new sub-version line.
   - Patch (`F` = `0`): Baseline verified release.
-- **Commit**: `db8cebd` (synchronized via `personal/main`)
+- **Commit**: `HEAD` (synchronized via `personal/main`)
 - **Authoritative Version Ledger**: [`VERSION_CONTROLLER.md`](file:///d:/PROJECT/AROH%20Open%20Source/VERSION_CONTROLLER.md)
 - **Authoritative Architecture Specification**: [`ARCHITECTURE.md`](file:///d:/PROJECT/AROH%20Open%20Source/ARCHITECTURE.md)
 

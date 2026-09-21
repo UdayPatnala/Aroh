@@ -15,3 +15,5 @@ export * from "./services/purchase-safety";
 export * from "./tracing/index";
 export * from "./telemetry/index";
 export * from "./version/index";
+export * from "./storage/index";
+export * from "./mobile/index";

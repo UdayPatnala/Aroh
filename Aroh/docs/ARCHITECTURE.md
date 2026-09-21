@@ -1,7 +1,7 @@
 # AROH Platform: Architecture & System Design Specification
 
 > **Status**: Living Architectural Specification  
-> **Platform Version**: `2.03.08.0`  
+> **Platform Version**: `2.04.00.0`  
 > **Governance Authority**: `Universal Modular Architecture & Change-Isolation Governance System`, `GEMINI.md`, `VERSION_CONTROLLER.md`  
 > **Master Architectural Document**: 👉 [`ARCHITECTURE.md`](file:///d:/PROJECT/AROH%20Open%20Source/ARCHITECTURE.md)  
 > **Canonical Root**: `d:\PROJECT\AROH Open Source`  
@@ -105,6 +105,11 @@ Codebase, dependencies, environment, build, runtime, deployment (Vercel/Render).
 - **Location**: `Aroh/packages/ads`
 - **Design Language**: Light-first editorial aesthetic (`#F7F5F0` canvas), subtle borders (`#E5E0D8`), intentional contrast ratios, and complete avoidance of generic "vibe-code" visual noise.
 - **Accessibility**: 100% WCAG 2.1 AA compliant color contrast, visible focus rings, reduced-motion media queries, and semantic DOM structures.
+
+### 4.4 Mobile Client Shell (`@aroh/mobile`)
+- **Location**: `Aroh/apps/mobile`
+- **Framework**: Cross-platform React Native / Expo shell integrated directly with `@aroh/asdk`.
+- **Capabilities**: Tab-based navigation (Explore, Aros Wallet, AI Portal, Developer Keys, DPDP Privacy), universal storage engine, deterministic `aroh://` deep linking, and mobile device security attestation.
 
 ---
 

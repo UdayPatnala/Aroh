@@ -2,16 +2,23 @@ import { create } from "zustand";
 import type { User, Profile, Wallet, Transaction, Announcement, MembershipLevel, AnnouncementCategory } from "../schemas";
 import { mockAuthService, mockWalletService, mockCmsService, isMockEnv, getAuthToken } from "../services/firebase";
 import { signMockToken } from "../services/token";
+import { getPlatformStorage } from "../storage/index";
 
 const saveSessionToStorage = (user: any, profile: any, wallet: any, token: any) => {
-  if (typeof window !== "undefined" && window.localStorage) {
-    window.localStorage.setItem("aroh_session", JSON.stringify({ user, profile, wallet, token }));
+  try {
+    const storage = getPlatformStorage();
+    storage.setItem("aroh_session", JSON.stringify({ user, profile, wallet, token }));
+  } catch (err) {
+    console.warn("[PlatformStore] Failed to save session to storage:", err);
   }
 };
 
 const clearSessionFromStorage = () => {
-  if (typeof window !== "undefined" && window.localStorage) {
-    window.localStorage.removeItem("aroh_session");
+  try {
+    const storage = getPlatformStorage();
+    storage.removeItem("aroh_session");
+  } catch (err) {
+    console.warn("[PlatformStore] Failed to clear session from storage:", err);
   }
 };
 
@@ -377,18 +384,17 @@ export const usePlatformStore = create<PlatformState>((set, get) => ({
   },
 
   rehydrateSession: () => {
-    if (typeof window === "undefined" || !window.localStorage) {
-      set({
-        user: { id: "admin-id", email: "admin@aroh.io", role: "admin", createdAt: new Date().toISOString() },
-        profile: { userId: "admin-id", displayName: "Aroh Director", avatarUrl: "", membershipLevel: "enterprise", updatedAt: new Date().toISOString() },
-        wallet: { userId: "admin-id", balance: 50000, updatedAt: new Date().toISOString() },
-        token: "mock-token-admin",
-        isAuthenticated: true,
-        isRehydrated: true
-      });
-      return;
+    const storage = getPlatformStorage();
+    let sessionStr: string | null = null;
+    try {
+      const raw = storage.getItem("aroh_session");
+      if (typeof raw === "string") {
+        sessionStr = raw;
+      }
+    } catch {
+      sessionStr = null;
     }
-    const sessionStr = window.localStorage.getItem("aroh_session");
+
     if (sessionStr) {
       try {
         const { user, profile, wallet, token } = JSON.parse(sessionStr);
@@ -405,6 +411,7 @@ export const usePlatformStore = create<PlatformState>((set, get) => ({
         console.error("Failed to parse stored session:", e);
       }
     }
+
     // Default workspace session (open access mode)
     const defaultUser = { id: "admin-id", email: "admin@aroh.io", role: "admin" as const, createdAt: new Date().toISOString() };
     const defaultProfile = { userId: "admin-id", displayName: "Aroh Director", avatarUrl: "", membershipLevel: "enterprise" as const, updatedAt: new Date().toISOString() };

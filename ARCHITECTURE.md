@@ -1,7 +1,7 @@
 # AROH Open Source Platform: Universal Modular Architecture & Change-Isolation Governance
 
 > **Authoritative System Architecture & Boundary Specification**  
-> **Platform Version**: `2.03.08.0`  
+> **Platform Version**: `2.04.00.0`  
 > **Governance Authority**: `Universal Modular Architecture & Change-Isolation Governance System`, `GEMINI.md`, `VERSION_CONTROLLER.md`  
 > **Golden Invariant**: *Every page, feature, function, component, workflow, service, API, data model, button, interaction, and system capability must have a clearly identifiable ownership boundary so that modifying one thing does not unnecessarily modify, overwrite, delete, or destabilize unrelated parts of the project.*
 
@@ -24,11 +24,9 @@ The repository adheres to the following explicit tier hierarchy:
 ```text
 d:\PROJECT\AROH Open Source
 │
-├── APP / SHELL (Platform Application & Routing)
-│   └── Aroh/apps/web/
-│       ├── app/ (Next.js App Router: 44 compiled routes)
-│       ├── components/ (Shell navigation, header, footer, structured-data)
-│       └── middleware.ts (W3C traceparent edge proxy middleware)
+├── APP / SHELL (Platform Applications & Routing)
+│   ├── Aroh/apps/web/ (Next.js App Router: 44 compiled routes + edge proxy middleware)
+│   └── Aroh/apps/mobile/ (@aroh/mobile: Cross-Platform React Native / Expo shell)
 │
 ├── DOMAINS (Core Platform Capabilities & Business Logic)
 │   ├── Domain 1: Identity & Authentication (@aroh/asdk/services/firebase.ts, apps/web/app/login)
@@ -37,7 +35,8 @@ d:\PROJECT\AROH Open Source
 │   ├── Domain 4: AI Orchestration (@aroh/asdk/services/ai.ts, apps/web/app/ai)
 │   ├── Domain 5: Product Showcase & Registry (@aroh/asdk/src/registry/products.ts, apps/web/app/explore)
 │   ├── Domain 6: Observability, Tracing & Telemetry (@aroh/asdk/src/tracing, src/telemetry, /api/telemetry/stream)
-│   └── Domain 7: DPDP Privacy, Consent & Statutory Rights (@aroh/asdk/services/privacy.ts, apps/web/app/privacy)
+│   ├── Domain 7: DPDP Privacy, Consent & Statutory Rights (@aroh/asdk/services/privacy.ts, apps/web/app/privacy)
+│   └── Domain 8: Mobile Client & Cross-Platform Shell (apps/mobile, @aroh/asdk/src/mobile, @aroh/asdk/src/storage)
 │
 ├── SHARED (Universal Design Tokens & Visual Primitives)
 │   └── Aroh/packages/ads/ (Outfit typography, WCAG 2.1 AA palette, button/card primitives)
@@ -89,6 +88,9 @@ Every meaningful piece of code, UI element, and endpoint has an assigned owner:
 | Real-Time Observability SSE Stream | Observability | [`packages/asdk/src/telemetry/index.ts`](file:///d:/PROJECT/AROH%20Open%20Source/Aroh/packages/asdk/src/telemetry/index.ts) |
 | DPDP Act 2023 Consent & Rights Machine | Statutory Privacy | [`packages/asdk/src/services/privacy.ts`](file:///d:/PROJECT/AROH%20Open%20Source/Aroh/packages/asdk/src/services/privacy.ts) |
 | Design Tokens & UI Primitives | Design System | [`packages/ads/src/index.tsx`](file:///d:/PROJECT/AROH%20Open%20Source/Aroh/packages/ads/src/index.tsx) |
+| Cross-Platform Mobile Shell | Mobile Client | [`apps/mobile/src/App.tsx`](file:///d:/PROJECT/AROH%20Open%20Source/Aroh/apps/mobile/src/App.tsx) |
+| Deep Link Engine (`aroh://`) | Mobile Client | [`packages/asdk/src/mobile/index.ts`](file:///d:/PROJECT/AROH%20Open%20Source/Aroh/packages/asdk/src/mobile/index.ts) |
+| Universal Storage Engine | Infrastructure | [`packages/asdk/src/storage/index.ts`](file:///d:/PROJECT/AROH%20Open%20Source/Aroh/packages/asdk/src/storage/index.ts) |
 | Media Streaming Spoke Code | OmniStream Spoke | [`Products/OmniStream/`](file:///d:/PROJECT/AROH%20Open%20Source/Products/OmniStream) |
 | Logistics & Campus Fintech Spoke Code | SpeDex Spoke | [`Products/Spedex/`](file:///d:/PROJECT/AROH%20Open%20Source/Products/Spedex) |
 
