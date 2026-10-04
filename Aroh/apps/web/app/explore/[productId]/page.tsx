@@ -7,7 +7,8 @@ import {
   getProductById,
   resolveShowcaseHierarchy,
   type ProductShowcase,
-  type ProductShowcaseRole
+  type ProductShowcaseRole,
+  getAnnouncementsByProduct
 } from "@aroh/asdk";
 import { Button } from "@aroh/ads";
 import ArohLogo from "../../components/aroh-logo";
@@ -180,6 +181,50 @@ function FutureLaunchPanel({ product }: { product: ProductShowcase }) {
           <code className="text-xs text-slate-700 font-mono leading-relaxed">{product.technologySummary}</code>
         </div>
       </div>
+
+      {/* Contextual Announcements */}
+      {(() => {
+        const productAnnouncements = getAnnouncementsByProduct(product.productId);
+        if (productAnnouncements.length === 0) return null;
+        return (
+          <div className="bg-white border border-black/5 rounded-3xl p-8 space-y-4 shadow-sm">
+            <div className="flex justify-between items-center border-b border-black/5 pb-3">
+              <div>
+                <h2 className="text-lg font-bold tracking-tight text-slate-900">Ecosystem Announcements</h2>
+                <p className="text-slate-500 text-xs mt-0.5">Authoritative development bulletins for this product.</p>
+              </div>
+              <a
+                href="/announcements"
+                className="text-xs font-semibold text-sky-600 hover:text-sky-800 transition-colors"
+              >
+                View all updates →
+              </a>
+            </div>
+            <div className="space-y-3">
+              {productAnnouncements.map((ann) => (
+                <div key={ann.id} className="p-4 rounded-xl bg-slate-50 border border-black/5 flex flex-col sm:flex-row justify-between sm:items-center gap-3">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-sky-50 text-sky-700 border border-sky-200">
+                        {ann.status}
+                      </span>
+                      <span className="text-[10px] text-slate-400 font-mono">{ann.publishDate}</span>
+                    </div>
+                    <h4 className="text-sm font-bold text-slate-900">{ann.title}</h4>
+                    <p className="text-xs text-slate-600 leading-relaxed">{ann.shortDescription}</p>
+                  </div>
+                  <a
+                    href={`/announcements#${ann.id}`}
+                    className="shrink-0 px-3 py-1.5 rounded-lg text-xs font-bold bg-white border border-slate-200 text-slate-800 hover:bg-slate-100 transition-colors shadow-sm inline-block text-center"
+                  >
+                    Read Details →
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 }
@@ -415,6 +460,50 @@ function AvailableProductPanel({
           )}
         </div>
       )}
+
+      {/* Contextual Announcements */}
+      {(() => {
+        const productAnnouncements = getAnnouncementsByProduct(product.productId);
+        if (productAnnouncements.length === 0) return null;
+        return (
+          <div className="bg-white border border-black/5 rounded-3xl p-8 space-y-4 shadow-sm">
+            <div className="flex justify-between items-center border-b border-black/5 pb-3">
+              <div>
+                <h2 className="text-lg font-bold tracking-tight text-slate-900">Ecosystem Announcements</h2>
+                <p className="text-slate-500 text-xs mt-0.5">Authoritative development bulletins for this product.</p>
+              </div>
+              <a
+                href="/announcements"
+                className="text-xs font-semibold text-sky-600 hover:text-sky-800 transition-colors"
+              >
+                View all updates →
+              </a>
+            </div>
+            <div className="space-y-3">
+              {productAnnouncements.map((ann) => (
+                <div key={ann.id} className="p-4 rounded-xl bg-slate-50 border border-black/5 flex flex-col sm:flex-row justify-between sm:items-center gap-3">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-sky-50 text-sky-700 border border-sky-200">
+                        {ann.status}
+                      </span>
+                      <span className="text-[10px] text-slate-400 font-mono">{ann.publishDate}</span>
+                    </div>
+                    <h4 className="text-sm font-bold text-slate-900">{ann.title}</h4>
+                    <p className="text-xs text-slate-600 leading-relaxed">{ann.shortDescription}</p>
+                  </div>
+                  <a
+                    href={`/announcements#${ann.id}`}
+                    className="shrink-0 px-3 py-1.5 rounded-lg text-xs font-bold bg-white border border-slate-200 text-slate-800 hover:bg-slate-100 transition-colors shadow-sm inline-block text-center"
+                  >
+                    Read Details →
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Provenance */}
       <div className="bg-slate-50 border border-black/5 rounded-2xl p-6 text-xs text-slate-500 space-y-2">

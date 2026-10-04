@@ -2,8 +2,8 @@
 
 > **Authoritative Product & Architecture Master**: This document is the single, permanent source of truth for product purpose, architecture, modular domain boundaries, change-isolation rules, experience principles, data flow, security/privacy, and technical capabilities across the **AROH Open Source Platform & Application Ecosystem**.
 >
-> **Platform Version**: `2.05.01.0`  
-> **Authoritative Version Format**: `A.BC.DE.F` (Major: 2, Sub-version: 05, Functional: 01, Patch: 0)  
+> **Platform Version**: `2.05.02.0`  
+> **Authoritative Version Format**: `A.BC.DE.F` (Major: 2, Sub-version: 05, Functional: 02, Patch: 0)  
 > **Status**: `VERIFIED`  
 > **Canonical Repository**: [https://github.com/Aroh-Open-Source/AROH](https://github.com/Aroh-Open-Source/AROH) (`main`)  
 > **Personal / Mirror Remote**: [https://github.com/UdayPatnala/Aroh](https://github.com/UdayPatnala/Aroh) (`personal/main`)  
@@ -18,7 +18,7 @@
 - **Project Name**: AROH (Aroh Open Source Platform)
 - **Project Type**: AI-native digital ecosystem platform, monorepo, decentralized application runtime, and developer infrastructure hub.
 - **Creator & Maintainer**: Patnala Uday Kumar / AROH Open Source Contributors.
-- **Core Purpose**: Provide an orchestrated ecosystem layer that unifies independent digital products around a shared design system, an immutable virtual economy (**Aros Token Ledger**), a provider-agnostic artificial intelligence tier, cross-tab single sign-on (SSO) session synchronization, real-time observability telemetry, W3C distributed tracing, and multi-tenant enterprise governance, while strictly preserving the complete code, technology, and repository independence of individual products.
+- **Core Purpose**: Provide an orchestrated ecosystem layer that unifies independent digital products around a shared design system, an immutable virtual economy (**Aros Token Ledger**), a provider-agnostic artificial intelligence tier, cross-tab single sign-on (SSO) session synchronization, real-time observability telemetry, W3C distributed tracing, multi-tenant enterprise governance, and an ecosystem announcements platform, while strictly preserving the complete code, technology, and repository independence of individual products.
 
 ---
 
@@ -44,25 +44,27 @@ AROH establishes a **Decoupled Hub-and-Spoke Ecosystem**:
 - **Product Vision**: A calm, intentional, fast, intelligent, and premium digital ecosystem. AROH feels like a coherent digital world rather than an unorganized directory of links.
 - **Product Philosophy**: Clean editorial aesthetics, visible focus, zero visual noise, transparent privacy disclosures, zero dark patterns, and fail-closed safety for transactions and minor protection.
 - **Technical Philosophy**:
-  - Explicit contracts over implicit conventions.
-  - Strict runtime validation via Zod schemas.
-  - Append-only immutable ledgers for all financial and value movements ($Balance = \sum Credits - \sum Debits$; zero direct balance writes).
-  - Provider-agnostic abstractions for AI, payment gateways, and directory services.
-  - Zero fabrication: every link, status, and capability claimed is backed by verifiable code or live deployments.
-  - Three Realities Reconciliation: Reconciling what was intended, what was built, and what should be done next.
+   - Explicit contracts over implicit conventions.
+   - Strict runtime validation via Zod schemas.
+   - Append-only immutable ledgers for all financial and value movements ($Balance = \sum Credits - \sum Debits$; zero direct balance writes).
+   - Provider-agnostic abstractions for AI, payment gateways, and directory services.
+   - Zero fabrication: every link, status, and capability claimed is backed by verifiable code or live deployments.
+   - Three Realities Reconciliation: Reconciling what was intended, what was built, and what should be done next.
 
 ---
 
 ## 4. Scope & Boundaries
 
 ### In Scope
-- Central Platform Hub application (`Aroh/apps/web`) written in Next.js 16 App Router (43 compiled routes).
+- Central Platform Hub application (`Aroh/apps/web`) written in Next.js 16 App Router (44 compiled routes).
 - Cross-Platform Mobile Shell (`Aroh/apps/mobile`, `@aroh/mobile`) built with React Native / Expo.
-- Core Platform SDK (`Aroh/packages/asdk`) providing auth, ledger, enterprise team wallets, AI, sync, tracing, telemetry, and purchase safety.
+- Core Platform SDK (`Aroh/packages/asdk`) providing auth, ledger, enterprise team wallets, AI, sync, tracing, telemetry, purchase safety, and announcements registry.
 - AROH Design System (`Aroh/packages/ads`) providing design tokens, CSS variables, and motion primitives.
+- Ecosystem Future Developments & Announcements Platform (`/announcements`, homepage stage rail, product roadmap modal).
+- Official Community Suggestion Gateway pointing strictly to verified Instagram (`https://www.instagram.com/aroh.0s/`).
 - Managed Project Manifests (`Aroh/manifests/*.manifest.json`) orchestrating spoke synchronization.
 - Statutory Privacy, Legal, and Compliance Registers (`Aroh/docs/privacy/`, `Aroh/docs/legal/`).
-- Automated QA Test Harnesses across all packages and apps (510+ passing assertions).
+- Automated QA Test Harnesses across all packages and apps (525+ passing assertions).
 
 ### Out of Scope & Inviolable Boundaries
 - **Strict Inviolability of `Products/`**: Under no circumstances may platform tooling, synchronization CLIs, automated agents, or scripts mutate, refactor, format, clean, or delete files inside `Products/` (0 mutations allowed).
@@ -108,7 +110,8 @@ d:\PROJECT\AROH Open Source
 │   ├── Domain 7: DPDP Privacy, Consent & Statutory Rights (@aroh/asdk/services/privacy.ts)
 │   ├── Domain 8: Design System (@aroh/ads)
 │   ├── Domain 9: Autonomous Product Spokes (Products/ — Inviolable)
-│   └── Domain 10: Multi-Tenant Enterprise & Federated Directory (@aroh/asdk/services/team-wallet.ts, saml-scim.ts)
+│   ├── Domain 10: Multi-Tenant Enterprise & Federated Directory (@aroh/asdk/services/team-wallet.ts, saml-scim.ts)
+│   └── Domain 11: Ecosystem Future Developments & Announcements (@aroh/asdk/src/registry/announcements.ts, services/google-play-points.ts)
 │
 ├── INFRASTRUCTURE (Platform SDK & Runtime Adapters)
 │   └── Aroh/packages/asdk/ (Typed schemas, universal storage, double-entry ledger, SSE broker)
@@ -124,10 +127,10 @@ d:\PROJECT\AROH Open Source
 │   └── Aroh/manifests/ (Spoke synchronization manifests)
 │
 └── TESTING (Proximity-Driven Verification Suites)
-    ├── Aroh/packages/asdk/tests/ (16 Vitest suites, 181 assertions)
+    ├── Aroh/packages/asdk/tests/ (17 Vitest suites, 196 assertions)
     ├── Aroh/packages/ads/tests/ (Design system suite, 7 assertions)
     ├── Aroh/apps/mobile/tests/ (Mobile navigation suite, 5 assertions)
-    └── Aroh/scripts/ (Sync CLI, Privacy static audit, SEO audit, Session sync)
+    └── Aroh/scripts/ (Sync CLI, Privacy static audit, SEO audit, Session sync, Visual surface audit)
 ```
 
 ### 6.2 The Three Principles of Modular Isolation
@@ -157,6 +160,7 @@ d:\PROJECT\AROH Open Source
 | **8. Design System** | Outfit typography tokens, WCAG 2.1 AA palette, button, card, modal, badge atoms. | `packages/ads/src/index.tsx` | Global UI components, Tailwind tokens | `packages/ads/tests/ads.test.ts` |
 | **9. Autonomous Spokes** | Independent flagships (OmniStream, SpeDex). Inviolable boundary. | `Products/OmniStream`, `Products/Spedex` | Standalone repositories & submodules | `scripts/test-sync-cli.js` (boundary enforcement) |
 | **10. Enterprise Multi-Tenant** | Team wallets, member monthly spending quotas, role-based debits, SAML 2.0 metadata/assertions, SCIM 2.0 provisioning. | `asdk/services/team-wallet.ts`, `asdk/services/saml-scim.ts`, `asdk/schemas/enterprise.ts` | `/dashboard/organization` | `tests/enterprise.test.ts` |
+| **11. Future Developments & Announcements** | Ecosystem announcement registry, stage rails, contextual product roadmap, verified Instagram community feedback bridge, fail-closed Google Play Points/Billing exploration engine. | `asdk/src/schemas/announcement.ts`, `asdk/src/registry/announcements.ts`, `asdk/src/services/google-play-points.ts` | `/announcements`, `/`, `/explore/[productId]` | `tests/announcements.test.ts` |
 
 ---
 
@@ -255,7 +259,21 @@ Spoke integration uses a **zero-coupling adapter architecture**:
   - `DATA_PROCESSORS.json` (verified cloud processors)
   - `LEGAL_REVIEW_REGISTER.json` (13 statutory review items)
   - `PAYMENT_DATA_PROCESSING_REGISTER.json` (payment data protection)
-- Dedicated public routes and API endpoints for consent withdrawal, data export, account erasure, and Section 13 grievance redressal.
+### 10.5 Ecosystem Future Developments & Announcements Platform
+- **Canonical Model (`EcosystemAnnouncementSchema`)**: Strongly typed announcements across 9 types (`PRODUCT`, `FEATURE`, `ECOSYSTEM`, `AROS`, `AI`, `PLATFORM`, `RELEASE`, `COMMUNITY`, `FUTURE`) and 5 lifecycle states (`CURRENT`, `IN_DEVELOPMENT`, `COMING_SOON`, `FUTURE`, `ARCHIVED`).
+- **Dynamic Discovery Experiences**:
+  - Dedicated Announcements Hub (`/announcements`) with category and status filtering, spotlight cards, and comprehensive modal view.
+  - Homepage Ecosystem Stage Rail (`CURRENT → IN DEVELOPMENT → COMING SOON → FUTURE`).
+  - Contextual Product Detail integration linking roadmap items directly to autonomous product views.
+- **Verified Official Community Feedback Bridge**:
+  - Official Instagram channel strictly defined as `https://www.instagram.com/aroh.0s/`.
+  - Disclosures enforced across UI and metadata: Community ideas and suggestions only. Strictly disclaims use for passwords, credentials, payment disputes, legal notices, or account recovery.
+
+### 10.6 Future-Only Google Play Points & Billing Integration Architecture
+- **Fail-Closed Exploration Status**: Maintained under strict `EXPLORING_FUTURE_INTEGRATION` status. No live conversion rate, redemption flow, checkout UI, or active claims of availability.
+- **System Separation**: Google Play Points / Rewards and Google Play Billing / Balance are architecturally treated as distinct external systems; Play Points are never assumed to be directly convertible into Aros unless officially authorized and verified.
+- **Statutory Minor Protection Invariant**: Server-side enforcement of `NO_MINOR_PAYMENT_FOR_AROS = true` occurs unconditionally before accepting any Aros top-up, regardless of external Google account settings, family payment methods, or external Play Points eligibility. Google parental controls are never relied upon as AROH's age gate.
+- **Ledger Primacy**: The immutable AROH Aros double-entry ledger remains the sole source of truth for balances; external platform channels only supply cryptographic payment/rewards attestations into the idempotent settlement pipeline.
 
 ---
 

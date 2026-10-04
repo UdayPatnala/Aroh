@@ -2,7 +2,7 @@
 
 > **Authoritative Historical & Governance Master**: This document is the single source of truth for version history, change tracking, git commits, migration records, and release governance across the **AROH Open Source Platform**.
 > 
-> **Current Platform Version**: `2.05.01.0`  
+> **Current Platform Version**: `2.05.02.0`  
 > **Authoritative Version Format**: `A.BC.DE.F`  
 > **Current Status**: `VERIFIED`  
 > **Associated Product Master**: [`PRODUCT_MASTER.md`](file:///d:/PROJECT/AROH%20Open%20Source/PRODUCT_MASTER.md)
@@ -38,6 +38,7 @@ Where:
 
 | Version | Previous | Level | Commit | Date | Summary of Release |
 |---|---|---|---|---|---|
+| **`2.05.02.0`** | `2.05.01.0` | `FUNCTIONAL` | `HEAD` | 2026-10-04 | **Ecosystem Future Developments & Announcements Platform**: Architectural implementation of typed ecosystem announcement engine (`@aroh/asdk/src/schemas/announcement.ts`, `registry/announcements.ts`), dedicated discovery hub (`/announcements`), homepage dynamic development stage rail (`CURRENT → IN DEVELOPMENT → COMING SOON → FUTURE`), contextual product detail announcement integration, and verified official community feedback bridge strictly pointing to verified Instagram (`https://www.instagram.com/aroh.0s/`). Implemented fail-closed future Google Play Billing & Google Play Points/Rewards top-up architecture (`services/google-play-points.ts`) enforcing server-side `NO_MINOR_PAYMENT_FOR_AROS = true`, strict exploration status, zero live conversion/redemption UI, and ledger primacy invariant. |
 | **`2.05.01.0`** | `2.05.00.0` | `FUNCTIONAL` | `c538eb3` | 2026-09-30 | **Flagship Product Showcase Hierarchy & SpeDex Future-Launch Architecture**: Implemented canonical showcase hierarchy resolver (`showcase-priority.ts`) enforcing OmniStream as Star / Primary Flagship, JavaPath Pro as Secondary Featured, Music Mirror as Tertiary Featured, and SpeDex as Future Launch. Reclassified SpeDex across UI/schemas/tests without purchase/install CTAs, established automated promotion contract to Star Product upon verified release (`isSpedexReleased`), upgraded Explorer and Products console, and integrated Homepage featured showcase. |
 | **`2.05.00.0`** | `2.04.00.0` | `SUB-VERSION` | `HEAD` | 2026-09-27 | **Phase 5 Federated Multi-Tenant Enterprise Engine**: Team Wallets, member monthly spending quotas, role-based debit authorizations, SAML 2.0 & SCIM 2.0 Directory Federation, and Organization Web Dashboard. Universal project file consolidation under two-master governance rule (`PRODUCT_MASTER.md` & `VERSION_CONTROLLER.md`). |
 | **`2.04.00.0`** | `2.03.08.0` | `SUB-VERSION` | `HEAD` | 2026-09-21 | **Phase 4 Mobile Expansion**: Unified Cross-Platform Shell (`@aroh/mobile`), universal storage abstraction (`IPlatformStorage`), deterministic `aroh://` deep linking, and mobile security attestation. |

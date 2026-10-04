@@ -88,6 +88,7 @@ if (fs.existsSync(sitemapPath)) {
   assert(sitemapContent.includes("/privacy/rights"), "sitemap.ts indexes /privacy/rights");
   assert(sitemapContent.includes("/privacy/grievance"), "sitemap.ts indexes /privacy/grievance");
   assert(sitemapContent.includes("/products"), "sitemap.ts indexes /products");
+  assert(sitemapContent.includes("/announcements"), "sitemap.ts indexes /announcements");
   assert(sitemapContent.includes("/ai"), "sitemap.ts indexes /ai");
 }
 

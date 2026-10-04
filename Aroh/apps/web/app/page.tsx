@@ -2,7 +2,15 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { usePlatformStore, formatArosBalance, resolveShowcaseHierarchy, type ProductShowcase } from "@aroh/asdk";
+import {
+  usePlatformStore,
+  formatArosBalance,
+  resolveShowcaseHierarchy,
+  type ProductShowcase,
+  getTimelineAnnouncements,
+  OFFICIAL_AROH_INSTAGRAM_URL,
+  OFFICIAL_COMMUNITY_FEEDBACK_INFO
+} from "@aroh/asdk";
 import { Button } from "@aroh/ads";
 import { motion, AnimatePresence } from "framer-motion";
 import NotificationCenter from "./components/notification-center";
@@ -346,55 +354,128 @@ export default function HomePage() {
             );
           })()}
 
-          {/* Live Ecosystem Announcements Stream */}
-          <div className="space-y-6 border-t border-black/5 pt-12">
-            <div className="flex justify-between items-center">
-              <div>
-                <h2 className="text-xl font-bold tracking-tight text-slate-900">
-                  Ecosystem Announcements & Alerts
-                </h2>
-                <p className="text-xs text-slate-500 mt-0.5">
-                  Platform updates, scheduled maintenance, and releases.
-                </p>
-              </div>
-            </div>
+          {/* ── Future of AROH & Ecosystem Roadmap ── */}
+          {(() => {
+            const timeline = getTimelineAnnouncements();
+            const stages = [
+              { id: "current", label: "CURRENT (LIVE)", count: timeline.current.length, items: timeline.current, dot: "bg-emerald-500" },
+              { id: "inDev", label: "IN DEVELOPMENT", count: timeline.inDevelopment.length, items: timeline.inDevelopment, dot: "bg-amber-500" },
+              { id: "comingSoon", label: "COMING SOON", count: timeline.comingSoon.length, items: timeline.comingSoon, dot: "bg-sky-500" },
+              { id: "future", label: "FUTURE DIRECTION", count: timeline.future.length, items: timeline.future, dot: "bg-purple-500" }
+            ];
 
-            {announcements.length === 0 ? (
-              <p className="text-slate-400 text-xs text-center py-8 bg-white border border-black/5 rounded-2xl shadow-sm">
-                No live announcements available.
-              </p>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                {announcements.map((ann) => (
-                  <div
-                    key={ann.id}
-                    className="bg-white border border-black/5 rounded-2xl p-6 hover:border-slate-300 transition-all space-y-3 shadow-sm"
-                  >
-                    <div className="flex justify-between items-center">
-                      <span
-                        className={`px-2.5 py-0.5 rounded text-[8px] uppercase font-extrabold tracking-wider ${
-                          ann.category === "maintenance"
-                            ? "bg-rose-50 text-rose-600 border border-rose-200"
-                            : ann.category === "promotion"
-                            ? "bg-amber-50 text-amber-600 border border-amber-200"
-                            : "bg-sky-50 text-sky-600 border border-sky-200"
-                        }`}
-                      >
-                        {ann.category}
-                      </span>
-                      <span className="text-[10px] text-slate-400 font-mono">
-                        {new Date(ann.publishedAt).toLocaleDateString()}
-                      </span>
+            return (
+              <div className="space-y-8 border-t border-black/5 pt-12">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
+                      <h2 className="text-xl font-extrabold tracking-tight text-slate-900">
+                        What's Coming to AROH
+                      </h2>
                     </div>
-                    <h3 className="text-base font-bold text-slate-900">{ann.title}</h3>
-                    <p className="text-slate-600 text-xs leading-relaxed">
-                      {ann.content}
+                    <p className="text-xs text-slate-500">
+                      Authoritative roadmap tracking live releases, active developments, and future platform capabilities.
                     </p>
                   </div>
-                ))}
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => router.push("/announcements")}
+                      className="px-4 py-2 rounded-xl text-xs font-bold bg-white text-slate-800 border border-black/10 hover:bg-slate-50 transition-colors shadow-sm cursor-pointer"
+                    >
+                      Explore All Updates →
+                    </button>
+                  </div>
+                </div>
+
+                {/* Stage Rail Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {stages.map((stage) => (
+                    <div key={stage.id} className="bg-white border border-black/5 rounded-2xl p-5 space-y-4 shadow-sm flex flex-col justify-between">
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between border-b border-black/5 pb-2.5">
+                          <div className="flex items-center gap-1.5">
+                            <span className={`w-1.5 h-1.5 rounded-full ${stage.dot}`} />
+                            <span className="text-[10px] font-extrabold tracking-wider font-mono text-slate-600">
+                              {stage.label}
+                            </span>
+                          </div>
+                          <span className="text-[10px] font-mono text-slate-400 font-bold bg-slate-100 px-2 py-0.5 rounded-full">
+                            {stage.count}
+                          </span>
+                        </div>
+
+                        <div className="space-y-3">
+                          {stage.items.slice(0, 2).map((item) => (
+                            <div
+                              key={item.id}
+                              onClick={() => router.push(`/announcements#${item.id}`)}
+                              className="p-3 rounded-xl bg-slate-50/70 hover:bg-slate-100/90 border border-black/5 transition-all cursor-pointer group"
+                            >
+                              <div className="flex items-center justify-between gap-1 text-[9px] font-mono text-slate-400 mb-1">
+                                <span className="uppercase font-semibold">{item.type}</span>
+                                <span>{item.targetReleaseDate || item.publishDate}</span>
+                              </div>
+                              <h4 className="text-xs font-bold text-slate-800 group-hover:text-sky-600 transition-colors line-clamp-1">
+                                {item.title}
+                              </h4>
+                              <p className="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-relaxed">
+                                {item.shortDescription}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => router.push("/announcements")}
+                        className="text-[10px] text-sky-600 font-bold hover:underline pt-2 border-t border-black/5 flex items-center justify-between cursor-pointer"
+                      >
+                        <span>View category</span>
+                        <span>→</span>
+                      </button>
+                    </div>
+                  ))}
+                </div>
+
+                {/* ── Official Community Feedback / Idea Banner ── */}
+                <div className="relative overflow-hidden bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-950 text-white rounded-2xl p-6 md:p-8 border border-slate-800 shadow-md">
+                  <div className="pointer-events-none absolute -top-12 -right-12 w-48 h-48 rounded-full bg-pink-500/10 blur-2xl" />
+                  <div className="relative z-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div className="space-y-1.5 max-w-lg">
+                      <div className="flex items-center gap-2">
+                        <span className="px-2 py-0.5 rounded-full text-[8px] font-mono uppercase font-bold bg-pink-500/20 text-pink-300 border border-pink-500/30">
+                          COMMUNITY IDEAS
+                        </span>
+                        <span className="text-[10px] text-slate-400">Official Channel</span>
+                      </div>
+                      <h3 className="text-lg font-bold text-white leading-tight">
+                        {OFFICIAL_COMMUNITY_FEEDBACK_INFO.headline}
+                      </h3>
+                      <p className="text-slate-300 text-xs leading-relaxed">
+                        {OFFICIAL_COMMUNITY_FEEDBACK_INFO.contextualCopy}
+                      </p>
+                    </div>
+
+                    <a
+                      href={OFFICIAL_AROH_INSTAGRAM_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-pink-500 via-rose-500 to-amber-500 text-white font-bold text-xs hover:opacity-95 shadow-md shadow-pink-500/20 transition-opacity"
+                    >
+                      <span>Send suggestion on Instagram</span>
+                      <span className="text-[10px]">↗</span>
+                    </a>
+                  </div>
+                  <div className="relative z-10 pt-3 mt-3 border-t border-white/10 text-[10px] text-slate-400">
+                    Suggestions are reviewed by the community team. Do not send passwords or payment information.
+                  </div>
+                </div>
               </div>
-            )}
-          </div>
+            );
+          })()}
         </main>
       </div>
     </>

@@ -15,17 +15,17 @@ export interface PlatformVersionInfo {
   commit: string;
 }
 
-export const PLATFORM_VERSION = "2.05.01.0";
+export const PLATFORM_VERSION = "2.05.02.0";
 export const PLATFORM_STATUS = "VERIFIED";
-export const PLATFORM_RELEASE_NAME = "Flagship Product Showcase Hierarchy & SpeDex Future-Launch Architecture";
-export const PLATFORM_BUILD_DATE = "2026-09-30";
+export const PLATFORM_RELEASE_NAME = "Ecosystem Future Developments & Announcements Platform";
+export const PLATFORM_BUILD_DATE = "2026-10-04";
 export const PLATFORM_COMMIT = "HEAD";
 
 export const PLATFORM_VERSION_INFO: PlatformVersionInfo = {
   version: PLATFORM_VERSION,
   major: 2,
   subVersion: 5,
-  functional: 1,
+  functional: 2,
   patch: 0,
   status: PLATFORM_STATUS,
   releaseName: PLATFORM_RELEASE_NAME,
