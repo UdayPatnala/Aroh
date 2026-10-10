@@ -22,7 +22,9 @@ export const MobileRouteSchema = z.enum([
   "ai_portal",
   "developer_keys",
   "privacy",
-  "auth"
+  "auth",
+  "announcements",
+  "organization"
 ]);
 export type MobileRoute = z.infer<typeof MobileRouteSchema>;
 
@@ -105,6 +107,14 @@ export function parseArohDeepLink(rawUrl: string): ParsedDeepLink {
       case "auth":
       case "login":
         return { route: "auth", rawUrl, params, isValid: true };
+
+      case "announcements":
+      case "roadmap":
+        return { route: "announcements", rawUrl, params, isValid: true };
+
+      case "organization":
+      case "team":
+        return { route: "organization", rawUrl, params, isValid: true };
 
       default:
         // Default fallback to explore showcase

@@ -15,17 +15,17 @@ export interface PlatformVersionInfo {
   commit: string;
 }
 
-export const PLATFORM_VERSION = "2.05.02.0";
+export const PLATFORM_VERSION = "2.05.03.0";
 export const PLATFORM_STATUS = "VERIFIED";
-export const PLATFORM_RELEASE_NAME = "Ecosystem Future Developments & Announcements Platform";
-export const PLATFORM_BUILD_DATE = "2026-10-04";
+export const PLATFORM_RELEASE_NAME = "Developer AI Studio, Generative UI Engine & Mobile Contract Parity";
+export const PLATFORM_BUILD_DATE = "2026-10-10";
 export const PLATFORM_COMMIT = "HEAD";
 
 export const PLATFORM_VERSION_INFO: PlatformVersionInfo = {
   version: PLATFORM_VERSION,
   major: 2,
   subVersion: 5,
-  functional: 2,
+  functional: 3,
   patch: 0,
   status: PLATFORM_STATUS,
   releaseName: PLATFORM_RELEASE_NAME,

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { parseArohDeepLink } from "@aroh/asdk";
+import { parseArohDeepLink, PLATFORM_VERSION } from "@aroh/asdk";
 import type { MobileTab } from "./types";
 import { ExploreScreen } from "./screens/ExploreScreen";
 import { WalletScreen } from "./screens/WalletScreen";
 import { AIPortalScreen } from "./screens/AIPortalScreen";
 import { KeysScreen } from "./screens/KeysScreen";
 import { PrivacyScreen } from "./screens/PrivacyScreen";
+import { AnnouncementsScreen } from "./screens/AnnouncementsScreen";
 
 export interface MobileAppProps {
   initialUrl?: string;
@@ -38,6 +39,9 @@ export const MobileApp: React.FC<MobileAppProps> = ({ initialUrl }) => {
         break;
       case "privacy":
         setActiveTab("privacy");
+        break;
+      case "announcements":
+        setActiveTab("announcements");
         break;
       case "product_detail":
       case "explore":
@@ -113,7 +117,7 @@ export const MobileApp: React.FC<MobileAppProps> = ({ initialUrl }) => {
             fontWeight: "600"
           }}
         >
-          v2.04.00.0
+          v{PLATFORM_VERSION}
         </span>
       </header>
 
@@ -122,6 +126,7 @@ export const MobileApp: React.FC<MobileAppProps> = ({ initialUrl }) => {
         {activeTab === "explore" && <ExploreScreen onNavigate={navigateTo} activeParams={activeParams} />}
         {activeTab === "wallet" && <WalletScreen onNavigate={navigateTo} activeParams={activeParams} />}
         {activeTab === "ai" && <AIPortalScreen onNavigate={navigateTo} activeParams={activeParams} />}
+        {activeTab === "announcements" && <AnnouncementsScreen onNavigate={navigateTo} activeParams={activeParams} />}
         {activeTab === "keys" && <KeysScreen onNavigate={navigateTo} activeParams={activeParams} />}
         {activeTab === "privacy" && <PrivacyScreen onNavigate={navigateTo} activeParams={activeParams} />}
       </main>
@@ -140,6 +145,7 @@ export const MobileApp: React.FC<MobileAppProps> = ({ initialUrl }) => {
             { id: "explore", label: "Explore" },
             { id: "wallet", label: "Wallet" },
             { id: "ai", label: "AI Hub" },
+            { id: "announcements", label: "Roadmap" },
             { id: "keys", label: "Dev Keys" },
             { id: "privacy", label: "Privacy" }
           ] as const

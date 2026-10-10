@@ -4,6 +4,7 @@ export * from "./services/token";
 export * from "./store/index";
 export * from "./sync/index";
 export * from "./ai/provider";
+export * from "./ai/generative-ui";
 export * from "./registry/products";
 export * from "./registry/showcase-priority";
 export * from "./registry/announcements";

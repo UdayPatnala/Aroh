@@ -2,8 +2,8 @@
 
 > **Authoritative Product & Architecture Master**: This document is the single, permanent source of truth for product purpose, architecture, modular domain boundaries, change-isolation rules, experience principles, data flow, security/privacy, and technical capabilities across the **AROH Open Source Platform & Application Ecosystem**.
 >
-> **Platform Version**: `2.05.02.0`  
-> **Authoritative Version Format**: `A.BC.DE.F` (Major: 2, Sub-version: 05, Functional: 02, Patch: 0)  
+> **Platform Version**: `2.05.03.0`  
+> **Authoritative Version Format**: `A.BC.DE.F` (Major: 2, Sub-version: 05, Functional: 03, Patch: 0)  
 > **Status**: `VERIFIED`  
 > **Canonical Repository**: [https://github.com/Aroh-Open-Source/AROH](https://github.com/Aroh-Open-Source/AROH) (`main`)  
 > **Personal / Mirror Remote**: [https://github.com/UdayPatnala/Aroh](https://github.com/UdayPatnala/Aroh) (`personal/main`)  
@@ -56,15 +56,15 @@ AROH establishes a **Decoupled Hub-and-Spoke Ecosystem**:
 ## 4. Scope & Boundaries
 
 ### In Scope
-- Central Platform Hub application (`Aroh/apps/web`) written in Next.js 16 App Router (44 compiled routes).
+- Central Platform Hub application (`Aroh/apps/web`) written in Next.js 16 App Router (45 compiled routes).
 - Cross-Platform Mobile Shell (`Aroh/apps/mobile`, `@aroh/mobile`) built with React Native / Expo.
-- Core Platform SDK (`Aroh/packages/asdk`) providing auth, ledger, enterprise team wallets, AI, sync, tracing, telemetry, purchase safety, and announcements registry.
-- AROH Design System (`Aroh/packages/ads`) providing design tokens, CSS variables, and motion primitives.
+- Core Platform SDK (`Aroh/packages/asdk`) providing auth, ledger, enterprise team wallets, AI, sync, tracing, telemetry, purchase safety, announcements registry, and Server-Driven UI (SDUI) Generative UI schemas.
+- AROH Design System (`Aroh/packages/ads`) providing design tokens, CSS variables, Card layout primitives, and motion primitives.
 - Ecosystem Future Developments & Announcements Platform (`/announcements`, homepage stage rail, product roadmap modal).
 - Official Community Suggestion Gateway pointing strictly to verified Instagram (`https://www.instagram.com/aroh.0s/`).
 - Managed Project Manifests (`Aroh/manifests/*.manifest.json`) orchestrating spoke synchronization.
 - Statutory Privacy, Legal, and Compliance Registers (`Aroh/docs/privacy/`, `Aroh/docs/legal/`).
-- Automated QA Test Harnesses across all packages and apps (525+ passing assertions).
+- Automated QA Test Harnesses across all packages and apps (535+ passing assertions).
 
 ### Out of Scope & Inviolable Boundaries
 - **Strict Inviolability of `Products/`**: Under no circumstances may platform tooling, synchronization CLIs, automated agents, or scripts mutate, refactor, format, clean, or delete files inside `Products/` (0 mutations allowed).
@@ -97,14 +97,14 @@ The platform experience adheres to explicit behavioral rules:
 d:\PROJECT\AROH Open Source
 │
 ├── APP / SHELL (Applications & Ingress)
-│   ├── Aroh/apps/web/ (Next.js 16 App Router: 43 routes + W3C trace proxy)
+│   ├── Aroh/apps/web/ (Next.js 16 App Router: 45 routes + W3C trace proxy)
 │   └── Aroh/apps/mobile/ (@aroh/mobile: React Native / Expo shell)
 │
 ├── DOMAINS (Core Capabilities & Business Logic)
 │   ├── Domain 1: Identity & Authentication (@aroh/asdk/services/firebase.ts)
 │   ├── Domain 2: Financial Economy & Aros Ledger (@aroh/asdk/services/wallet.ts, purchase-safety.ts)
 │   ├── Domain 3: Developer Platform & API Vault (@aroh/asdk/services/api-key.ts, webhook.ts)
-│   ├── Domain 4: AI Orchestration (@aroh/asdk/services/ai.ts)
+│   ├── Domain 4: AI Orchestration & Developer Studio (@aroh/asdk/src/ai/provider.ts, generative-ui.ts)
 │   ├── Domain 5: Product Showcase & Hierarchy (@aroh/asdk/src/registry/products.ts, showcase-priority.ts)
 │   ├── Domain 6: Observability, Tracing & Telemetry (@aroh/asdk/src/tracing, src/telemetry)
 │   ├── Domain 7: DPDP Privacy, Consent & Statutory Rights (@aroh/asdk/services/privacy.ts)
@@ -114,10 +114,10 @@ d:\PROJECT\AROH Open Source
 │   └── Domain 11: Ecosystem Future Developments & Announcements (@aroh/asdk/src/registry/announcements.ts, services/google-play-points.ts)
 │
 ├── INFRASTRUCTURE (Platform SDK & Runtime Adapters)
-│   └── Aroh/packages/asdk/ (Typed schemas, universal storage, double-entry ledger, SSE broker)
+│   └── Aroh/packages/asdk/ (Typed schemas, universal storage, double-entry ledger, SSE broker, SDUI contracts)
 │
 ├── SHARED (Visual Design Tokens & UI Primitives)
-│   └── Aroh/packages/ads/ (Outfit typography, WCAG 2.1 AA palette, button/card primitives)
+│   └── Aroh/packages/ads/ (Outfit typography, WCAG 2.1 AA palette, button, badge, and card primitives)
 │
 ├── AUTONOMOUS PRODUCT SPOKES (Read-Only Flagships)
 │   └── Products/ (OmniStream, Spedex)
@@ -127,9 +127,9 @@ d:\PROJECT\AROH Open Source
 │   └── Aroh/manifests/ (Spoke synchronization manifests)
 │
 └── TESTING (Proximity-Driven Verification Suites)
-    ├── Aroh/packages/asdk/tests/ (17 Vitest suites, 196 assertions)
-    ├── Aroh/packages/ads/tests/ (Design system suite, 7 assertions)
-    ├── Aroh/apps/mobile/tests/ (Mobile navigation suite, 5 assertions)
+    ├── Aroh/packages/asdk/tests/ (18 Vitest suites, 204 assertions)
+    ├── Aroh/packages/ads/tests/ (Design system suite, 8 assertions)
+    ├── Aroh/apps/mobile/tests/ (Mobile navigation suite, 8 assertions)
     └── Aroh/scripts/ (Sync CLI, Privacy static audit, SEO audit, Session sync, Visual surface audit)
 ```
 
@@ -153,11 +153,11 @@ d:\PROJECT\AROH Open Source
 | **1. Identity & Auth** | Firebase authentication, session rehydration, cross-tab SSO logout sync. | `asdk/services/firebase.ts`, `asdk/store/index.ts` | `/login`, `/dashboard`, `SessionSync` | `scripts/test-session-sync.js` |
 | **2. Financial Economy** | Aros double-entry ledger, server-side minor payment restriction, affirmative unbundled consent, cryptographic receipts, dispute redressal. | `asdk/services/wallet.ts`, `purchase-safety.ts`, `payment.ts`, `payment-provider.ts` | `/dashboard`, `/dashboard/purchase`, `/api/payment/*` | `tests/payment.test.ts`, `purchase-safety.test.ts`, `dispute-receipt.test.ts` |
 | **3. Developer Platform** | HMAC-SHA256 API keys (hash-only storage, tier limits), Webhook clearance (HMAC signing, exponential backoff). | `asdk/services/api-key.ts`, `asdk/services/webhook.ts` | `/dashboard/keys`, `/api/developer/*` | `tests/api-key.test.ts`, `tests/webhook.test.ts` |
-| **4. AI Orchestration** | Provider-agnostic AI inference, priority failover chain, AST & doc assistance. | `asdk/services/ai.ts`, `apps/web/app/ai/doc-database.ts` | `/ai` | `scripts/test-ai-abstraction.js` |
+| **4. AI Orchestration** | Provider-agnostic AI inference, priority failover chain, streaming Server-Driven UI (SDUI) Generative UI blocks. | `asdk/src/ai/provider.ts`, `asdk/src/ai/generative-ui.ts`, `asdk/src/ai/schema.ts` | `/ai`, `/api/ai/chat` | `tests/generative-ui.test.ts`, `scripts/test-ai-abstraction.js` |
 | **5. Product Showcase** | Canonical product registry, zero-fabrication metadata, spoke launch links. | `asdk/src/registry/products.ts`, `asdk/src/schemas/product.ts` | `/explore`, `/explore/[productId]`, `/products` | `tests/product-registry.test.ts`, `scripts/test-product-registry.js` |
 | **6. Observability & Tracing** | W3C distributed tracing (`traceparent`), SSE live telemetry stream, circular ring buffer. | `asdk/src/tracing/index.ts`, `asdk/src/telemetry/index.ts` | `/admin`, `/api/telemetry/stream`, `/api/health`, `middleware.ts` | `tests/tracing.test.ts`, `tests/telemetry.test.ts` |
 | **7. Statutory DPDP Privacy** | Indian DPDP Act 2023 compliance, consent lifecycle, data principal rights (access, erasure, nomination), grievance redressal. | `asdk/services/privacy.ts`, `docs/privacy/*`, `docs/legal/*` | `/privacy`, `/terms`, `/cookies`, `/privacy/*`, `/api/privacy/*` | `scripts/test-privacy-static-audit.js` (117 assertions) |
-| **8. Design System** | Outfit typography tokens, WCAG 2.1 AA palette, button, card, modal, badge atoms. | `packages/ads/src/index.tsx` | Global UI components, Tailwind tokens | `packages/ads/tests/ads.test.ts` |
+| **8. Design System** | Outfit typography tokens, WCAG 2.1 AA palette, button, badge, and card primitives. | `packages/ads/src/index.ts` | Global UI components, Tailwind tokens | `packages/ads/tests/ads.test.ts` |
 | **9. Autonomous Spokes** | Independent flagships (OmniStream, SpeDex). Inviolable boundary. | `Products/OmniStream`, `Products/Spedex` | Standalone repositories & submodules | `scripts/test-sync-cli.js` (boundary enforcement) |
 | **10. Enterprise Multi-Tenant** | Team wallets, member monthly spending quotas, role-based debits, SAML 2.0 metadata/assertions, SCIM 2.0 provisioning. | `asdk/services/team-wallet.ts`, `asdk/services/saml-scim.ts`, `asdk/schemas/enterprise.ts` | `/dashboard/organization` | `tests/enterprise.test.ts` |
 | **11. Future Developments & Announcements** | Ecosystem announcement registry, stage rails, contextual product roadmap, verified Instagram community feedback bridge, fail-closed Google Play Points/Billing exploration engine. | `asdk/src/schemas/announcement.ts`, `asdk/src/registry/announcements.ts`, `asdk/src/services/google-play-points.ts` | `/announcements`, `/`, `/explore/[productId]` | `tests/announcements.test.ts` |
@@ -273,7 +273,11 @@ Spoke integration uses a **zero-coupling adapter architecture**:
 - **Fail-Closed Exploration Status**: Maintained under strict `EXPLORING_FUTURE_INTEGRATION` status. No live conversion rate, redemption flow, checkout UI, or active claims of availability.
 - **System Separation**: Google Play Points / Rewards and Google Play Billing / Balance are architecturally treated as distinct external systems; Play Points are never assumed to be directly convertible into Aros unless officially authorized and verified.
 - **Statutory Minor Protection Invariant**: Server-side enforcement of `NO_MINOR_PAYMENT_FOR_AROS = true` occurs unconditionally before accepting any Aros top-up, regardless of external Google account settings, family payment methods, or external Play Points eligibility. Google parental controls are never relied upon as AROH's age gate.
-- **Ledger Primacy**: The immutable AROH Aros double-entry ledger remains the sole source of truth for balances; external platform channels only supply cryptographic payment/rewards attestations into the idempotent settlement pipeline.
+### 10.7 Server-Driven UI (SDUI) & Generative UI Architecture
+- **Canonical Block Model (`GenerativeUIBlockSchema`)**: Type-safe SDUI blocks across 6 canonical widget types (`aros_transfer_preview`, `telemetry_visualizer`, `product_launchpad`, `enterprise_quota_card`, `announcement_card`, `statutory_consent_gate`).
+- **Streaming Ingress Protocol (`/api/ai/chat`)**: Server-Sent Events (`text/event-stream`) delivered via native Web Streams API (`ReadableStream`) combining conversational text deltas, contextual UI block payloads, and W3C `traceparent` tracing headers.
+- **D2 Financial Safety Invariant**: Transactional cards (such as token movements) render strictly as **read-only attestation previews**. Direct client balance manipulation is prohibited; executing operations requires affirmative user authorization dispatching signed requests to server settlement routes.
+- **Cross-Platform Parity**: The same JSON block contract is consumed by Web (`apps/web/app/ai`) using `@aroh/ads` `Card` primitives and Mobile (`apps/mobile`), guaranteeing consistent rendering without contract divergence.
 
 ---
 

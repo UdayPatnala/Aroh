@@ -47,4 +47,17 @@ describe("@aroh/ads Design System Unit Test Suite", () => {
       expect(accessibility.touchTarget).toContain("min-h-[44px]");
     });
   });
+
+  describe("Card Primitive Family", () => {
+    it("exports Card and subcomponents as valid React components", async () => {
+      const { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } = await import("../src");
+      expect(typeof Card).toBe("object"); // forwardRef creates object with $$typeof
+      expect(typeof CardHeader).toBe("object");
+      expect(typeof CardTitle).toBe("object");
+      expect(typeof CardDescription).toBe("object");
+      expect(typeof CardContent).toBe("object");
+      expect(typeof CardFooter).toBe("object");
+    });
+  });
 });
+
