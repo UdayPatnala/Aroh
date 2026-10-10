@@ -95,7 +95,7 @@ export default function CommandPalette() {
         id: `ann-${ann.id}`,
         name: ann.title,
         category: "Announcements",
-        action: () => { router.push("/"); setIsOpen(false); }
+        action: () => { router.push(`/announcements?id=${encodeURIComponent(ann.id)}`); setIsOpen(false); }
       });
     });
 

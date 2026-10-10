@@ -79,6 +79,28 @@ export default function AnnouncementsPage() {
     setActiveModal(ann);
   };
 
+  // Deep linking: auto-open announcement modal if requested via hash (#ann-id) or query param (?id=ann-id)
+  React.useEffect(() => {
+    if (typeof window === "undefined") return;
+    const urlParams = new URLSearchParams(window.location.search);
+    const targetId = urlParams.get("id") || window.location.hash.replace(/^#/, "");
+    if (targetId) {
+      const match = allAnnouncements.find(
+        (a) => a.id === targetId || a.id.toLowerCase() === targetId.toLowerCase()
+      );
+      if (match) {
+        setActiveModal(match);
+        // Smooth scroll to the card if present in DOM
+        setTimeout(() => {
+          const el = document.getElementById(match.id);
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+        }, 150);
+      }
+    }
+  }, [allAnnouncements]);
+
   return (
     <div className="min-h-screen bg-[#fbfbfa] text-slate-900 py-10 px-4 sm:px-6 lg:px-12 bg-mesh-light">
       <div className="max-w-6xl mx-auto space-y-12">
@@ -250,6 +272,7 @@ export default function AnnouncementsPage() {
             return (
               <motion.div
                 key={ann.id}
+                id={ann.id}
                 whileHover={{ y: -3 }}
                 transition={{ duration: 0.15 }}
                 onClick={() => handleOpenDetail(ann)}

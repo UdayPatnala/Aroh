@@ -27,7 +27,7 @@ describe("Universal Version Governance — @aroh/asdk Suite", () => {
 
     it("ensures current PLATFORM_VERSION strictly adheres to A.BC.DE.F", () => {
       expect(isValidVersionFormat(PLATFORM_VERSION)).toBe(true);
-      expect(PLATFORM_VERSION).toBe("2.05.04.0");
+      expect(PLATFORM_VERSION).toBe("2.05.04.1");
     });
 
     it("parses version tiers into numerical components accurately", () => {
@@ -35,7 +35,7 @@ describe("Universal Version Governance — @aroh/asdk Suite", () => {
       expect(parsed.major).toBe(2);
       expect(parsed.subVersion).toBe(5);
       expect(parsed.functional).toBe(4);
-      expect(parsed.patch).toBe(0);
+      expect(parsed.patch).toBe(1);
     });
 
     it("throws an error when parsing an invalid version string", () => {
@@ -59,7 +59,7 @@ describe("Universal Version Governance — @aroh/asdk Suite", () => {
       expect(info.major).toBe(2);
       expect(info.subVersion).toBe(5);
       expect(info.functional).toBe(4);
-      expect(info.patch).toBe(0);
+      expect(info.patch).toBe(1);
     });
 
 

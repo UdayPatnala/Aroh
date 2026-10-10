@@ -15,9 +15,9 @@ export interface PlatformVersionInfo {
   commit: string;
 }
 
-export const PLATFORM_VERSION = "2.05.04.0";
+export const PLATFORM_VERSION = "2.05.04.1";
 export const PLATFORM_STATUS = "VERIFIED";
-export const PLATFORM_RELEASE_NAME = "Generative UI Action Dispatch Gateway, Cryptographic Receipt Verification & Cross-Platform Mobile SDUI Parity";
+export const PLATFORM_RELEASE_NAME = "Ecosystem Deep Linking, Command Palette Navigation & Production Audit Polish";
 export const PLATFORM_BUILD_DATE = "2026-10-10";
 export const PLATFORM_COMMIT = "HEAD";
 
@@ -26,7 +26,7 @@ export const PLATFORM_VERSION_INFO: PlatformVersionInfo = {
   major: 2,
   subVersion: 5,
   functional: 4,
-  patch: 0,
+  patch: 1,
   status: PLATFORM_STATUS,
   releaseName: PLATFORM_RELEASE_NAME,
   buildDate: PLATFORM_BUILD_DATE,

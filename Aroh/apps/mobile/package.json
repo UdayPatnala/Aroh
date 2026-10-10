@@ -1,6 +1,6 @@
 {
   "name": "@aroh/mobile",
-  "version": "2.05.04.0",
+  "version": "2.05.04.1",
   "description": "AROH Platform — Cross-Platform Ecosystem Mobile Client Shell",
   "private": true,
   "main": "src/index.ts",

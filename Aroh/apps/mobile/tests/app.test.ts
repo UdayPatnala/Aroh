@@ -64,7 +64,7 @@ describe("@aroh/mobile Client Shell Suite", () => {
 
     it("binds to current PLATFORM_VERSION from asdk", () => {
       expect(typeof PLATFORM_VERSION).toBe("string");
-      expect(PLATFORM_VERSION).toBe("2.05.04.0");
+      expect(PLATFORM_VERSION).toBe("2.05.04.1");
     });
 
     it("renders AIPortalScreen with Server-Driven UI block capability", () => {
