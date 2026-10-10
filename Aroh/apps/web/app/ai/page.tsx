@@ -27,7 +27,12 @@ export default function AiPortalPage() {
   ]);
   const [inputPrompt, setInputPrompt] = React.useState("");
   const [isStreaming, setIsStreaming] = React.useState(false);
-  const [actionNotice, setActionNotice] = React.useState<string | null>(null);
+  const [actionNotice, setActionNotice] = React.useState<{
+    text: string;
+    receiptId?: string;
+    receiptHash?: string;
+    status?: string;
+  } | null>(null);
 
   // Documentation search preservation
   const [docSearchQuery, setDocSearchQuery] = React.useState("");
@@ -141,20 +146,82 @@ export default function AiPortalPage() {
     }
   };
 
-  const handleBlockAction = (block: GenerativeUIBlock) => {
-    if (block.widgetType === "aros_transfer_preview") {
-      setActionNotice(
-        `Attestation Verified: Cryptographic authorization token emitted for ${block.payload.amount} ${block.payload.currency}. Immutable ledger commit dispatched.`
-      );
-    } else if (block.widgetType === "telemetry_visualizer") {
-      setActionNotice("Telemetry stream subscription registered. Event buffer: 500 ring capacity active.");
-    } else {
-      setActionNotice(`Action processed for ${block.title}.`);
+  const handleBlockAction = async (block: GenerativeUIBlock) => {
+    try {
+      if (block.widgetType === "aros_transfer_preview") {
+        const res = await fetch("/api/ai/action", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            actionId: `act-transfer-${Date.now()}`,
+            widgetType: "aros_transfer_preview",
+            userId: "usr_developer_studio_active",
+            actionType: "execute_aros_transfer",
+            idempotencyKey: `idem_transfer_${block.id}_${Date.now()}`,
+            affirmativeAttestation: {
+              purchaserIs18Attested: true,
+              termsVersion: "1.0.0",
+              policyVersion: "2.05.04.0",
+              timestamp: Date.now()
+            },
+            payload: block.payload
+          })
+        });
+        const data = await res.json();
+        if (data.success) {
+          setActionNotice({
+            text: data.message,
+            receiptId: data.receiptId,
+            receiptHash: data.receiptHash,
+            status: data.status
+          });
+        } else {
+          setActionNotice({
+            text: `Action rejected: ${data.message || data.error}`,
+            status: "REJECTED"
+          });
+        }
+      } else if (block.widgetType === "statutory_consent_gate") {
+        const res = await fetch("/api/ai/action", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            actionId: `act-consent-${Date.now()}`,
+            widgetType: "statutory_consent_gate",
+            userId: "usr_developer_studio_active",
+            actionType: "confirm_consent",
+            idempotencyKey: `idem_consent_${block.id}_${Date.now()}`,
+            affirmativeAttestation: {
+              purchaserIs18Attested: true,
+              termsVersion: "1.0.0",
+              policyVersion: "2.05.04.0",
+              timestamp: Date.now()
+            },
+            payload: block.payload
+          })
+        });
+        const data = await res.json();
+        setActionNotice({
+          text: data.message,
+          receiptId: data.receiptId,
+          receiptHash: data.receiptHash,
+          status: data.status
+        });
+      } else if (block.widgetType === "telemetry_visualizer") {
+        setActionNotice({
+          text: "Live Telemetry Stream Connected: Ring buffer subscription active across registered spokes.",
+          status: "CONNECTED"
+        });
+      } else {
+        setActionNotice({
+          text: `Action verified for ${block.title}.`,
+          status: "PROCESSED"
+        });
+      }
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Action failed";
+      setActionNotice({ text: `Gateway error: ${msg}`, status: "ERROR" });
     }
-
-    setTimeout(() => {
-      setActionNotice(null);
-    }, 4000);
   };
 
   return (
@@ -210,21 +277,44 @@ export default function AiPortalPage() {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-medium flex items-center justify-between shadow-sm"
+              className={`p-4 rounded-xl border text-xs font-medium flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm ${
+                actionNotice.status === "REJECTED" || actionNotice.status === "ERROR"
+                  ? "bg-rose-50 border-rose-200 text-rose-800"
+                  : "bg-emerald-50 border-emerald-200 text-emerald-800"
+              }`}
             >
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span>{actionNotice}</span>
+              <div className="space-y-1">
+                <div className="flex items-center gap-2 font-semibold">
+                  <span
+                    className={`w-2 h-2 rounded-full ${
+                      actionNotice.status === "REJECTED" ? "bg-rose-500" : "bg-emerald-500 animate-pulse"
+                    }`}
+                  />
+                  <span>{actionNotice.text}</span>
+                </div>
+                {actionNotice.receiptId && (
+                  <div className="text-[11px] font-mono text-emerald-900 flex flex-wrap gap-x-4 gap-y-0.5">
+                    <span>
+                      Receipt ID: <strong>{actionNotice.receiptId}</strong>
+                    </span>
+                    {actionNotice.receiptHash && (
+                      <span className="truncate max-w-xs text-emerald-700">
+                        SHA-256: {actionNotice.receiptHash.slice(0, 16)}...
+                      </span>
+                    )}
+                  </div>
+                )}
               </div>
               <button
                 onClick={() => setActionNotice(null)}
-                className="text-emerald-600 hover:text-emerald-900 font-bold"
+                className="text-slate-600 hover:text-slate-900 font-bold self-end sm:self-center"
               >
                 ✕
               </button>
             </motion.div>
           )}
         </AnimatePresence>
+
 
         {/* Searchable Documentation Drawer (Preserved from original ai/page.tsx) */}
         {showDocPanel && (

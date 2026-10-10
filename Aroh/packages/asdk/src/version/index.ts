@@ -15,9 +15,9 @@ export interface PlatformVersionInfo {
   commit: string;
 }
 
-export const PLATFORM_VERSION = "2.05.03.0";
+export const PLATFORM_VERSION = "2.05.04.0";
 export const PLATFORM_STATUS = "VERIFIED";
-export const PLATFORM_RELEASE_NAME = "Developer AI Studio, Generative UI Engine & Mobile Contract Parity";
+export const PLATFORM_RELEASE_NAME = "Generative UI Action Dispatch Gateway, Cryptographic Receipt Verification & Cross-Platform Mobile SDUI Parity";
 export const PLATFORM_BUILD_DATE = "2026-10-10";
 export const PLATFORM_COMMIT = "HEAD";
 
@@ -25,13 +25,14 @@ export const PLATFORM_VERSION_INFO: PlatformVersionInfo = {
   version: PLATFORM_VERSION,
   major: 2,
   subVersion: 5,
-  functional: 3,
+  functional: 4,
   patch: 0,
   status: PLATFORM_STATUS,
   releaseName: PLATFORM_RELEASE_NAME,
   buildDate: PLATFORM_BUILD_DATE,
   commit: PLATFORM_COMMIT
 };
+
 
 /**
  * Validates whether a version string matches the strict A.BC.DE.F governance format

@@ -70,3 +70,4 @@ export * from "./payment";
 export * from "./purchase-safety";
 export * from "./enterprise";
 export * from "./announcement";
+export * from "./generative-ui-action";

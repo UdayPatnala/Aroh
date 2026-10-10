@@ -2,9 +2,10 @@
 
 > **Authoritative Product & Architecture Master**: This document is the single, permanent source of truth for product purpose, architecture, modular domain boundaries, change-isolation rules, experience principles, data flow, security/privacy, and technical capabilities across the **AROH Open Source Platform & Application Ecosystem**.
 >
-> **Platform Version**: `2.05.03.0`  
-> **Authoritative Version Format**: `A.BC.DE.F` (Major: 2, Sub-version: 05, Functional: 03, Patch: 0)  
+> **Platform Version**: `2.05.04.0`  
+> **Authoritative Version Format**: `A.BC.DE.F` (Major: 2, Sub-version: 05, Functional: 04, Patch: 0)  
 > **Status**: `VERIFIED`  
+
 > **Canonical Repository**: [https://github.com/Aroh-Open-Source/AROH](https://github.com/Aroh-Open-Source/AROH) (`main`)  
 > **Personal / Mirror Remote**: [https://github.com/UdayPatnala/Aroh](https://github.com/UdayPatnala/Aroh) (`personal/main`)  
 > **Production Web Deployment**: [https://aroh-os.vercel.app](https://aroh-os.vercel.app)  

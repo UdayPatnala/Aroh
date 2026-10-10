@@ -27,14 +27,14 @@ describe("Universal Version Governance — @aroh/asdk Suite", () => {
 
     it("ensures current PLATFORM_VERSION strictly adheres to A.BC.DE.F", () => {
       expect(isValidVersionFormat(PLATFORM_VERSION)).toBe(true);
-      expect(PLATFORM_VERSION).toBe("2.05.03.0");
+      expect(PLATFORM_VERSION).toBe("2.05.04.0");
     });
 
     it("parses version tiers into numerical components accurately", () => {
       const parsed = parseVersion(PLATFORM_VERSION);
       expect(parsed.major).toBe(2);
       expect(parsed.subVersion).toBe(5);
-      expect(parsed.functional).toBe(3);
+      expect(parsed.functional).toBe(4);
       expect(parsed.patch).toBe(0);
     });
 
@@ -58,9 +58,10 @@ describe("Universal Version Governance — @aroh/asdk Suite", () => {
       expect(info.commit).toBe(PLATFORM_COMMIT);
       expect(info.major).toBe(2);
       expect(info.subVersion).toBe(5);
-      expect(info.functional).toBe(3);
+      expect(info.functional).toBe(4);
       expect(info.patch).toBe(0);
     });
+
 
     it("ensures status is VERIFIED across platform exports", () => {
       expect(PLATFORM_STATUS).toBe("VERIFIED");
